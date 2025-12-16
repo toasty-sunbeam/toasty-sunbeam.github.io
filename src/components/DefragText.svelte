@@ -265,6 +265,7 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
     padding: 1rem;
     background: #331421;
     border-radius: 4px;
+    height: 132px;
   }
 
   .text-grid {
