@@ -1,6 +1,4 @@
 ---
-import Defrag from '../components/Defrag.svelte';
-import DefragName from '../components/DefragName.svelte';
 import DefragText from '../components/DefragText.svelte';
 import '../styles/global.css';
 ---
@@ -16,14 +14,14 @@ import '../styles/global.css';
 	<body class="bg-maroon text-white">
 		<DefragText client:load />
 		<div class="flex flex-row">
-			<div class="flex flex-col px-4">
+			<div class="flex flex-col px-4 w-72">
 				<section class="mb-4">
 					<h2 class="text-2xl">Guides</h2>
 					<ul>
 						<li><a href="">💾 Cheap, effortless backups</a></li>
 						<li><a href="">🔁 File syncing</a></li>
 						<li><a href="">🔐 Password vault</a></li>
-						<li><a href="">🍪 Blocking every cookie notice on the internet</a></li>
+						<li><a href="">🍪 Blocking cookie banners</a></li>
 					</ul>
 				</section>
 				<section class="mb-4">
@@ -51,9 +49,10 @@ import '../styles/global.css';
 					</ul>
 				</section>
 			</div>
-			<div class="flex flex-col">
-
-			</div>
+			<section class="flex flex-col">
+				<h2 class="text-2xl">Blog</h2>
+				
+			</section>
 		</div>
 
 	</body>
