@@ -2,6 +2,7 @@
 title: "Community and COVID-19"
 comments: true
 tags: memes disasters hope
+pubDate: 2020-03-15
 ---
 
 The apocalypse is here, and it isn't that bad.

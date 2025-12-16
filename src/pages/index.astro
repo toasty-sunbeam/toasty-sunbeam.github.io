@@ -1,6 +1,14 @@
 ---
+import type { MarkdownInstance } from 'astro';
 import DefragText from '../components/DefragText.svelte';
 import '../styles/global.css';
+
+// Blog posts
+interface Frontmatter {
+	title: string;
+	description?: string;
+}
+const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./posts/*.md', { eager: true }))
 ---
 
 <html lang="en">
@@ -51,7 +59,9 @@ import '../styles/global.css';
 			</div>
 			<section class="flex flex-col">
 				<h2 class="text-2xl">Blog</h2>
-				
+				<ul>
+					{ posts.map((post) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+				</ul>
 			</section>
 		</div>
 

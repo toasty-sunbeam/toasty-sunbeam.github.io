@@ -1,6 +1,6 @@
 ---
 title: "How to block every cookie notice on the internet"
-date: 2022-10-17
+pubDate: 2022-10-17
 tags: guides browser-plugins
 ---
 

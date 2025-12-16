@@ -5,6 +5,7 @@ excerpt: The first thing you're probably going to want is a way to auto-synchron
 tags: guides hardened-infrastructure
 sidebar:
   nav: "hardened-infrastructure"
+pubDate: 2021-07-20
 last_modified_at: 2021-10-03
 ---
 

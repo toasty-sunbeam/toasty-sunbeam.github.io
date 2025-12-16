@@ -1,6 +1,7 @@
 ---
 title: "Three kinds of toughness"
 comments: false
+pubDate: 2021-07-18
 ---
 
 I know of three kinds of toughness -- three ways of dealing with the hurts life sends our way.

@@ -1,7 +1,7 @@
 ---
 title: "What are LLMs good for?"
 comments: true
-date: 2025-03-03
+pubDate: 2025-03-02
 excerpt: "Large language models: where they suck and where they shine"
 ---
 

@@ -2,6 +2,7 @@
 title: "Hardening your personal infrastructure"
 comments: true
 tags: hardened-infrastructure
+pubDate: 2021-07-19
 last_modified_at: 2021-08-18
 sidebar:
   nav: "hardened-infrastructure"

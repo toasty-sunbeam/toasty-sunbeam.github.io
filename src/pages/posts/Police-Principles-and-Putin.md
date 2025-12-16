@@ -2,6 +2,7 @@
 title: "Police, Principles, and Putin"
 comments: true
 tags: memes
+pubDate: 2020-06-20
 ---
 
 I spent almost 10 years of my childhood in Russia. Russia is kind of a different planet than the United States.

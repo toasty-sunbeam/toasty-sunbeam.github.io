@@ -1,6 +1,6 @@
 ---
 title: "Winning Life's Great Gambles"
-date: 2022-01-23
+pubDate: 2022-01-23
 excerpt: Good judgment, illustrated with memes
 tags: book-report how-will-you-measure-your-life
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Infrastructure hardening: Password vault"
-date: 2021-08-18
+pubDate: 2021-08-18
 comments: true
 toc: true
 toc_sticky: true
