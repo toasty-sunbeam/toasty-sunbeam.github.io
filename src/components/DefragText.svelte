@@ -16,36 +16,42 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
   let cursorCol = 0;
   let charsPerFrame = 3; // Process multiple characters per frame
   let isDefragging = false;
+  let containerEl;
+  let charWidth = 8.4; // Will be measured
 
-  // Parse the ASCII art into a 2D grid with padding
-  function parseText(text) {
+  // Parse the ASCII art into a 2D grid with padding to fill container width
+  function parseText(text, totalCols) {
     // Filter out empty lines at start and end
     const lines = text.split('\n').filter((line, i, arr) => {
       if (i === 0 && line.trim() === '') return false;
       if (i === arr.length - 1 && line.trim() === '') return false;
       return true;
     });
-    const maxCols = Math.max(...lines.map(l => l.length));
-    const paddedWidth = maxCols + 4; // 2 column padding on each side
+    const contentWidth = Math.max(...lines.map(l => l.length));
+
+    // Calculate padding to center the content
+    const leftPadding = Math.floor((totalCols - contentWidth) / 2);
+    const rightPadding = totalCols - contentWidth - leftPadding;
 
     // Create padded rows from the text
     const contentRows = lines.map(line => {
-      const chars = [' ', ' ', ...line.split('')]; // Add left padding
-      // Pad to max width + right padding
-      while (chars.length < paddedWidth) {
+      const leftSpaces = Array(leftPadding).fill(' ');
+      const chars = [...leftSpaces, ...line.split('')];
+      // Pad to total width
+      while (chars.length < totalCols) {
         chars.push(' ');
       }
       return chars;
     });
 
     // Add top padding row and bottom padding row
-    const emptyRow = Array(paddedWidth).fill(' ');
+    const emptyRow = Array(totalCols).fill(' ');
     return [emptyRow, ...contentRows, emptyRow];
   }
 
   // Initialize with scattered positions
-  function initializeGrid() {
-    const targetGrid = parseText(text);
+  function initializeGrid(totalCols) {
+    const targetGrid = parseText(text, totalCols);
     rows = targetGrid.length;
     cols = targetGrid[0].length;
 
@@ -189,21 +195,57 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
     requestAnimationFrame(step);
   }
 
+  // Measure character width using a test element
+  function measureCharWidth() {
+    const testEl = document.createElement('pre');
+    testEl.style.cssText = 'position:absolute;visibility:hidden;font-family:monospace;font-size:14px;';
+    testEl.textContent = 'X'.repeat(100);
+    document.body.appendChild(testEl);
+    const width = testEl.offsetWidth / 100;
+    document.body.removeChild(testEl);
+    return width;
+  }
+
+  // Calculate columns needed to fill container
+  function getColumnsForWidth() {
+    if (!containerEl) return 80; // fallback
+    const containerWidth = containerEl.clientWidth;
+    const padding = 32; // 1rem padding on each side
+    const availableWidth = containerWidth - padding;
+    return Math.floor(availableWidth / charWidth);
+  }
+
   // Scatter the text
   export function scatter() {
-    chars = initializeGrid();
+    const totalCols = getColumnsForWidth();
+    chars = initializeGrid(totalCols);
   }
 
   onMount(() => {
-    chars = initializeGrid();
+    charWidth = measureCharWidth();
+    const totalCols = getColumnsForWidth();
+    chars = initializeGrid(totalCols);
     mounted = true;
 
     // Auto-start defrag after a brief delay
     setTimeout(defrag, 500);
+
+    // Watch for container resize
+    const resizeObserver = new ResizeObserver(() => {
+      if (isDefragging) return; // Don't interrupt animation
+      const newCols = getColumnsForWidth();
+      if (newCols !== cols) {
+        chars = initializeGrid(newCols);
+        setTimeout(defrag, 500);
+      }
+    });
+    resizeObserver.observe(containerEl);
+
+    return () => resizeObserver.disconnect();
   });
 </script>
 
-<div class="defrag-text">
+<div class="defrag-text" bind:this={containerEl}>
   {#if mounted}
     <pre class="text-grid font-extrabold">{#each displayGrid as row, r}{#each row as char, c}<span
       class:cursor={isDefragging && cursorRow === r && cursorCol === c}
@@ -219,7 +261,7 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem;
     background: #331421;
     border-radius: 4px;
   }
