@@ -1,60 +1,57 @@
 <script>
   import { onMount } from 'svelte';
-  import { tweened } from 'svelte/motion';
-  import { cubicOut, backOut } from 'svelte/easing';
   import DefragBlock from './DefragBlock.svelte';
 
   // Configuration
   export let name = 'JAMES';
-  export let cellSize = 12;
+  export let cellSize = 16;
   export let gap = 2;
-  export let cols = 60;
-  export let rows = 20;
-  export let animationDuration = 600;
-  export let staggerDelay = 15;
+  export let cols = 30;
+  export let rows = 10;
+  export let cursorSpeed = 5; // ms per cell
+  export let flashDuration = 30; // ms
 
   let blocks = [];
   let targetPositions = new Set();
-  let canvas;
   let mounted = false;
-
-  // Each block's animated position
-  let animatedBlocks = [];
+  let cursorPos = { col: 0, row: 0 };
+  let isDefragging = false;
+  let flashingBlockId = null;
 
   // Convert name text to grid coordinates using canvas pixel sampling
   function getNamePixels(text, cols, rows, cellSize) {
     const offscreen = document.createElement('canvas');
     const ctx = offscreen.getContext('2d');
-    
+
     // Size canvas to match our grid
     offscreen.width = cols * cellSize;
     offscreen.height = rows * cellSize;
-    
+
     // Draw text centered
     ctx.fillStyle = 'black';
     ctx.font = `bold ${rows * cellSize * 0.7}px sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(text, offscreen.width / 2, offscreen.height / 2);
-    
+
     // Sample pixels at grid positions
     const imageData = ctx.getImageData(0, 0, offscreen.width, offscreen.height);
     const filled = new Set();
-    
+
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         // Sample center of each cell
         const x = Math.floor(col * cellSize + cellSize / 2);
         const y = Math.floor(row * cellSize + cellSize / 2);
         const idx = (y * offscreen.width + x) * 4;
-        
+
         // Check alpha channel
         if (imageData.data[idx + 3] > 128) {
           filled.add(`${col},${row}`);
         }
       }
     }
-    
+
     return filled;
   }
 
@@ -62,7 +59,7 @@
   function generateScatteredPositions(count, cols, rows) {
     const positions = [];
     const used = new Set();
-    
+
     for (let i = 0; i < count; i++) {
       let col, row, key;
       do {
@@ -70,11 +67,11 @@
         row = Math.floor(Math.random() * rows);
         key = `${col},${row}`;
       } while (used.has(key));
-      
+
       used.add(key);
       positions.push({ col, row });
     }
-    
+
     return positions;
   }
 
@@ -85,57 +82,70 @@
       const [col, row] = key.split(',').map(Number);
       return { col, row };
     });
-    
-    // Sort targets for nice left-to-right, top-to-bottom defrag order
-    targetArray.sort((a, b) => {
-      if (a.row !== b.row) return a.row - b.row;
-      return a.col - b.col;
-    });
-    
+
     const scattered = generateScatteredPositions(targetArray.length, cols, rows);
-    
+
     blocks = targetArray.map((target, i) => ({
       id: i,
-      startCol: scattered[i].col,
-      startRow: scattered[i].row,
+      col: scattered[i].col,
+      row: scattered[i].row,
       targetCol: target.col,
       targetRow: target.row,
     }));
-    
-    // Create tweened stores for each block
-    animatedBlocks = blocks.map((block, i) => {
-      const store = tweened(
-        { col: block.startCol, row: block.startRow },
-        { 
-          duration: animationDuration,
-          easing: backOut,
-          delay: i * staggerDelay
-        }
-      );
-      return { id: block.id, position: store };
-    });
   }
 
-  // Trigger the defrag animation
-  export function defrag() {
-    animatedBlocks.forEach((block, i) => {
-      const target = blocks[i];
-      block.position.set({ col: target.targetCol, row: target.targetRow });
-    });
+  // Sleep utility
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Trigger the defrag animation with cursor
+  export async function defrag() {
+    if (isDefragging) return;
+    isDefragging = true;
+    cursorPos = { col: 0, row: 0 };
+
+    // Scan left-to-right, top-to-bottom
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        cursorPos = { col, row };
+
+        // Check if there's a scattered block at this position
+        const blockAtCursor = blocks.find(b => b.col === col && b.row === row);
+
+        if (blockAtCursor && (blockAtCursor.col !== blockAtCursor.targetCol || blockAtCursor.row !== blockAtCursor.targetRow)) {
+          // Flash the block
+          flashingBlockId = blockAtCursor.id;
+          await sleep(flashDuration);
+          flashingBlockId = null;
+
+          // Teleport to target position
+          blockAtCursor.col = blockAtCursor.targetCol;
+          blockAtCursor.row = blockAtCursor.targetRow;
+          blocks = blocks; // Trigger reactivity
+        }
+
+        await sleep(cursorSpeed);
+      }
+    }
+
+    isDefragging = false;
   }
 
   // Scatter blocks back to random positions
   export function scatter() {
     const scattered = generateScatteredPositions(blocks.length, cols, rows);
-    animatedBlocks.forEach((block, i) => {
-      block.position.set({ col: scattered[i].col, row: scattered[i].row });
-    });
+    blocks = blocks.map((block, i) => ({
+      ...block,
+      col: scattered[i].col,
+      row: scattered[i].row,
+    }));
   }
 
   onMount(() => {
     initializeBlocks();
     mounted = true;
-    
+
     // Auto-start defrag after a brief delay
     setTimeout(defrag, 500);
   });
@@ -146,16 +156,35 @@
 </script>
 
 <div class="defrag-container">
-  <svg 
-    width={gridWidth} 
-    height={gridHeight} 
+  <svg
+    width={gridWidth}
+    height={gridHeight}
     viewBox="0 0 {gridWidth} {gridHeight}"
     class="defrag-grid"
   >
     {#if mounted}
-      {#each animatedBlocks as block (block.id)}
-        <DefragBlock position={block.position} {cellSize} {gap} />
+      {#each blocks as block (block.id)}
+        <rect
+          x={block.col * (cellSize + gap)}
+          y={block.row * (cellSize + gap)}
+          width={cellSize}
+          height={cellSize}
+          class="block"
+          class:flashing={flashingBlockId === block.id}
+          rx="2"
+        />
       {/each}
+
+      {#if isDefragging}
+        <rect
+          x={cursorPos.col * (cellSize + gap)}
+          y={cursorPos.row * (cellSize + gap)}
+          width={cellSize}
+          height={cellSize}
+          class="cursor"
+          rx="2"
+        />
+      {/if}
     {/if}
   </svg>
 </div>
@@ -172,12 +201,28 @@
     background: transparent;
   }
 
+  .block {
+    fill: currentColor;
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+
+  .block.flashing {
+    fill: white;
+    filter: drop-shadow(0 0 4px white);
+  }
+
+  .cursor {
+    fill: none;
+    stroke: hotpink;
+    stroke-width: 2;
+  }
+
   /* Optional: Add a subtle grid background */
   .defrag-container::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
       linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
     background-size: 14px 14px;
