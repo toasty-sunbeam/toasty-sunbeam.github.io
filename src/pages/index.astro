@@ -2,12 +2,10 @@
 import type { MarkdownInstance } from 'astro';
 import DefragText from '../components/DefragText.svelte';
 import '../styles/global.css';
+import PostThumb from '../components/PostThumb.astro';
+import type { Frontmatter } from '../frontmatter';
 
 // Blog posts
-interface Frontmatter {
-	title: string;
-	description?: string;
-}
 const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./posts/*.md', { eager: true }))
 ---
 
@@ -17,6 +15,9 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 		<title>James Harris</title>
 	</head>
 	<body class="bg-maroon text-white">
@@ -60,7 +61,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 			<section class="flex flex-col">
 				<h2 class="text-2xl">Blog</h2>
 				<ul>
-					{ posts.map((post) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+					{ posts.map((post) => <li><a href={post.url}><PostThumb post={post}/></a></li>)}
 				</ul>
 			</section>
 		</div>

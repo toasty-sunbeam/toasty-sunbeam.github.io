@@ -3,3 +3,10 @@
 @theme {
     --color-maroon: #331421;
 }
+
+body {
+  font-family: "Rosario", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
