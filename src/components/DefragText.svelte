@@ -26,11 +26,11 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
       return true;
     });
     const maxCols = Math.max(...lines.map(l => l.length));
-    const paddedWidth = maxCols + 2; // 1 column padding on each side
+    const paddedWidth = maxCols + 4; // 2 column padding on each side
 
     // Create padded rows from the text
     const contentRows = lines.map(line => {
-      const chars = [' ', ...line.split('')]; // Add left padding
+      const chars = [' ', ' ', ...line.split('')]; // Add left padding
       // Pad to max width + right padding
       while (chars.length < paddedWidth) {
         chars.push(' ');
@@ -220,7 +220,7 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    background: #1a1a1a;
+    background: #331421;
     border-radius: 4px;
   }
 
@@ -233,11 +233,11 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
   }
 
   .data {
-    color: #ffffff;
+    color: #ff8800;
   }
 
   .junk {
-    color: #3a3a3a;
+    color: #592239;
   }
 
   .cursor {
