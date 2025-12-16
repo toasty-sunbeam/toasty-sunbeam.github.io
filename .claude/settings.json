@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(*)",
+      "Edit(./**)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Edit(.env)",
+      "Edit(.env.*)"
+    ],
+    "ask": [
+      "Write(**)"
+    ]
+  }
+}
