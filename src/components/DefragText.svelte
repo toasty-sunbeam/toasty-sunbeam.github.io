@@ -246,8 +246,9 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
 </script>
 
 <div class="defrag-text" bind:this={containerEl}>
+  <span class="sr-only">James Harris</span>
   {#if mounted}
-    <pre class="text-grid font-extrabold">{#each displayGrid as row, r}{#each row as char, c}<span
+    <pre class="text-grid font-extrabold" aria-hidden="true">{#each displayGrid as row, r}{#each row as char, c}<span
       class:cursor={isDefragging && cursorRow === r && cursorCol === c}
       class:junk={char === ' '}
       class:data={char !== ' '}
@@ -285,5 +286,17 @@ o.  88  dP__Yb  88YbdP88 88""   o.\`Y8b     888888  dP__Yb  88"Yb  88"Yb  88 o.\
   .cursor {
     background: hotpink;
     color: black;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 </style>
