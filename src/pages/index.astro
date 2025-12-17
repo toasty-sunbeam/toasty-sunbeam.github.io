@@ -12,9 +12,14 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 
 <MainLayout pageTitle="James Harris">
 	<div class="mx-auto w-fit px-4">
-		<h1 class="text-4xl py-4">James Harris</h1>
+		<h1 class="text-4xl p-4">James Harris</h1>
+		<hr class="border ml-7 relative bottom-4 border-sky-700" />
 		<div class="flex flex-col md:flex-row">
-			<div class="flex flex-col w-72">
+			<div class="flex flex-col w-72 mx-4">
+				<a href="/periodic">
+					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2" />
+					<!-- <h2 class="text-2xl underline">Periodic Table of Storytelling</h2> -->
+				</a>
 				<section class="mb-4">
 					<h2 class="text-2xl">Guides</h2>
 					<ul>
@@ -50,7 +55,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 				</section>
 			</div>
 			<section class="flex flex-col max-w-xl">
-				<h2 class="text-2xl">Blog</h2>
+				<h2 class="text-2xl">Blog posts</h2>
 				<ul>
 					{ posts.map((post) => <li><a href={post.url}><PostThumb post={post}/></a></li>)}
 				</ul>
