@@ -48,9 +48,9 @@ const bgClass = bgColors[color] || 'bg-gray-100';
 const borderClass = borderColors[color] || 'border-gray-500';
 ---
 <article class={`mb-4 ${bgClass} border-2 ${borderClass} text-gray-950 px-4 py-2 rounded`}>
-	<a href={post.url}>
-		<h3 class="text-xl italic hover:underline" transition:name={`post-title-${post.url}`}>{post.frontmatter.title}</h3>
-	</a>
+	<h3 class="text-xl italic" transition:name={`post-title-${post.url}`}>
+		<a href={post.url} class="underline-hover">{post.frontmatter.title}</a>
+	</h3>
 	{post.frontmatter.pubDate && (
 		<time datetime={post.frontmatter.pubDate.toString()}>
 			{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
