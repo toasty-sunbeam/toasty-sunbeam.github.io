@@ -57,9 +57,9 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 			</div>
 			<section class="flex flex-col min-w-64" >
 				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
-				<ul class="perspective-distant">
+				<ul class="perspective-container"> 
 					{ posts.map((post, index) => (
-						<li class="animate-blow" style={`animation-delay: ${index * 0.1}s`}>
+						<li class="animate-flutter" style={`animation-delay: ${index * 0.2}s`}>
 							<a href={post.url}>
 								<PostCard post={post}/>
 							</a>
@@ -72,27 +72,47 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 </MainLayout>
 
 <style>
-	.animate-blow {
-		animation-name: blow;
-		animation-duration: 2s;
-		animation-timing-function: ease-in-out;
-		animation-iteration-count: infinite;
-		transform-origin: left center;
-		transform-style: preserve-3d;
-	}
+    /* 1. Add real 3D depth so the rotation looks physical, not just squashed */
+    .perspective-container {
+        perspective: 1000px;
+    }
 
-	@keyframes blow {
-		0%, 100% {
-			transform: rotateY(0deg) scaleX(100%);
-		}
-		25% {
-			transform: rotateY(7deg) scaleX(97%);
-		}
-		50% {
-			transform: rotateY(0deg) scaleX(100%);
-		}
-		75% {
-			transform: rotateY(-7deg) scaleX(98%);
-		}
-	}
+    .animate-flutter {
+        animation-name: flutter; /* Renamed for clarity */
+        animation-duration: 4s; /* Longer loop, but most of it is a pause */
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 'Ease-out' feel */
+        animation-iteration-count: infinite;
+        transform-origin: left center;
+        transform-style: preserve-3d;
+        will-change: transform; /* Performance optimization */
+    }
+
+    @keyframes flutter {
+        /* The "Dampened Spring" Effect:
+           It gets pushed out, snaps back, wobbles slightly, then rests.
+        */
+        0% {
+            transform: rotateY(0deg);
+        }
+        10% {
+            /* The Gust: Pushes the card out */
+            transform: rotateY(8deg); 
+        }
+        20% {
+            /* The Snap Back: Tension pulls it back, slightly overshooting neutral */
+            transform: rotateY(-3deg);
+        }
+        30% {
+            /* The Residual Wobble: Little bit of energy left */
+            transform: rotateY(3deg);
+        }
+        40% {
+            /* Settle */
+            transform: rotateY(0deg);
+        }
+        100% {
+            /* Long pause to make it feel like an intermittent breeze */
+            transform: rotateY(0deg);
+        }
+    }
 </style>
