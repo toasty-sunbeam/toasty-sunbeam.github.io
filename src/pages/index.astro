@@ -55,12 +55,41 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 					</ul>
 				</section>
 			</div>
-			<section class="flex flex-col min-w-64">
+			<section class="flex flex-col min-w-64" >
 				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
-				<ul>
-					{ posts.map((post) => <li><a href={post.url}><PostCard post={post}/></a></li>)}
+				<ul class="perspective-distant">
+					<div class="animate-blow">
+						<PostCard post={posts[0]} />
+					</div>
+					{ posts.map((post) => <li class="animate-blow"><a href={post.url}><PostCard post={post}/></a></li>)}
 				</ul>
 			</section>
 		</div>
 	</div>
 </MainLayout>
+
+<style>
+	.animate-blow {
+		animation-name: blow;
+		animation-duration: 2s;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: infinite;
+		transform-origin: left center;
+		transform-style: preserve-3d;
+	}
+
+	@keyframes blow {
+		0%, 100% {
+			transform: rotateY(0deg) scaleX(100%);
+		}
+		25% {
+			transform: rotateY(7deg) scaleX(97%);
+		}
+		50% {
+			transform: rotateY(0deg) scaleX(100%);
+		}
+		75% {
+			transform: rotateY(-7deg) scaleX(98%);
+		}
+	}
+</style>
