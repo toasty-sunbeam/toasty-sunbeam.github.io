@@ -9,6 +9,7 @@ excerpt: A complete guide to setting up your very own password vault.
 tags: guides hardened-infrastructure
 sidebar:
   nav: "hardened-infrastructure"
+cardColor: violet
 ---
 
 _Part of my series on [hardening your personal infrastructure](/blog/Hardening-your-personal-infrastructure). A guide for Windows, MacOS, and Android._

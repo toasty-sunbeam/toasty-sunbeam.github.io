@@ -2,6 +2,7 @@
 title: "Meta-advice"
 comments: true
 pubDate: 2024-02-17
+cardColor: amber
 ---
 
 ## Good advice is always contextual.

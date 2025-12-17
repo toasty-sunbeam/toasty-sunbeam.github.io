@@ -9,6 +9,7 @@ excerpt: The best antidote to fear is having a plan. Let's make a plan for what 
 tags: guides hardened-infrastructure
 sidebar:
   nav: "hardened-infrastructure"
+cardColor: orange
 ---
 
 _Part of my series on [hardening your personal infrastructure](/blog/Hardening-your-personal-infrastructure). A guide for Windows and MacOS._

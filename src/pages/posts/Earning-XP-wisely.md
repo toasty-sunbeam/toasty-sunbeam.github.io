@@ -3,6 +3,7 @@ title: Earning XP wisely
 pubDate: 2022-02-22
 tags: book-report how-will-you-measure-your-life
 excerpt: Primary skills, secondary skills, and the dangers of outsourcing
+cardColor: fuchsia
 ---
 
 _Lessons from video games and_ How Will You Measure Your Life? _(chapter 7) by Clayton M. Christensen_

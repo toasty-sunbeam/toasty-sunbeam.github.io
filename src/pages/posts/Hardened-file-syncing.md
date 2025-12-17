@@ -7,6 +7,7 @@ sidebar:
   nav: "hardened-infrastructure"
 pubDate: 2021-07-20
 last_modified_at: 2021-10-03
+cardColor: lime
 ---
 
 _Previously in this series: [Hardening your personal infrastructure](/blog/Hardening-your-personal-infrastructure)_

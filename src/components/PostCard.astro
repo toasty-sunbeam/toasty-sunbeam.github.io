@@ -1,0 +1,64 @@
+---
+import type { MarkdownInstance } from 'astro';
+import type { Frontmatter } from '../frontmatter';
+
+interface Props {
+	post: MarkdownInstance<Frontmatter>;
+}
+
+const { post } = Astro.props;
+const color = post.frontmatter.cardColor;
+
+// Map color names to complete Tailwind classes
+const bgColors: Record<string, string> = {
+	'red': 'bg-red-100',
+	'orange': 'bg-orange-100',
+	'amber': 'bg-amber-100',
+	'yellow': 'bg-yellow-100',
+	'lime': 'bg-lime-100',
+	'green': 'bg-green-100',
+	'cyan': 'bg-cyan-100',
+	'blue': 'bg-blue-100',
+	'indigo': 'bg-indigo-100',
+	'violet': 'bg-violet-100',
+	'purple': 'bg-purple-100',
+	'fuchsia': 'bg-fuchsia-100',
+	'pink': 'bg-pink-100',
+	'gray': 'bg-gray-100',
+};
+
+const borderColors: Record<string, string> = {
+	'red': 'border-red-500',
+	'orange': 'border-orange-500',
+	'amber': 'border-amber-500',
+	'yellow': 'border-yellow-500',
+	'lime': 'border-lime-500',
+	'green': 'border-green-500',
+	'cyan': 'border-cyan-500',
+	'blue': 'border-blue-500',
+	'indigo': 'border-indigo-500',
+	'violet': 'border-violet-500',
+	'purple': 'border-purple-500',
+	'fuchsia': 'border-fuchsia-500',
+	'pink': 'border-pink-500',
+	'gray': 'border-gray-500',
+}
+
+const bgClass = bgColors[color] || 'bg-gray-100';
+const borderClass = borderColors[color] || 'bg-gray-500';
+---
+<article class={`mb-4 ${bgClass} border ${borderClass} px-4 py-2`}>
+	<a href={post.url}>
+		<h3 class="text-xl italic" transition:name={`post-title-${post.url}`}>{post.frontmatter.title}</h3>
+		{post.frontmatter.pubDate && (
+			<time datetime={post.frontmatter.pubDate.toString()}>
+				{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				})}
+			</time>
+		)}
+	</a>
+	{post.frontmatter.excerpt && <p>{post.frontmatter.excerpt}</p>}
+</article>
