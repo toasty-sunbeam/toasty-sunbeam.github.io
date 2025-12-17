@@ -16,12 +16,12 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 		<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-5 max-w-3xl">
 			<h1 class="text-4xl mt-4">James Harris</h1>
 			<h2 class="text-2xl mt-4 flex-col justify-end hidden sm:flex">Blog posts</h2>
-			<div class="flex flex-col min-w-0">
-				<a href="/periodic">
+			<div class="flex flex-col min-w-0 perspective-container">
+				<a href="/periodic" class="animate-flutter left">
 					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2 max-w-full rounded" />
 					<!-- <h2 class="text-2xl underline">Periodic Table of Storytelling</h2> -->
 				</a>
-				<section class="mt-2 mb-4 bg-emerald-100 border border-emerald-500 text-emerald-950 px-3 py-2 rounded ">
+				<section class="mt-2 mb-4 bg-emerald-100 border border-emerald-500 text-emerald-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .15s">
 					<h2 class="text-2xl font-bold">Guides</h2>
 					<ul>
 						<li><a href="">💾 Cheap, effortless backups</a></li>
@@ -30,7 +30,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 						<li><a href="">🍪 Blocking cookie banners</a></li>
 					</ul>
 				</section>
-				<section class="mb-4 bg-indigo-100 border border-indigo-500 text-indigo-950 px-3 py-2 rounded">
+				<section class="mb-4 bg-indigo-100 border border-indigo-500 text-indigo-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .30s">
 					<h2 class="text-2xl font-bold">Tools</h2>
 					<ul>
 						<li><a href="">🖼️ Batch vision</a></li>
@@ -38,7 +38,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 						<li><a href="">🎨 VSCode Theme</a></li>
 					</ul>
 				</section>
-				<section class="mb-4 bg-purple-100 border border-purple-500 text-purple-950 px-3 py-2 rounded">
+				<section class="mb-4 bg-purple-100 border border-purple-500 text-purple-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .45s">
 					<h2 class="text-2xl font-bold">Blogroll</h2>
 					<ul>
 						<li><a href="https://simonwillison.net/">
@@ -59,7 +59,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
 				<ul class="perspective-container"> 
 					{ posts.map((post, index) => (
-						<li class="animate-flutter" style={`animation-delay: ${index * 0.15}s`}>
+						<li class="animate-flutter right" style={`animation-delay: ${index * 0.15}s`}>
 							<a href={post.url}>
 								<PostCard post={post}/>
 							</a>
@@ -80,11 +80,18 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
         animation-name: flutter;
         animation-duration: 1.2s;
         animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        animation-iteration-count: once;
-        transform-origin: left center;
+        animation-iteration-count: 1;
         transform-style: preserve-3d;
         will-change: transform;
     }
+	.animate-flutter.left {
+        transform-origin: right center;
+		--dir: 1;
+	}
+	.animate-flutter.right {
+        transform-origin: left center;
+		--dir: -1;
+	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.animate-flutter {
@@ -102,16 +109,17 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
         }
         25% {
             /* The Gust: Pushes the card out */
-            transform: rotateY(8deg); 
+            /* 8deg * -1 becomes -8deg (Butterfly effect) */
+            transform: rotateY(calc(8deg * var(--dir, 1)));
         }
         50% {
             /* The Snap Back: Tension pulls it back, slightly overshooting neutral */
-            transform: rotateY(-3deg);
-        }
+			transform: rotateY(calc(-3deg * var(--dir, 1)));
+		}
         75% {
             /* The Residual Wobble: Little bit of energy left */
-            transform: rotateY(3deg);
-        }
+			transform: rotateY(calc(3deg * var(--dir, 1)));
+		}
         100% {
             /* Settle */
             transform: rotateY(0deg);
