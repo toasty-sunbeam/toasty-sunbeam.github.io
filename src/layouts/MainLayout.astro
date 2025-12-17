@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 const { pageTitle } = Astro.props;
 ---
 
@@ -12,6 +13,7 @@ const { pageTitle } = Astro.props;
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+        <ClientRouter/>
 		<title>{pageTitle}</title>
 	</head>
 	<body class="bg-sky-200/65">

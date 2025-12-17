@@ -1,0 +1,10 @@
+---
+import MainLayout from "./MainLayout.astro";
+const { frontmatter } = Astro.props;
+
+---
+
+<MainLayout pageTitle={frontmatter.title}>
+    <h3 class="text-xl italic" transition:animate="slide">{frontmatter.title}</h3>
+    <slot />
+</MainLayout>
