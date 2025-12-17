@@ -13,9 +13,9 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 <MainLayout pageTitle="James Harris">
 	<div class="mx-auto w-fit px-4 relative">
 		<hr class="border border-sky-700 absolute top-16 left-7 right-4 hidden sm:block" />
-		<div class="grid grid-cols-[minmax(200px,300px)_auto] gap-6 max-w-3xl">
+		<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-6 max-w-3xl">
 			<h1 class="text-4xl mt-4">James Harris</h1>
-			<h2 class="text-2xl mt-4 flex flex-col justify-end">Blog posts</h2>
+			<h2 class="text-2xl mt-4 flex-col justify-end hidden sm:flex">Blog posts</h2>
 			<div class="flex flex-col min-w-0">
 				<a href="/periodic">
 					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2 max-w-full" />
@@ -56,6 +56,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 				</section>
 			</div>
 			<section class="flex flex-col min-w-64">
+				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
 				<ul>
 					{ posts.map((post) => <li><a href={post.url}><PostCard post={post}/></a></li>)}
 				</ul>
