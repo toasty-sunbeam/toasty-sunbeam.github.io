@@ -11,48 +11,50 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 ---
 
 <MainLayout pageTitle="James Harris">
-	<h1 class="text-4xl p-4">James Harris</h1>
-	<div class="flex flex-row">
-		<div class="flex flex-col px-4 w-72">
-			<section class="mb-4">
-				<h2 class="text-2xl">Guides</h2>
+	<div class="mx-auto w-fit px-4">
+		<h1 class="text-4xl py-4">James Harris</h1>
+		<div class="flex flex-col md:flex-row">
+			<div class="flex flex-col w-72">
+				<section class="mb-4">
+					<h2 class="text-2xl">Guides</h2>
+					<ul>
+						<li><a href="">💾 Cheap, effortless backups</a></li>
+						<li><a href="">🔁 File syncing</a></li>
+						<li><a href="">🔐 Password vault</a></li>
+						<li><a href="">🍪 Blocking cookie banners</a></li>
+					</ul>
+				</section>
+				<section class="mb-4">
+					<h2 class="text-2xl">Tools</h2>
+					<ul>
+						<li><a href="">🖼️ Batch vision</a></li>
+						<li><a href="">👥 Name generator</a></li>
+						<li><a href="">🎨 VSCode Theme</a></li>
+					</ul>
+				</section>
+				<section class="mb-4">
+					<h2 class="text-2xl">Blogroll</h2>
+					<ul>
+						<li><a href="https://simonwillison.net/">
+							<img class="w-4 h-4 inline-block" src="https://simonwillison.net/favicon.ico" alt=""/>
+							Simon Willison
+						</a></li>
+						<li><a href="https://ncase.me/">
+							<img class="w-4 h-4 inline-block" src="https://ncase.me/favicon.png" alt=""/>
+							Nicky Case</a></li>
+						<li><a href="https://www.astralcodexten.com/">
+							<img class="w-4 h-4 inline-block" src="https://www.astralcodexten.com/favicon.ico" alt=""/>
+							Scott Alexander
+						</a></li>
+					</ul>
+				</section>
+			</div>
+			<section class="flex flex-col max-w-xl">
+				<h2 class="text-2xl">Blog</h2>
 				<ul>
-					<li><a href="">💾 Cheap, effortless backups</a></li>
-					<li><a href="">🔁 File syncing</a></li>
-					<li><a href="">🔐 Password vault</a></li>
-					<li><a href="">🍪 Blocking cookie banners</a></li>
-				</ul>
-			</section>
-			<section class="mb-4">
-				<h2 class="text-2xl">Tools</h2>
-				<ul>
-					<li><a href="">🖼️ Batch vision</a></li>
-					<li><a href="">👥 Name generator</a></li>
-					<li><a href="">🎨 VSCode Theme</a></li>
-				</ul>
-			</section>
-			<section class="mb-4">
-				<h2 class="text-2xl">Blogroll</h2>
-				<ul>
-					<li><a href="https://simonwillison.net/">
-						<img class="w-4 h-4 inline-block" src="https://simonwillison.net/favicon.ico" alt=""/>
-						Simon Willison
-					</a></li>
-					<li><a href="https://ncase.me/">
-						<img class="w-4 h-4 inline-block" src="https://ncase.me/favicon.png" alt=""/>
-						Nicky Case</a></li>
-					<li><a href="https://www.astralcodexten.com/">
-						<img class="w-4 h-4 inline-block" src="https://www.astralcodexten.com/favicon.ico" alt=""/>
-						Scott Alexander
-					</a></li>
+					{ posts.map((post) => <li><a href={post.url}><PostThumb post={post}/></a></li>)}
 				</ul>
 			</section>
 		</div>
-		<section class="flex flex-col">
-			<h2 class="text-2xl">Blog</h2>
-			<ul>
-				{ posts.map((post) => <li><a href={post.url}><PostThumb post={post}/></a></li>)}
-			</ul>
-		</section>
 	</div>
 </MainLayout>
