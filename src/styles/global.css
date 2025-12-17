@@ -10,3 +10,42 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+::view-transition-old(post-title-*),
+::view-transition-new(post-title-*) {
+  animation: none;
+}
+
+::view-transition-old(post-title-*) {
+  animation-name: morphOut;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+::view-transition-new(post-title-*) {
+  animation-name: morphIn;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes morphOut {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes morphIn {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
