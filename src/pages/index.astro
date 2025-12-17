@@ -12,17 +12,17 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 
 <MainLayout pageTitle="James Harris">
 	<div class="mx-auto w-fit px-4 relative">
-		<hr class="border border-sky-700 absolute top-16 left-7 right-4 hidden sm:block" />
-		<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-6 max-w-3xl">
+		<hr class="border border-sky-700 absolute top-15 left-7 right-4 hidden sm:block" />
+		<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-5 max-w-3xl">
 			<h1 class="text-4xl mt-4">James Harris</h1>
 			<h2 class="text-2xl mt-4 flex-col justify-end hidden sm:flex">Blog posts</h2>
 			<div class="flex flex-col min-w-0">
 				<a href="/periodic">
-					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2 max-w-full" />
+					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2 max-w-full rounded" />
 					<!-- <h2 class="text-2xl underline">Periodic Table of Storytelling</h2> -->
 				</a>
-				<section class="mb-4">
-					<h2 class="text-2xl">Guides</h2>
+				<section class="mt-2 mb-4 bg-emerald-100 border border-emerald-500 text-emerald-950 px-3 py-2 rounded ">
+					<h2 class="text-2xl font-bold">Guides</h2>
 					<ul>
 						<li><a href="">💾 Cheap, effortless backups</a></li>
 						<li><a href="">🔁 File syncing</a></li>
@@ -30,16 +30,16 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 						<li><a href="">🍪 Blocking cookie banners</a></li>
 					</ul>
 				</section>
-				<section class="mb-4">
-					<h2 class="text-2xl">Tools</h2>
+				<section class="mb-4 bg-indigo-100 border border-indigo-500 text-indigo-950 px-3 py-2 rounded">
+					<h2 class="text-2xl font-bold">Tools</h2>
 					<ul>
 						<li><a href="">🖼️ Batch vision</a></li>
 						<li><a href="">👥 Name generator</a></li>
 						<li><a href="">🎨 VSCode Theme</a></li>
 					</ul>
 				</section>
-				<section class="mb-4">
-					<h2 class="text-2xl">Blogroll</h2>
+				<section class="mb-4 bg-purple-100 border border-purple-500 text-purple-950 px-3 py-2 rounded">
+					<h2 class="text-2xl font-bold">Blogroll</h2>
 					<ul>
 						<li><a href="https://simonwillison.net/">
 							<img class="w-4 h-4 inline-block" src="https://simonwillison.net/favicon.ico" alt=""/>
@@ -59,7 +59,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
 				<ul class="perspective-container"> 
 					{ posts.map((post, index) => (
-						<li class="animate-flutter" style={`animation-delay: ${index * 0.2}s`}>
+						<li class="animate-flutter" style={`animation-delay: ${index * 0.15}s`}>
 							<a href={post.url}>
 								<PostCard post={post}/>
 							</a>
@@ -85,6 +85,13 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
         transform-style: preserve-3d;
         will-change: transform;
     }
+
+	@media (prefers-reduced-motion: reduce) {
+		.animate-flutter {
+			animation: none;
+			transform: none;
+		}
+	}
 
     @keyframes flutter {
         /* The "Dampened Spring" Effect:

@@ -45,9 +45,9 @@ const borderColors: Record<string, string> = {
 }
 
 const bgClass = bgColors[color] || 'bg-gray-100';
-const borderClass = borderColors[color] || 'bg-gray-500';
+const borderClass = borderColors[color] || 'border-gray-500';
 ---
-<article class={`mb-4 ${bgClass} border ${borderClass} px-4 py-2`}>
+<article class={`mb-4 ${bgClass} border ${borderClass} text-gray-950 px-4 py-2 rounded`}>
 	<a href={post.url}>
 		<h3 class="text-xl italic" transition:name={`post-title-${post.url}`}>{post.frontmatter.title}</h3>
 		{post.frontmatter.pubDate && (
