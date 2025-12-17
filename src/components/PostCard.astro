@@ -28,37 +28,37 @@ const bgColors: Record<string, string> = {
 };
 
 const borderColors: Record<string, string> = {
-	'red': 'border-red-500',
-	'orange': 'border-orange-500',
-	'amber': 'border-amber-500',
-	'yellow': 'border-yellow-500',
-	'lime': 'border-lime-500',
-	'green': 'border-green-500',
-	'cyan': 'border-cyan-500',
-	'blue': 'border-blue-500',
-	'indigo': 'border-indigo-500',
-	'violet': 'border-violet-500',
-	'purple': 'border-purple-500',
-	'fuchsia': 'border-fuchsia-500',
-	'pink': 'border-pink-500',
-	'gray': 'border-gray-500',
+	'red': 'border-red-300',
+	'orange': 'border-orange-300',
+	'amber': 'border-amber-300',
+	'yellow': 'border-yellow-300',
+	'lime': 'border-lime-300',
+	'green': 'border-green-300',
+	'cyan': 'border-cyan-300',
+	'blue': 'border-blue-300',
+	'indigo': 'border-indigo-300',
+	'violet': 'border-violet-300',
+	'purple': 'border-purple-300',
+	'fuchsia': 'border-fuchsia-300',
+	'pink': 'border-pink-300',
+	'gray': 'border-gray-300',
 }
 
 const bgClass = bgColors[color] || 'bg-gray-100';
 const borderClass = borderColors[color] || 'border-gray-500';
 ---
-<article class={`mb-4 ${bgClass} border ${borderClass} text-gray-950 px-4 py-2 rounded`}>
+<article class={`mb-4 ${bgClass} border-2 ${borderClass} text-gray-950 px-4 py-2 rounded`}>
 	<a href={post.url}>
-		<h3 class="text-xl italic" transition:name={`post-title-${post.url}`}>{post.frontmatter.title}</h3>
-		{post.frontmatter.pubDate && (
-			<time datetime={post.frontmatter.pubDate.toString()}>
-				{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric'
-				})}
-			</time>
-		)}
+		<h3 class="text-xl italic hover:underline" transition:name={`post-title-${post.url}`}>{post.frontmatter.title}</h3>
 	</a>
+	{post.frontmatter.pubDate && (
+		<time datetime={post.frontmatter.pubDate.toString()}>
+			{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			})}
+		</time>
+	)}
 	{post.frontmatter.excerpt && <p>{post.frontmatter.excerpt}</p>}
 </article>

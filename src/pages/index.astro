@@ -22,7 +22,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2 max-w-full rounded" />
 					<!-- <h2 class="text-2xl underline">Periodic Table of Storytelling</h2> -->
 				</a>
-				<section class="mt-2 mb-4 bg-emerald-100 border border-emerald-500 text-emerald-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .15s">
+				<section class="mt-2 mb-4 bg-emerald-100 border-2 border-emerald-300 text-emerald-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .15s">
 					<h2 class="text-2xl font-bold">Guides</h2>
 					<ul>
 						<li><a href="">💾 Cheap, effortless backups</a></li>
@@ -31,7 +31,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 						<li><a href="">🍪 Blocking cookie banners</a></li>
 					</ul>
 				</section>
-				<section class="mb-4 bg-indigo-100 border border-indigo-500 text-indigo-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .30s">
+				<section class="mb-4 bg-indigo-100 border-2 border-indigo-400 text-indigo-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .30s">
 					<h2 class="text-2xl font-bold">Tools</h2>
 					<ul>
 						<li><a href="">🖼️ Batch vision</a></li>
@@ -39,7 +39,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 						<li><a href="">🎨 VSCode Theme</a></li>
 					</ul>
 				</section>
-				<section class="mb-4 bg-purple-100 border border-purple-500 text-purple-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .45s">
+				<section class="mb-4 bg-purple-100 border-2 border-purple-400 text-purple-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .45s">
 					<h2 class="text-2xl font-bold">Blogroll</h2>
 					<ul>
 						<li><a href="https://simonwillison.net/">
@@ -60,7 +60,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
 				<ul class="perspective-container"> 
 					{ posts.map((post, index) => (
-						<li class="animate-flutter right" style={`animation-delay: ${index * 0.15}s`}>
+						<li class="animate-flutter right hover-card" style={`animation-delay: ${index * 0.15}s`}>
 							<a href={post.url}>
 								<PostCard post={post}/>
 							</a>
