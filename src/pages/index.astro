@@ -72,19 +72,18 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 </MainLayout>
 
 <style>
-    /* 1. Add real 3D depth so the rotation looks physical, not just squashed */
     .perspective-container {
         perspective: 1000px;
     }
 
     .animate-flutter {
-        animation-name: flutter; /* Renamed for clarity */
-        animation-duration: 4s; /* Longer loop, but most of it is a pause */
-        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 'Ease-out' feel */
-        animation-iteration-count: infinite;
+        animation-name: flutter;
+        animation-duration: 1.2s;
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-iteration-count: once;
         transform-origin: left center;
         transform-style: preserve-3d;
-        will-change: transform; /* Performance optimization */
+        will-change: transform;
     }
 
     @keyframes flutter {
@@ -94,24 +93,20 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
         0% {
             transform: rotateY(0deg);
         }
-        10% {
+        25% {
             /* The Gust: Pushes the card out */
             transform: rotateY(8deg); 
         }
-        20% {
+        50% {
             /* The Snap Back: Tension pulls it back, slightly overshooting neutral */
             transform: rotateY(-3deg);
         }
-        30% {
+        75% {
             /* The Residual Wobble: Little bit of energy left */
             transform: rotateY(3deg);
         }
-        40% {
-            /* Settle */
-            transform: rotateY(0deg);
-        }
         100% {
-            /* Long pause to make it feel like an intermittent breeze */
+            /* Settle */
             transform: rotateY(0deg);
         }
     }
