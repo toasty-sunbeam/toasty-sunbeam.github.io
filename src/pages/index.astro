@@ -1,70 +1,58 @@
 ---
-import type { MarkdownInstance } from 'astro';
-import DefragText from '../components/DefragText.svelte';
+import MainLayout from '../layouts/MainLayout.astro';
 import '../styles/global.css';
-import PostThumb from '../components/PostThumb.astro';
+
+import type { MarkdownInstance } from 'astro';
 import type { Frontmatter } from '../frontmatter';
+import PostThumb from '../components/PostThumb.astro';
 
 // Blog posts
 const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./posts/*.md', { eager: true }))
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
-		<title>James Harris</title>
-	</head>
-	<body class="bg-sky-200/65">
-		<h1 class="text-4xl p-4">James Harris</h1>
-		<div class="flex flex-row">
-			<div class="flex flex-col px-4 w-72">
-				<section class="mb-4">
-					<h2 class="text-2xl">Guides</h2>
-					<ul>
-						<li><a href="">💾 Cheap, effortless backups</a></li>
-						<li><a href="">🔁 File syncing</a></li>
-						<li><a href="">🔐 Password vault</a></li>
-						<li><a href="">🍪 Blocking cookie banners</a></li>
-					</ul>
-				</section>
-				<section class="mb-4">
-					<h2 class="text-2xl">Tools</h2>
-					<ul>
-						<li><a href="">🖼️ Batch vision</a></li>
-						<li><a href="">👥 Name generator</a></li>
-						<li><a href="">🎨 VSCode Theme</a></li>
-					</ul>
-				</section>
-				<section class="mb-4">
-					<h2 class="text-2xl">Blogroll</h2>
-					<ul>
-						<li><a href="https://simonwillison.net/">
-							<img class="w-4 h-4 inline-block" src="https://simonwillison.net/favicon.ico" alt=""/>
-							Simon Willison
-						</a></li>
-						<li><a href="https://ncase.me/">
-							<img class="w-4 h-4 inline-block" src="https://ncase.me/favicon.png" alt=""/>
-							Nicky Case</a></li>
-						<li><a href="https://www.astralcodexten.com/">
-							<img class="w-4 h-4 inline-block" src="https://www.astralcodexten.com/favicon.ico" alt=""/>
-							Scott Alexander
-						</a></li>
-					</ul>
-				</section>
-			</div>
-			<section class="flex flex-col">
-				<h2 class="text-2xl">Blog</h2>
+<MainLayout pageTitle="James Harris">
+	<h1 class="text-4xl p-4">James Harris</h1>
+	<div class="flex flex-row">
+		<div class="flex flex-col px-4 w-72">
+			<section class="mb-4">
+				<h2 class="text-2xl">Guides</h2>
 				<ul>
-					{ posts.map((post) => <li><a href={post.url}><PostThumb post={post}/></a></li>)}
+					<li><a href="">💾 Cheap, effortless backups</a></li>
+					<li><a href="">🔁 File syncing</a></li>
+					<li><a href="">🔐 Password vault</a></li>
+					<li><a href="">🍪 Blocking cookie banners</a></li>
+				</ul>
+			</section>
+			<section class="mb-4">
+				<h2 class="text-2xl">Tools</h2>
+				<ul>
+					<li><a href="">🖼️ Batch vision</a></li>
+					<li><a href="">👥 Name generator</a></li>
+					<li><a href="">🎨 VSCode Theme</a></li>
+				</ul>
+			</section>
+			<section class="mb-4">
+				<h2 class="text-2xl">Blogroll</h2>
+				<ul>
+					<li><a href="https://simonwillison.net/">
+						<img class="w-4 h-4 inline-block" src="https://simonwillison.net/favicon.ico" alt=""/>
+						Simon Willison
+					</a></li>
+					<li><a href="https://ncase.me/">
+						<img class="w-4 h-4 inline-block" src="https://ncase.me/favicon.png" alt=""/>
+						Nicky Case</a></li>
+					<li><a href="https://www.astralcodexten.com/">
+						<img class="w-4 h-4 inline-block" src="https://www.astralcodexten.com/favicon.ico" alt=""/>
+						Scott Alexander
+					</a></li>
 				</ul>
 			</section>
 		</div>
-
-	</body>
-</html>
+		<section class="flex flex-col">
+			<h2 class="text-2xl">Blog</h2>
+			<ul>
+				{ posts.map((post) => <li><a href={post.url}><PostThumb post={post}/></a></li>)}
+			</ul>
+		</section>
+	</div>
+</MainLayout>
