@@ -58,10 +58,13 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 			<section class="flex flex-col min-w-64" >
 				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
 				<ul class="perspective-distant">
-					<div class="animate-blow">
-						<PostCard post={posts[0]} />
-					</div>
-					{ posts.map((post) => <li class="animate-blow"><a href={post.url}><PostCard post={post}/></a></li>)}
+					{ posts.map((post, index) => (
+						<li class="animate-blow" style={`animation-delay: ${index * 0.1}s`}>
+							<a href={post.url}>
+								<PostCard post={post}/>
+							</a>
+						</li>
+					))}
 				</ul>
 			</section>
 		</div>
