@@ -1,0 +1,26 @@
+:root {
+    font-size: 18px;
+}
+h1 {
+    font-size: 2rem;
+    font-weight: medium;
+    font-style: italic;
+}
+h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: .25rem;
+}
+h3 {
+    font-size: 1.5rem;
+}
+p {
+    margin-bottom: 1em;
+}
+ol {
+    list-style: decimal;
+    margin-left: 1em;
+}
+li {
+    margin-bottom: .5em;
+}

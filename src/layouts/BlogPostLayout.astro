@@ -1,9 +1,22 @@
 ---
+import Debug from "astro/components/Debug.astro";
+import PostDate from "../components/PostDate.astro";
+import Tag from "../components/Tag.astro";
 import MainLayout from "./MainLayout.astro";
+import '../styles/blog-post.css';
+
 const { frontmatter } = Astro.props;
+const tagsString = frontmatter.tags as string;
+const tagsArray = tagsString.split(' ');
 ---
 
 <MainLayout pageTitle={frontmatter.title}>
-    <h1 class="text-xl italic" transition:name={`post-title-${Astro.url.pathname}`}>{frontmatter.title}</h1>
-    <slot />
+    <div class="flex flex-col max-w-5xl mx-auto px-4">
+        <h1 class="mt-4" transition:name={`post-title-${Astro.url.pathname}`}>{frontmatter.title}</h1>
+        <div class="flex flex-row gap-1 mb-4">
+            <PostDate date={frontmatter.pubDate} />
+            {tagsArray.map(tag => <Tag name={tag}/>)}
+        </div>
+        <slot />
+    </div>
 </MainLayout>

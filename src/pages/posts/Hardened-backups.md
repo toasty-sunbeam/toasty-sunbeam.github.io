@@ -1,5 +1,5 @@
 ---
-title: "Infrastructure hardening: Cheap, effortless backups"
+title: "Cheap, effortless backups"
 pubDate: 2021-10-01
 comments: true
 toc: true
