@@ -3,6 +3,7 @@ title: "Community and COVID-19"
 comments: true
 tags: memes disasters hope
 pubDate: 2020-03-15
+layout: '../../layouts/BlogPostLayout.astro'
 cardColor: red
 ---
 

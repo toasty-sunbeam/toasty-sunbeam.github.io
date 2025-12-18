@@ -4,6 +4,7 @@ comments: true
 pubDate: 2025-03-02
 excerpt: "Large language models: where they suck and where they shine"
 cardColor: cyan
+layout: '../../layouts/BlogPostLayout.astro'
 ---
 
 It's my view that the large language model (LLM) is the most flexible and powerful invention of the last fifteen years. As every chainsaw operator knows, flexible and powerful is a dangerous combination, easy to hurt yourself with. So let's talk about LLMs and how to use them well.

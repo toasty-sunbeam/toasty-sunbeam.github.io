@@ -7,6 +7,7 @@ last_modified_at: 2021-08-18
 sidebar:
   nav: "hardened-infrastructure"
 cardColor: purple
+layout: '../../layouts/BlogPostLayout.astro'
 ---
 
 Now that my family is vaccinated, I'm reflecting on what to learn from the COVID-19 pandemic. The most obvious lesson is not to be complacent: things can change in a hurry.

@@ -10,6 +10,7 @@ tags: guides hardened-infrastructure
 sidebar:
   nav: "hardened-infrastructure"
 cardColor: violet
+layout: '../../layouts/BlogPostLayout.astro'
 ---
 
 _Part of my series on [hardening your personal infrastructure](/blog/Hardening-your-personal-infrastructure). A guide for Windows, MacOS, and Android._

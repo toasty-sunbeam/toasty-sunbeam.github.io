@@ -4,6 +4,7 @@ comments: true
 tags: memes
 pubDate: 2020-06-20
 cardColor: red
+layout: '../../layouts/BlogPostLayout.astro'
 ---
 
 I spent almost 10 years of my childhood in Russia. Russia is kind of a different planet than the United States.

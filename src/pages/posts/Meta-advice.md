@@ -3,6 +3,7 @@ title: "Meta-advice"
 comments: true
 pubDate: 2024-02-17
 cardColor: amber
+layout: '../../layouts/BlogPostLayout.astro'
 ---
 
 ## Good advice is always contextual.
