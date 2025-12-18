@@ -1,7 +1,7 @@
 ---
 title: Earning XP wisely
 pubDate: 2022-02-22
-tags: book-report how-will-you-measure-your-life
+tags: 
 excerpt: Primary skills, secondary skills, and the dangers of outsourcing
 layout: '../../layouts/BlogPostLayout.astro'
 cardColor: fuchsia

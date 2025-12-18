@@ -1,7 +1,7 @@
 ---
 title: "How to block every cookie notice on the internet"
 pubDate: 2022-10-17
-tags: guides browser-plugins
+tags: guides
 layout: '../../layouts/BlogPostLayout.astro'
 cardColor: yellow
 ---

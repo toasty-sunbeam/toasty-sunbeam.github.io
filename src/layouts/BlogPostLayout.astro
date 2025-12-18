@@ -4,6 +4,6 @@ const { frontmatter } = Astro.props;
 ---
 
 <MainLayout pageTitle={frontmatter.title}>
-    <h3 class="text-xl italic" transition:name={`post-title-${Astro.url.pathname}`}>{frontmatter.title}</h3>
+    <h1 class="text-xl italic" transition:name={`post-title-${Astro.url.pathname}`}>{frontmatter.title}</h1>
     <slot />
 </MainLayout>

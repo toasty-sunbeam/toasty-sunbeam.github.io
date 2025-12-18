@@ -1,7 +1,7 @@
 ---
 title: "Police, Principles, and Putin"
 comments: true
-tags: memes
+tags: politics
 pubDate: 2020-06-20
 cardColor: red
 layout: '../../layouts/BlogPostLayout.astro'
