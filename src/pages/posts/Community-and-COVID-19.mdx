@@ -7,15 +7,23 @@ layout: '../../layouts/BlogPostLayout.astro'
 cardColor: red
 ---
 
+import { Image } from 'astro:assets';
+import line from '/src/assets/posts/Community-and-COVID-19/line.jpg';
+import leftShelf from '/src/assets/posts/Community-and-COVID-19/left-shelf.jpg';
+import rightShelf from '/src/assets/posts/Community-and-COVID-19/right-shelf.jpg';
+import actOfLove from '/src/assets/posts/Community-and-COVID-19/the-act-of-love.jpg';
+import mrRogers from '/src/assets/posts/Community-and-COVID-19/mr-rogers.jpg';
+
+
 The apocalypse is here, and it isn't that bad.
 
 COVID-19 is officially a global pandemic. Local and federal governments have declared a state of emergency and asked citizens to self-quarantine. Schools and offices are getting a crash course in working remotely.
 
 Last Saturday, my wife and I went to the grocery store and found they were out of carts. We got a cart from a nice little old lady in exchange for helping her load her groceries into her car, then went inside to discover the reason for the shortage: the checkout line went all the way to the back of the store.
 
-<img class="photo" src="/blog/assets/2020-03-15/line.jpg" alt="A line of grocery carts stretching from the back of the store to the front" />
-<img class="photo" src="/blog/assets/2020-03-15/left-shelf.jpg" alt="A grocery aisle, barren of pasta" />
-<img class="photo" src="/blog/assets/2020-03-15/right-shelf.jpg" alt="Empty boxes of toilet paper" />
+<Image class="photo" src={line} alt="A line of grocery carts stretching from the back of the store to the front" />
+<Image class="photo" src={leftShelf} alt="A grocery aisle, barren of pasta" />
+<Image class="photo" src={rightShelf} alt="Empty boxes of toilet paper" />
 
 <style>{`
 .photo {
@@ -42,18 +50,13 @@ Instead, we see people pulling together. We see Italians in self-quarantine play
 }
 `}</style>
 
-We see neighbors taking care of each other:
+We see [artists processing fear into beauty](https://www.theguardian.com/artanddesign/2020/mar/18/the-act-of-love-using-photography-to-spread-unity-during-a-pandemic):
 
-<blockquote class="reddit-card" data-card-created="1584836229"><a href="https://www.reddit.com/r/HumansBeingBros/comments/fk3336/xpost_from_rcovid19positive_i_posted_a_notice_on/">Xpost from /r/COVID19positive - I posted a notice on my apartment door to warn my building that I have COVID19 symptoms. This was dropped through the mail slot. I don't even know them. So many onions in here...</a> from <a href="http://www.reddit.com/r/HumansBeingBros">r/HumansBeingBros</a></blockquote>
-<script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
-
-And we see [artists processing fear into beauty](https://www.theguardian.com/artanddesign/2020/mar/18/the-act-of-love-using-photography-to-spread-unity-during-a-pandemic):
-
-<img class="photo" src="/blog/assets/2020-03-15/the-act-of-love.jpg" alt="A man and a woman wearing medical masks over their noses and mouths kiss tenderly." />
+<Image class="photo" src={actOfLove} alt="A man and a woman wearing medical masks over their noses and mouths kiss tenderly." />
 
 This is a scary time for many. Our way of life has been upended, and there's no telling when it will return to normal, or what "normal" will look like. But as Mr. Rogers put it:
 
-<img class="photo" src="/blog/assets/2020-03-15/mr-rogers.jfif" alt="When I was a boy and I would see scary things in the news, my mother would say to me, 'Look for the helpers. You will always find people who are helping.' --Fred Rogers" />
+<Image class="photo" src={mrRogers} alt="When I was a boy and I would see scary things in the news, my mother would say to me, 'Look for the helpers. You will always find people who are helping.' --Fred Rogers" />
 
 Now to keep this blog from being all sugar and no spice: If you have a favorite ideology that you wish more people would adopt, **this is your moment.** Talk to your neighbors (especially the elderly) and see what they need (while taking appropriate precautions to avoid infecting them). People will remember this month for the rest of their lives. **The moral high ground is yours for the taking!**
 
@@ -69,7 +72,7 @@ Now to keep this blog from being all sugar and no spice: If you have a favorite 
 
 <img class="meme" src="https://i.redd.it/kco675mv2rm41.jpg" alt="wow-david on Tumblr: 'My parrot has a vague understanding of the word 'no'. He knows to stop doing what he's doing when he hears it, and he knows how to say it. He knows it's a word that is used when he's doing something he shouldn't be doing. However, being told 'no' doesn't make him stop doing it in the future. If he's ever out of my sight or if I'm not paying attention, I know exactly when he's doing something bad. Because he says 'no' to himself as he does it." />
 
-<div class="meme">
+<div class="meme" style="width: max-content; box-shadow: none;">
 	<blockquote class="imgur-embed-pub" lang="en" data-id="GtfIceE" data-context="false"><a href="//imgur.com/GtfIceE">Oh look this brand is on saAAAAAAHHHHHHHHHHHHHH!!!!</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 </div>
 

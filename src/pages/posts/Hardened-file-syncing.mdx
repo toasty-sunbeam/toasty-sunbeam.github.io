@@ -11,6 +11,11 @@ cardColor: lime
 layout: '../../layouts/BlogPostLayout.astro'
 ---
 
+import { Image } from 'astro:assets';
+import syncthingIcon from '/src/assets/posts/Hardened-file-syncing/Syncthing-icon.png';
+import syncthingInterface from '/src/assets/posts/Hardened-file-syncing/Syncthing-interface.png';
+
+
 _Previously in this series: [Hardening your personal infrastructure](/blog/Hardening-your-personal-infrastructure)_
 
 The first thing you're probably going to want is a way to auto-synchronize files between computers; once you have that, we can build a few things on top of it.
@@ -30,11 +35,11 @@ On Mac or PC, once the program is installed, it will open a tab in your browser 
 
 Now you should be seeing a tab in your browser with the SyncThing interface. You can get back here later by clicking the Syncthing icon in your menu bar on Mac and clicking "Open", or double-clicking the icon in your tray on PC. (The tray is the collection of icons next to your system clock in the lower-right corner of your screen; you may need to expand it by clicking the little arrow.) The Syncthing icon looks like this:
 
-<img alt="Syncthing icon" src="{{'/assets/2021-07-20/Syncthing-icon.png' | absolute_url }}" width="100" />
+<Image alt="Syncthing icon" src={syncthingIcon} width={100} />
 
 Here's what the interface looks like:
 
-<img class="photo" src="{{'/assets/2021-07-20/Syncthing-interface.png' | absolute_url }}" alt='Screenshot of Syncthing' />
+<Image class="photo" src={syncthingInterface} alt='Screenshot of Syncthing' />
 
 ## Connecting devices together
 

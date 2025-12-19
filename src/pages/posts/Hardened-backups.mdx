@@ -14,21 +14,21 @@ layout: '../../layouts/BlogPostLayout.astro'
 ---
 
 import { Image } from 'astro:assets';
-import createBucket from 'images/Hardened-backups/create-a-bucket.png';
-import appKeys from 'images/Hardened-backups/app-keys.png';
-import addAppKey from 'images/Hardened-backups/add-app-key.png';
-import newAppKey from 'images/Hardened-backups/new-app-key.png';
-import duplicatiStep1 from 'images/Hardened-backups/duplicati-step-1.png';
-import backupDestination from 'images/Hardened-backups/backup-destination.png';
-import duplicatiStep2 from 'images/Hardened-backups/duplicati-step-2.png';
-import duplicatiStep3 from 'images/Hardened-backups/duplicati-step-3.png';
-import duplicatiStep4 from 'images/Hardened-backups/duplicati-step-4.png';
-import duplicatiStep5 from 'images/Hardened-backups/duplicati-step-5.png';
-import duplicatiJob from 'images/Hardened-backups/duplicati-job.png';
-import duplicatiWarningsWebm from 'images/Hardened-backups/duplicati-warnings.webm';
-import duplicatiWarningsPng from 'images/Hardened-backups/duplicati-warnings.png';
-import duplicatiFiltersPng from 'images/Hardened-backups/duplicati-filters.png';
-import duplicatiRestore from 'images/Hardened-backups/restore.webm';
+import createBucket from '/src/assets/posts/Hardened-backups/create-a-bucket.png';
+import appKeys from '/src/assets/posts/Hardened-backups/app-keys.png';
+import addAppKey from '/src/assets/posts/Hardened-backups/add-app-key.png';
+import newAppKey from '/src/assets/posts/Hardened-backups/new-app-key.png';
+import duplicatiStep1 from '/src/assets/posts/Hardened-backups/duplicati-step-1.png';
+import backupDestination from '/src/assets/posts/Hardened-backups/backup-destination.png';
+import duplicatiStep2 from '/src/assets/posts/Hardened-backups/duplicati-step-2.png';
+import duplicatiStep3 from '/src/assets/posts/Hardened-backups/duplicati-step-3.png';
+import duplicatiStep4 from '/src/assets/posts/Hardened-backups/duplicati-step-4.png';
+import duplicatiStep5 from '/src/assets/posts/Hardened-backups/duplicati-step-5.png';
+import duplicatiJob from '/src/assets/posts/Hardened-backups/duplicati-job.png';
+import duplicatiWarningsWebm from '/src/assets/posts/Hardened-backups/duplicati-warnings.webm';
+import duplicatiWarningsPng from '/src/assets/posts/Hardened-backups/duplicati-warnings.png';
+import duplicatiFiltersPng from '/src/assets/posts/Hardened-backups/duplicati-filters.png';
+import duplicatiRestore from '/src/assets/posts/Hardened-backups/restore.webm';
 
 
 _Part of my series on [hardening your personal infrastructure](/blog/Hardening-your-personal-infrastructure). A guide for Windows and MacOS._
@@ -190,12 +190,7 @@ Click "Run now". This will probably take a few hours.
 
 When I came back and looked at my backup job, it had a yellow box that said "Encountered 8 warnings."
 
-<style>{`
-.screencast {
-	width: 100%;
-}
-`}</style>
-<video controls class="screencast" src={duplicatiWarningsWebm} type="video/mp4">Can't play video. Please open this page in a recent browser.</video>
+<iframe width="700" height="600" class="mx-auto" src="https://www.youtube.com/embed/2ohjvXipdKM?si=nvmJWkDXMgazTp36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 It's pretty common that there will be system files that backup programs won't be able to access. This is fine. We should tell Duplicati not to bother backing these up; that will get rid of the warnings.
 
@@ -203,7 +198,7 @@ First, make a note of which files need to be excluded from your backup job. In m
 
 Click Home, then click on your backup job. Under "Configuration", click "Edit..." Then click "3. Source Data". Click "Exclude" and "Filters" to expand those sections.
 
-<video controls class="screencast" src="{{ '/assets/2021-10-01/duplicati-filters.m4v' | absolute_url }}" type="video/mp4">Can't play video. Please open this page in a recent browser.</video>
+<iframe width="700" height="600" class="mx-auto" src="https://www.youtube.com/embed/b0QNniZ9bx8?si=o0KoEI1F2FaBA6Jo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 First let's look at the "Exclude" section. Duplicati has some built-in filters here for us; details are available in [the documentation](https://duplicati.readthedocs.io/en/latest/appendix-d-filters/). You should probably turn on the "Hidden files", "System files", and "Temporary files" filters unless you have a reason to want them off. (I use hidden files in my programming work, so I'm going to leave that filter off.)
 
@@ -225,7 +220,7 @@ You know what the worst feeling in the world is? Going into your backup system t
 
 So this last step is an important one. We're going to verify that our backups work.
 
-<video controls class="screencast" src={duplicatiRestore} type="video/mp4">Can't play video. Please open this page in a recent browser.</video>
+<iframe width="700" height="600" class="mx-auto" src="https://www.youtube.com/embed/9YXVCbe0DFM?si=93Z_GHZmC8mmz5wc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Click Restore, then the name of your computer. Click Next. Duplicati will take a moment to go into your backups and retrieve a hierarchy of your files. Navigate through the folder structure and pick a file to restore, then click Continue.
 
