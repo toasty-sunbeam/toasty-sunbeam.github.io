@@ -127,3 +127,26 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
         }
     }
 </style>
+
+<script>
+	const ONE_HOUR = 60 * 60 * 1000;
+
+	function handleFlutterAnimation() {
+		const lastPlayed = sessionStorage.getItem('flutterPlayedAt');
+		const now = Date.now();
+
+		if (lastPlayed && now - parseInt(lastPlayed) < ONE_HOUR) {
+			// Animation played recently, skip it
+			document.querySelectorAll<HTMLElement>('.animate-flutter').forEach(el => {
+				el.style.animation = 'none';
+			});
+		} else {
+			// Let animation play and record the time
+			sessionStorage.setItem('flutterPlayedAt', now.toString());
+		}
+	}
+
+	// Run on initial load and on view transition navigation
+	handleFlutterAnimation();
+	document.addEventListener('astro:page-load', handleFlutterAnimation);
+</script>
