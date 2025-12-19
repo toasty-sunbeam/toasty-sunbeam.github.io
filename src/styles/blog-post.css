@@ -95,3 +95,30 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Footnote reference highlight when hovering sidebar footnote */
+.footnote-highlighted {
+    position: relative;
+}
+
+.footnote-highlighted::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.5em;
+    height: 1.5em;
+    border: 2px solid white;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Connecting line between footnote number and sidebar footnote */
+.footnote-connecting-line {
+    position: fixed;
+    height: 2px;
+    background-color: white;
+    pointer-events: none;
+    z-index: 100;
+}
+

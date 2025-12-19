@@ -59,9 +59,84 @@ const { footnotes } = Astro.props;
         requestAnimationFrame(positionFootnotes);
     };
 
+    function setupHoverHighlighting() {
+        const footnoteElements = document.querySelectorAll('.sidebar-footnote') as NodeListOf<HTMLElement>;
+        let connectingLine: HTMLElement | null = null;
+        let activeRefLink: HTMLElement | null = null;
+        let activeFootnoteEl: HTMLElement | null = null;
+        let scrollTimeout: number | null = null;
+
+        function updateLinePosition() {
+            if (!connectingLine || !activeRefLink || !activeFootnoteEl) return;
+
+            const refRect = activeRefLink.getBoundingClientRect();
+            const footnoteRect = activeFootnoteEl.getBoundingClientRect();
+
+            const lineLeft = refRect.right + 8;
+            const lineRight = footnoteRect.left;
+            const lineTop = refRect.top + refRect.height / 2;
+
+            connectingLine.style.left = `${lineLeft}px`;
+            connectingLine.style.top = `${lineTop}px`;
+            connectingLine.style.width = `${Math.max(0, lineRight - lineLeft)}px`;
+        }
+
+        // Hide line while scrolling, recalculate position when done
+        window.addEventListener('scroll', () => {
+            if (connectingLine) {
+                connectingLine.style.display = 'none';
+            }
+
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+
+            scrollTimeout = window.setTimeout(() => {
+                if (connectingLine) {
+                    updateLinePosition();
+                    connectingLine.style.display = '';
+                }
+            }, 150);
+        }, { passive: true });
+
+        footnoteElements.forEach((footnoteEl) => {
+            const footnoteId = footnoteEl.dataset.footnoteId;
+            if (!footnoteId) return;
+
+            const refLink = document.querySelector(`a[href="#${footnoteId}"]`) as HTMLElement;
+            if (!refLink) return;
+
+            footnoteEl.addEventListener('mouseenter', () => {
+                refLink.classList.add('footnote-highlighted');
+                activeRefLink = refLink;
+                activeFootnoteEl = footnoteEl;
+
+                // Create connecting line
+                connectingLine = document.createElement('div');
+                connectingLine.className = 'footnote-connecting-line';
+                document.body.appendChild(connectingLine);
+
+                updateLinePosition();
+            });
+
+            footnoteEl.addEventListener('mouseleave', () => {
+                refLink.classList.remove('footnote-highlighted');
+                activeRefLink = null;
+                activeFootnoteEl = null;
+
+                if (connectingLine) {
+                    connectingLine.remove();
+                    connectingLine = null;
+                }
+            });
+        });
+    }
+
     window.addEventListener('load', run);
     window.addEventListener('resize', run);
     document.addEventListener('astro:page-load', run);
+    document.addEventListener('astro:page-load', setupHoverHighlighting);
+    window.addEventListener('load', setupHoverHighlighting);
 </script>
 
 <style>
