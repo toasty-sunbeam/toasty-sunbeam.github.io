@@ -1,26 +1,32 @@
 :root {
     font-size: 18px;
 }
+
 .blog-content h1 {
     font-size: 2rem;
     font-weight: medium;
     font-style: italic;
 }
+
 .blog-content h2 {
     font-size: 1.75rem;
     font-weight: bold;
     margin-bottom: .25rem;
 }
+
 .blog-content h3 {
     font-size: 1.5rem;
 }
+
 .blog-content p {
     margin-bottom: 1em;
 }
+
 .blog-content ol {
     list-style: decimal;
     margin-left: 1em;
 }
+
 .blog-content li {
     margin-bottom: .5em;
 }
@@ -51,7 +57,7 @@
 
 /* Desktop: grid layout with fixed sidebar when TOC is present */
 @media (min-width: 1024px) {
-    .blog-layout.has-toc {
+    .blog-layout.has-sidebar {
         display: grid;
         grid-template-columns: 1fr 220px;
         gap: 3rem;
@@ -66,10 +72,33 @@
         order: unset;
         margin-top: 0;
         margin-bottom: 0;
+        position: relative;
     }
 }
 
 /* Smooth scroll for anchor links */
 html {
     scroll-behavior: smooth;
+}
+
+.sidebar-footnote {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #666;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: top 0.2s ease;
+    word-break: break-word;
+}
+
+.sidebar-footnote p {
+    margin-bottom: 0;
+}
+
+.sidebar-footnote a[href^="#user-content-fnref"] {
+    display: none;
 }

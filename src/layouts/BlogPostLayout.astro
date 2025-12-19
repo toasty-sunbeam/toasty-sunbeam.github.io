@@ -4,29 +4,110 @@ import PostDate from "../components/PostDate.astro";
 import Tag from "../components/Tag.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import MainLayout from "./MainLayout.astro";
-import '../styles/blog-post.css';
+import "../styles/blog-post.css";
 
 const { frontmatter, headings } = Astro.props;
 const tagsString = frontmatter.tags as string;
-const tagsArray = tagsString?.split(' ') || [];
+const tagsArray = tagsString?.split(" ") || [];
 const showToc = frontmatter.toc === true && headings && headings.length > 0;
+const hasFootnotes = frontmatter.hasFootnotes === true;
+console.log("Frontmatter:", JSON.stringify(frontmatter));
+const showSidebar = showToc || hasFootnotes;
 ---
 
 <MainLayout pageTitle={frontmatter.title}>
-    <div class:list={["blog-layout", { "has-toc": showToc }]}>
-        <article class="blog-content">
-            <h1 class="mt-4" transition:name={`post-title-${Astro.url.pathname}`}>{frontmatter.title}</h1>
-            <div class="flex flex-row gap-1 mb-4">
-                <PostDate date={frontmatter.pubDate} />
-                {tagsArray.map(tag => <Tag name={tag}/>)}
-            </div>
-            <slot />
-        </article>
+	<div class:list={["blog-layout", { "has-sidebar": showSidebar }]}>
+		<article class="blog-content">
+			<h1
+				class="mt-4"
+				transition:name={`post-title-${Astro.url.pathname}`}
+			>
+				{frontmatter.title}
+			</h1>
+			<div class="flex flex-row gap-1 mb-4">
+				<PostDate date={frontmatter.pubDate} />
+				{tagsArray.map((tag) => <Tag name={tag} />)}
+			</div>
+			<slot />
+		</article>
 
-        {showToc && (
-            <aside class="toc-sidebar">
-                <TableOfContents headings={headings} />
-            </aside>
-        )}
-    </div>
+		{
+			showSidebar && (
+				<aside class="toc-sidebar">
+					{showToc && <TableOfContents headings={headings} />}
+					{hasFootnotes && <div id="footnotes-container" />}
+				</aside>
+			)
+		}
+	</div>
 </MainLayout>
+
+<script>
+	function initFootnotes() {
+		const footnotesSection = document.querySelector(
+			".footnotes",
+		) as HTMLElement;
+		if (!footnotesSection) return;
+
+		const sidebar = document.querySelector(".toc-sidebar") as HTMLElement;
+		const footnotesContainer = document.querySelector(
+			"#footnotes-container",
+		) as HTMLElement;
+		if (!sidebar || !footnotesContainer) return; // Should exist if hasFootnotes is true
+
+		footnotesContainer.innerHTML = "";
+		const ol = footnotesSection.querySelector("ol");
+		if (!ol) return;
+
+		// Hide original footer
+		footnotesSection.style.display = "none";
+
+		const posts = Array.from(ol.children);
+		let lastBottom = 0;
+
+		posts.forEach((li) => {
+			const id = li.id;
+			// Find the reference link in the text
+			const refLink = document.querySelector(`a[href="#${id}"]`);
+
+			if (refLink) {
+				const newItem = document.createElement("div");
+				newItem.className = "sidebar-footnote";
+				newItem.innerHTML = li.innerHTML;
+				newItem.style.position = "absolute";
+				newItem.style.width = "100%";
+
+				footnotesContainer.appendChild(newItem);
+
+				// Position calculation
+				const refRect = refLink.getBoundingClientRect();
+				const sidebarRect = sidebar.getBoundingClientRect();
+
+				// Calculate top relative to sidebar top
+				const relativeTop = refRect.top - sidebarRect.top;
+
+				// Collision detection
+				let top = Math.max(relativeTop, lastBottom + 10);
+
+				newItem.style.top = `${top}px`;
+
+				// measure height for next item
+				lastBottom = top + newItem.offsetHeight;
+
+				// Optional: Add hover effect to reference?
+			}
+		});
+	}
+
+	// Initial load
+	// We use requestAnimationFrame to ensure layout is settled?
+
+	const run = () => {
+		// Small timeout to wait for fonts etc if needed, or just run
+		requestAnimationFrame(initFootnotes);
+	};
+
+	window.addEventListener("load", run);
+	window.addEventListener("resize", run); // re-calc on resize
+	document.addEventListener("astro:page-load", run);
+</script>
