@@ -15,6 +15,7 @@ const showToc = frontmatter.toc === true && headings && headings.length > 0;
 <MainLayout pageTitle={frontmatter.title}>
 	<div class="blog-layout">
 		<aside class="left-sidebar">
+			<a href="/" class="font-bold text-lg block mb-2">James Harris</a>
 			{showToc && <TableOfContents headings={headings} />}
 		</aside>
 		<article class="blog-content">

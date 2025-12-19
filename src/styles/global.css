@@ -4,6 +4,10 @@
 	--color-maroon: #331421;
 }
 
+:root {
+	font-size: 18px;
+}
+
 body {
 	font-family: "Rosario", sans-serif;
 	font-optical-sizing: auto;
@@ -35,6 +39,7 @@ body {
 		opacity: 1;
 		transform: none;
 	}
+
 	to {
 		opacity: 0;
 		transform: scale(0.95);
@@ -46,6 +51,7 @@ body {
 		opacity: 0;
 		transform: scale(1.05);
 	}
+
 	to {
 		opacity: 1;
 		transform: none;

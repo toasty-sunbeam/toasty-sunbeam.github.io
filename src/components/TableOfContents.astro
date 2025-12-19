@@ -195,8 +195,6 @@ const tocHeadings = buildToc(filteredHeadings);
 	/* Desktop: fixed positioning handled by parent layout or removed */
 	@media (min-width: 1024px) {
 		.toc {
-			position: sticky; /* Changed back to sticky for left sidebar */
-			top: 1rem;
 			max-height: calc(100vh - 2rem);
 			overflow-y: auto;
 		}
