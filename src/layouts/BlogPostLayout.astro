@@ -43,64 +43,7 @@ const showSidebar = showToc || hasFootnotes;
 </MainLayout>
 
 <script>
-	function initFootnotes() {
-		const footnotesSection = document.querySelector(
-			".footnotes",
-		) as HTMLElement;
-		if (!footnotesSection) return;
-
-		const sidebar = document.querySelector(".toc-sidebar") as HTMLElement;
-		const footnotesContainer = document.querySelector(
-			"#footnotes-container",
-		) as HTMLElement;
-		if (!sidebar || !footnotesContainer) return; // Should exist if hasFootnotes is true
-
-		footnotesContainer.innerHTML = "";
-		const ol = footnotesSection.querySelector("ol");
-		if (!ol) return;
-
-		// Hide original footer
-		footnotesSection.style.display = "none";
-
-		const posts = Array.from(ol.children);
-		let lastBottom = 0;
-
-		posts.forEach((li) => {
-			const id = li.id;
-			// Find the reference link in the text
-			const refLink = document.querySelector(`a[href="#${id}"]`);
-
-			if (refLink) {
-				const newItem = document.createElement("div");
-				newItem.className = "sidebar-footnote";
-				newItem.innerHTML = li.innerHTML;
-				newItem.style.position = "absolute";
-				newItem.style.width = "100%";
-
-				footnotesContainer.appendChild(newItem);
-
-				// Position calculation
-				const refRect = refLink.getBoundingClientRect();
-				const sidebarRect = sidebar.getBoundingClientRect();
-
-				// Calculate top relative to sidebar top
-				const relativeTop = refRect.top - sidebarRect.top;
-
-				// Collision detection
-				let top = Math.max(relativeTop, lastBottom + 10);
-
-				newItem.style.top = `${top}px`;
-
-				// measure height for next item
-				lastBottom = top + newItem.offsetHeight;
-
-				// Optional: Add hover effect to reference?
-			}
-		});
-	}
-
-	// Initial load
-	// We use requestAnimationFrame to ensure layout is settled?
+	import { initFootnotes } from "../plugins/footnotes";
 
 	const run = () => {
 		// Small timeout to wait for fonts etc if needed, or just run

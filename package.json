@@ -16,5 +16,10 @@
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@types/unist": "^3.0.3",
+    "vfile": "^6.0.3"
   }
 }
