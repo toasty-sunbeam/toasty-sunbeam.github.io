@@ -1,27 +1,27 @@
 :root {
     font-size: 18px;
 }
-h1 {
+.blog-content h1 {
     font-size: 2rem;
     font-weight: medium;
     font-style: italic;
 }
-h2 {
+.blog-content h2 {
     font-size: 1.75rem;
     font-weight: bold;
     margin-bottom: .25rem;
 }
-h3 {
+.blog-content h3 {
     font-size: 1.5rem;
 }
-p {
+.blog-content p {
     margin-bottom: 1em;
 }
-ol {
+.blog-content ol {
     list-style: decimal;
     margin-left: 1em;
 }
-li {
+.blog-content li {
     margin-bottom: .5em;
 }
 
