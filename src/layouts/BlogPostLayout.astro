@@ -17,6 +17,7 @@ const footnotes = (frontmatter.footnotes as FootnoteData[]) || [];
 
 <MainLayout pageTitle={frontmatter.title}>
 	<div class="blog-layout">
+		<div id="footnote-lines-container"></div>
 		<aside class="left-sidebar">
 			<a href="/" class="font-bold text-lg block mb-2">James Harris</a>
 			{showToc && <TableOfContents headings={headings} />}

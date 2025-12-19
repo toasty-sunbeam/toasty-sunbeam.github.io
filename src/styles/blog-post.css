@@ -29,6 +29,7 @@
 
 /* Blog layout with TOC */
 .blog-layout {
+    position: relative;
     display: flex;
     flex-direction: column;
     max-width: 48rem;
@@ -36,6 +37,16 @@
     margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+#footnote-lines-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 50;
 }
 
 .blog-content {
@@ -115,10 +126,14 @@ html {
 
 /* Connecting line between footnote number and sidebar footnote */
 .footnote-connecting-line {
-    position: fixed;
-    height: 2px;
+    position: absolute;
+    height: 3px;
     background-color: white;
     pointer-events: none;
-    z-index: 100;
+    display: none;
+}
+
+.footnote-connecting-line.visible {
+    display: block;
 }
 
