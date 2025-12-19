@@ -3,13 +3,16 @@ import Debug from "astro/components/Debug.astro";
 import PostDate from "../components/PostDate.astro";
 import Tag from "../components/Tag.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import FootnotesSidebar from "../components/FootnotesSidebar.astro";
 import MainLayout from "./MainLayout.astro";
 import "../styles/blog-post.css";
+import type { FootnoteData } from "../plugins/footnotes";
 
 const { frontmatter, headings } = Astro.props;
 const tagsString = frontmatter.tags as string;
 const tagsArray = tagsString?.split(" ") || [];
 const showToc = frontmatter.toc === true && headings && headings.length > 0;
+const footnotes = (frontmatter.footnotes as FootnoteData[]) || [];
 ---
 
 <MainLayout pageTitle={frontmatter.title}>
@@ -33,20 +36,7 @@ const showToc = frontmatter.toc === true && headings && headings.length > 0;
 		</article>
 
 		<aside class="right-sidebar">
-			<div id="footnotes-container"></div>
+			<FootnotesSidebar footnotes={footnotes} />
 		</aside>
 	</div>
 </MainLayout>
-
-<script>
-	import { initFootnotes } from "../plugins/footnotes";
-
-	const run = () => {
-		// Small timeout to wait for fonts etc if needed, or just run
-		requestAnimationFrame(initFootnotes);
-	};
-
-	window.addEventListener("load", run);
-	window.addEventListener("resize", run); // re-calc on resize
-	document.addEventListener("astro:page-load", run);
-</script>

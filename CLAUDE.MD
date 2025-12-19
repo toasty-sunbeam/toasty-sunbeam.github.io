@@ -30,6 +30,7 @@ blog-astro/
 - `pnpm build` - Build production site to ./dist/
 - `pnpm preview` - Preview production build locally
 - `pnpm astro` - Run Astro CLI commands
+- `pnpm install <package>` - Install packages (use pnpm, not npm)
 
 ## Development Notes
 

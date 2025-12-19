@@ -1,0 +1,39 @@
+---
+interface Props {
+    id: string;
+    number: number;
+    html: string;
+}
+
+const { id, number, html } = Astro.props;
+---
+
+<div class="sidebar-footnote" data-footnote-id={id}>
+    <b>{number}.</b> <Fragment set:html={html} />
+</div>
+
+<style>
+    .sidebar-footnote {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        color: #666;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem;
+        background: #f9f9f9;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: top 0.2s ease;
+        word-break: break-word;
+        position: absolute;
+    }
+
+    .sidebar-footnote :global(p) {
+        margin-bottom: 0;
+        display: inline;
+    }
+
+    .sidebar-footnote :global(a[href^="#user-content-fnref"]) {
+        display: none;
+    }
+</style>

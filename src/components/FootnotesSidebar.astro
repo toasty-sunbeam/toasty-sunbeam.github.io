@@ -1,0 +1,72 @@
+---
+import Footnote from './Footnote.astro';
+import type { FootnoteData } from '../plugins/footnotes';
+
+interface Props {
+    footnotes: FootnoteData[];
+}
+
+const { footnotes } = Astro.props;
+---
+
+{footnotes.length > 0 && (
+    <div id="footnotes-container">
+        {footnotes.map((fn) => (
+            <Footnote id={fn.id} number={fn.number} html={fn.html} />
+        ))}
+    </div>
+)}
+
+<script>
+    function positionFootnotes() {
+        const footnotesSection = document.querySelector('.footnotes') as HTMLElement;
+        if (footnotesSection) {
+            footnotesSection.style.display = 'none';
+        }
+
+        const container = document.querySelector('#footnotes-container') as HTMLElement;
+        if (!container) return;
+
+        const footnoteElements = container.querySelectorAll('.sidebar-footnote') as NodeListOf<HTMLElement>;
+        if (footnoteElements.length === 0) return;
+
+        const containerRect = container.getBoundingClientRect();
+        let lastBottom = 0;
+
+        footnoteElements.forEach((footnoteEl) => {
+            const footnoteId = footnoteEl.dataset.footnoteId;
+            if (!footnoteId) return;
+
+            // Find the reference link in the content that points to this footnote
+            const refLink = document.querySelector(`a[href="#${footnoteId}"]`) as HTMLElement;
+            if (!refLink) return;
+
+            const refRect = refLink.getBoundingClientRect();
+            const relativeTop = refRect.top - containerRect.top;
+
+            // Collision detection: must be below previous footnote and inside container
+            let top = Math.max(relativeTop, lastBottom + 10);
+            top = Math.max(top, 0);
+
+            footnoteEl.style.top = `${top}px`;
+            footnoteEl.style.width = '100%';
+
+            lastBottom = top + footnoteEl.offsetHeight;
+        });
+    }
+
+    const run = () => {
+        requestAnimationFrame(positionFootnotes);
+    };
+
+    window.addEventListener('load', run);
+    window.addEventListener('resize', run);
+    document.addEventListener('astro:page-load', run);
+</script>
+
+<style>
+    #footnotes-container {
+        position: relative;
+        width: 100%;
+    }
+</style>
