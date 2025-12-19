@@ -146,14 +146,14 @@ const tocHeadings = buildToc(filteredHeadings);
 		margin: 0;
 	}
 
-	.toc-list li {
-	}
-
 	.toc-list a {
 		color: #64748b;
 		text-decoration: none;
 		transition: color 0.2s ease;
 		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.toc-list a:hover {
