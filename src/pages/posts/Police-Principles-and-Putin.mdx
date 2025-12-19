@@ -6,6 +6,13 @@ pubDate: 2020-06-20
 cardColor: red
 layout: '../../layouts/BlogPostLayout.astro'
 ---
+import { Image } from 'astro:assets';
+import yakutskKey from 'images/police-principles-and-putin/Yakutsk-key.jpg';
+import twoCats from 'images/police-principles-and-putin/two-cats.jpg';
+import girlScoutCookies from 'images/police-principles-and-putin/girl-scout-cookies.jpg';
+import whiteMirror from 'images/police-principles-and-putin/white-mirror.png';
+import shoppingCart from 'images/police-principles-and-putin/shopping-cart.png';
+import apollo11 from 'images/police-principles-and-putin/apollo-11.png';
 
 I spent almost 10 years of my childhood in Russia. Russia is kind of a different planet than the United States.
 
@@ -17,7 +24,7 @@ As a consequence of its priorities, the Russian government is corrupt from top t
 
 That includes the police. When my parents bought an apartment in Yakutsk, on the advice of the locals, we had a steel door installed. It was a big brown slab of metal with no handle, only a little slot an inch tall and a quarter-inch wide. This fit the door's key, which was a metal bar six inches long with square teeth machined into the sides; if I'd ever been jumped in the street, that key would've been my go-to defensive weapon. 
 
-<img class="photo" src="/blog/assets/2020-06-20/Yakutsk-key.jpg" alt="Enormous machined key" />
+<Image class="photo" src={yakutskKey} alt="Enormous machined key" />
 
 The reason we needed the steel door was because if the Russian mafia ever decided that we as Americans had enough loose cash for a good shakedown, the Russian police would have sided with the highest bidder. The mafia would've started beating down our door, we'd have called the police, the police would have shown up, the mafia would've bribed them, and unless we could outbid the mafia, the police would've sided with them.
 
@@ -43,23 +50,12 @@ I assert with every fiber of my being that the United States ***must not*** beco
 
 ## Quality Memes
 
-<img class="meme" src="{{ '/assets/2020-06-20/two-cats.jpg' | absolute_url }}" alt="Last month my cat disappeared. A week ago I found him and brought him home. Today my cat came back. Now I have two identical cats." />
+<Image class="meme" src={twoCats} alt="Last month my cat disappeared. A week ago I found him and brought him home. Today my cat came back. Now I have two identical cats." />
 
-<img class="meme" src="{{ '/assets/2020-06-20/girl-scout-cookies.jpg' | absolute_url }}" alt="(Tweet screenshot) Conversation I just had: Me: Two Thin Mints please. Girl scout: That'll be $10. Or you can get four boxes for $20! Me (gentle): Um, that's not a savings. Girl scout (NOT gentle): NO ONE SAID IT WAS. Me: ... Four boxes would be great. (Next tweet) Me as an 8 year old girl scout: Would you like to buy some cookies? Neighbor: I'm on a diet for my New Year's Resolution. Me: The cookies will be delivered in February. Do you think you'll still be on your diet in February? Neighbor: *silently takes form and pen*" />
+<Image class="meme" src={girlScoutCookies} alt="(Tweet screenshot) Conversation I just had: Me: Two Thin Mints please. Girl scout: That'll be $10. Or you can get four boxes for $20! Me (gentle): Um, that's not a savings. Girl scout (NOT gentle): NO ONE SAID IT WAS. Me: ... Four boxes would be great. (Next tweet) Me as an 8 year old girl scout: Would you like to buy some cookies? Neighbor: I'm on a diet for my New Year's Resolution. Me: The cookies will be delivered in February. Do you think you'll still be on your diet in February? Neighbor: *silently takes form and pen*" />
 
-<img class="meme" src="{{ '/assets/2020-06-20/white-mirror.png' | absolute_url }}" alt="(tumblr post) What about a show that's like Black Mirror, but instead of modern future technology, it goes from setting to setting in various states of history, using progress that we already have, and the Absolutely Idiotic Hot Takes on how it's totally going to Go Horribly Wrong. 'Now that we've invented writing and people can write stuff down we just completely forget how to remember anything.' 'What if everyone just stopped believing in the divine right of kings and then everything falls into complete anarchy.' 'What if we let women vote and then they decide to make it illegal for men to vote.' 'My stupid son accidentally strangled himself on a phone cord, so clearly the telephone was a devil's invention that will doom humanity." />
+<Image class="meme" src={whiteMirror} alt="(tumblr post) What about a show that's like Black Mirror, but instead of modern future technology, it goes from setting to setting in various states of history, using progress that we already have, and the Absolutely Idiotic Hot Takes on how it's totally going to Go Horribly Wrong. 'Now that we've invented writing and people can write stuff down we just completely forget how to remember anything.' 'What if everyone just stopped believing in the divine right of kings and then everything falls into complete anarchy.' 'What if we let women vote and then they decide to make it illegal for men to vote.' 'My stupid son accidentally strangled himself on a phone cord, so clearly the telephone was a devil's invention that will doom humanity." />
 
-<img class="meme" src="{{ '/assets/2020-06-20/shopping-cart.png' | absolute_url }}" alt="(Anonymous post on 4chan:) The shopping cart is the ultimate litmus test for whether a person is capable of self-governing. To return the shopping cart is an easy, convenient task and one which we all recognize as the correct, appropriate thing to do. To return the shopping cart is objectively right. There are no situations other than dire emergencies in which a person is not able to return their cart. Simultaneously, it is not illegal to abandon your shopping cart. Therefore the shopping cart presents itself as the apex example of whether a person will do what is right without being forced to do it. No one will punish you for not returning the shopping cart, no one will fine you or kill you for not returning the shopping cart, you gain nothing by returning the shopping cart. You must return the shopping cart out of the goodness of your own heart. You must return the shopping cart because it is the right thing to do. Because it is correct. A person who is unable to do this is no better than an animal, an absolute savage who can only be made to do what is right by threatening them with a law and the force that stands behind it. The Shopping Cart is what determines whether a person is a good or bad member of society. (Tumblr commentary:) this post was written by a JRPG villain whose origin story was working at walmart" />
+<Image class="meme" src={shoppingCart} alt="(Anonymous post on 4chan:) The shopping cart is the ultimate litmus test for whether a person is capable of self-governing. To return the shopping cart is an easy, convenient task and one which we all recognize as the correct, appropriate thing to do. To return the shopping cart is objectively right. There are no situations other than dire emergencies in which a person is not able to return their cart. Simultaneously, it is not illegal to abandon your shopping cart. Therefore the shopping cart presents itself as the apex example of whether a person will do what is right without being forced to do it. No one will punish you for not returning the shopping cart, no one will fine you or kill you for not returning the shopping cart, you gain nothing by returning the shopping cart. You must return the shopping cart out of the goodness of your own heart. You must return the shopping cart because it is the right thing to do. Because it is correct. A person who is unable to do this is no better than an animal, an absolute savage who can only be made to do what is right by threatening them with a law and the force that stands behind it. The Shopping Cart is what determines whether a person is a good or bad member of society. (Tumblr commentary:) this post was written by a JRPG villain whose origin story was working at walmart" />
 
-<img class="meme" src="{{ '/assets/2020-06-20/apollo-11.png' | absolute_url }}" alt="Several quotes from the Apollo 11 crew, concluding with: According to Michael Collins, when the three of them were discussing what Neil Armstrong should say when he first stepped on the moon, Collins suggested Armstrong say 'Oh my God, what is that thing?' and then scream and cut out his mic." />
-
-## Videos (🔊sound on)
-
-<div class="meme">
-	<blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr">Y’all i been weak af at this video for 10 minutes 🤣🤣 <a href="https://t.co/dQEkjz3ir2">pic.twitter.com/dQEkjz3ir2</a></p>&mdash; Kee 🥀 (@dxpevibes_) <a href="https://twitter.com/dxpevibes_/status/1270921853855584258?ref_src=twsrc%5Etfw">June 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-</div>
-
-<video class="meme" controls>
-	<source src="{{ '/assets/2020-06-20/not-all-heroes-wear-capes.mp4' | absolute_url }}" type="video/mp4">
-	Can't display embedded video. Please visit this page on the web at https://jamesharris.design/blog/ if you're not already.
-</video>
+<Image class="meme" src={apollo11} alt="Several quotes from the Apollo 11 crew, concluding with: According to Michael Collins, when the three of them were discussing what Neil Armstrong should say when he first stepped on the moon, Collins suggested Armstrong say 'Oh my God, what is that thing?' and then scream and cut out his mic." />
