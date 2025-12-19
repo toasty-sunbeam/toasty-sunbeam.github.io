@@ -8,6 +8,14 @@ layout: '../../layouts/BlogPostLayout.astro'
 tags: ai
 toc: true
 ---
+import { Image } from 'astro:assets';
+import chatGptLogo from 'images/what-llms-are-good-for/OpenAI-black-monoblossom.svg';
+import claudeLogo from 'images/what-llms-are-good-for/claude-ai-icon.svg';
+import perplexityLogo from 'images/what-llms-are-good-for/perplexity-logo-icon.svg';
+import cooking from 'images/what-llms-are-good-for/cooking.jpg';
+import gym from 'images/what-llms-are-good-for/gym.jpg';
+import programmingWizard from 'images/what-llms-are-good-for/programming-wizard.png';
+
 
 It's my view that the large language model (LLM) is the most flexible and powerful invention of the last fifteen years. As every chainsaw operator knows, flexible and powerful is a dangerous combination, easy to hurt yourself with. So let's talk about LLMs and how to use them well.
 
@@ -21,31 +29,32 @@ A quick clarification: Strictly speaking, ChatGPT isn't an LLM. [ChatGPT](https:
 
 [^1]: I'm being extra specific about this here for educational purposes, but no-one should feel bad about calling ChatGPT an LLM. Just know that when people say that, they mean the LLM powering ChatGPT.
 
-<style>
+<style>{`
 .logo {
     float: left;
     height: 6em;
+    width: 6em;
+    margin-right: 1rem;
 }
 .logo.add-margin {
     height: 5em;
-    margin: 0 1em 1em 0;
+    margin: 0 1rem 1rem 0;
 }
 .page__content a.no-shadow:hover img.logo {
     box-shadow: none !important;
 }
+`}
 </style>
 
-<div class="logo">[![ChatGPT logo](images/what-llms-are-good-for/OpenAI-black-monoblossom.svg)](https://chatgpt.com)</div>
+<p><a href="https://chatgpt.com" class="logo"><Image src={chatGptLogo} alt="ChatGPT logo" /></a>**ChatGPT** is popular for good reason. It does a lot of things very well, it has a good app, and it has a "memory" feature so it can remember things you tell it for future conversations. This is my favorite chatbot and the one I use most often. If you use it, make sure you sign in; logged-in users get a much smarter model.</p>
 
-ChatGPT is popular for good reason. It does a lot of things very well, it has a good app, and it has a "memory" feature so it can remember things you tell it for future conversations. This is my favorite chatbot and the one I use most often. If you use it, make sure you sign in; logged-in users get a much smarter model.
-
-<a href="https://claude.ai" class="no-shadow"><img class="logo add-margin" src="{{ '/assets/2025-03-02/claude-ai-icon.svg' | absolute_url }}" alt="Claude logo" /></a>My second choice is [Claude](https://claude.ai). Claude is better at programming than ChatGPT, and some consider him to have more emotional intelligence. For me, his biggest drawback is the lack of a memory feature&mdash;you have to give him all the relevant context in each conversation.[^2] I use Claude for programming and when I'm out of free uses of ChatGPT.
+<p><a href="https://claude.ai" class="logo"><Image src={claudeLogo} alt="Claude logo" /></a>My second choice is **[Claude](https://claude.ai)**. Claude is better at programming than ChatGPT, and some consider him to have more emotional intelligence. For me, his biggest drawback is the lack of a memory feature&mdash;you have to give him all the relevant context in each conversation.[^2] I use Claude for programming and when I'm out of free uses of ChatGPT.</p>
 
 [^2]: This is true as of posting this in March 2025, but I'm told they're working on adding this feature. You can also link Claude to a Google Doc and put any knowledge you want him to have in there; this can be a good way to give him context across multiple conversations.
 
-<a href="https://perplexity.ai" class="no-shadow"><img class="logo" src="{{ '/assets/2025-03-02/perplexity-logo-icon.svg' | absolute_url }}" alt="Perplexity logo" />Perplexity</a> is an LLM-based search engine. Google and DuckDuckGo are good for searching for keywords, but if your question is best phrased as a full sentence, Perplexity is better. If your question could be phrased as a paragraph, you should try [Perplexity Deep Research](https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research)&mdash;it will spend several minutes searching the internet for you, following the relevant links, and compile a report.
+<p><a href="https://perplexity.ai" class="logo"><Image src={perplexityLogo} alt="Perplexity logo" /></a>**Perplexity** is an LLM-based search engine. Google and DuckDuckGo are good for searching for keywords, but if your question is best phrased as a full sentence, Perplexity is better. If your question could be phrased as a paragraph, you should try [Perplexity Deep Research](https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research)&mdash;it will spend several minutes searching the internet for you, following the relevant links, and compile a report.</p>
 
-You may also have heard of [Gemini](https://gemini.google.com), Google's LLM. Gemini hasn't distinguished itself over its competition in any way that I know of; I've tried it a few times and found it unhelpful. [DeepSeek](https://www.deepseek.com/) has been in the news recently; it's notable for being very fast and very cheap, but it's not better than the competition in any way but price, and you can get pretty far on ChatGPT's free tier. DeepSeek also censors topics considered political in China and [leaked a bunch of sensitive user information](https://arstechnica.com/security/2025/01/report-deepseeks-chat-histories-and-internal-data-were-publicly-exposed/) only nine days after releasing their new R1 model, so I recommend against trusting them.
+You may also have heard of **[Gemini](https://gemini.google.com)**, Google's LLM. Gemini hasn't distinguished itself over its competition in any way that I know of; I've tried it a few times and found it unhelpful. [DeepSeek](https://www.deepseek.com/) has been in the news recently; it's notable for being very fast and very cheap, but it's not better than the competition in any way but price, and you can get pretty far on ChatGPT's free tier. DeepSeek also censors topics considered political in China and [leaked a bunch of sensitive user information](https://arstechnica.com/security/2025/01/report-deepseeks-chat-histories-and-internal-data-were-publicly-exposed/) only nine days after releasing their new R1 model, so I recommend against trusting them.
 
 ## How to avoid hallucinations
 Since LLMs are trained on the internet, the more information there is about something on the internet, the more the LLM will know about it. Everyday things like cooking and personal fitness are very well represented on the internet, so ChatGPT knows quite a lot about them and can answer questions easily. The more niche and specialized the information is, the less the LLM knows, and the more likely it is to guess or hallucinate.
@@ -60,18 +69,19 @@ I do this all the time for board games, too. It often happens that I have a rule
 
 It's important to note that although providing reference material *reduces* hallucinations, it does not *eliminate* them. Just like people, sometimes LLMs get it wrong. If it's important that your answer be factual, use an LLM that provides citations, and check them. And if you're asking a question that has exactly one correct answer, LLMs are probably the wrong tool for the job.
 
-<style>
+<style>{`
 table {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
 }
+`}
 </style>
 
 | Question                               | Valid answers                                    | Use an LLM? |
 | -------------------------------------- | ------------------------------------------------ | ----------- |
 | What's a good recipe for pancakes?     | [Many]                                             | Yes         |
-| What is the coldest city in the world? | Yakutsk<br>Yakutsk, Siberia<br>Yakutsk in Russia | Maybe       |
+| What is the coldest city in the world? | Yakutsk<br/>Yakutsk, Siberia<br/>Yakutsk in Russia | Maybe       |
 | What is the square root of 1,490,841?  | 1221                                             | No          |
 
 LLMs aren't like traditional computer programs. You can give them the same input three times in a row and they'll give you different answers every time. If that's not a good fit for what you're doing, fact-check them, or use something else.
@@ -92,19 +102,20 @@ One thing that's really cool about LLMs is that they meet you where you are. A f
 
 I've stuck with my workout routine for about four months now. Excluding my time in the Air Force, that's a new personal best!
 
-<style>
+<style>{`
 .photo {
     display: block;
     margin: auto;
 }
+`}
 </style>
 
-<img class="photo" src="{{ '/assets/2025-03-02/gym.jpg' | absolute_url }}" alt="James with a dumbbell at the gym" />
+<Image class="photo" src={gym} alt="James with a dumbbell at the gym" />
 
 ### Learning to cook
 I've been wanting to get better at cooking, but I didn't know where to start, so I made a list of my favorite foods, [gave it to ChatGPT](https://chatgpt.com/share/67bfebd9-bbc8-800b-b1f7-6f5c3ab9bfe4), and asked it to come up with some healthy recipes. I had it turn the recipes into a meal plan and then a shopping list of ingredients. Once I get access to [Operator](https://openai.com/index/introducing-operator/), I'm going to make it do my grocery shopping for me. ChatGPT has made me a much more confident cook and has come up with some of my favorite recipes. I'm not as good a cook as my wife, but the gap is closing.
 
-<img class="photo" src="{{ '/assets/2025-03-02/cooking.jpg' | absolute_url }}" alt="James cooking burgers on the stove" />
+<Image class="photo" src={cooking} alt="James cooking burgers on the stove" />
 
 ### Figuring out coding libraries
 It's a sad truth about the world of programming that there is never enough good documentation. Programming is fun, so a lot of developers make really good stuff for free. Writing documentation is usually not considered fun, so there's much less of it. There are tons of libraries out there that can provide great functionality…if you can figure out how they work.
@@ -125,7 +136,7 @@ For most of my programming career, when I got stuck on a programming problem, my
 
 Running this frustrating and error-prone process over and over again is how I've spent the majority of my hours as a programmer. (Programmers usually spend more time debugging than they do coding. We are paid to be frustrated.) Step 1 is particularly tricky when the error message is unhelpful/misleading, which happens a lot. If this algorithm doesn't yield results, you might need to ask for help on StackOverflow or another forum, a prospect which fills me with dread. Code wizards are unforgiving to the ignorant.
 
-<img class="meme" src="{{ '/assets/2025-03-02/programming-wizard.png' | absolute_url }}" alt="A programming wizard atop a throne of network cables. He intones 'Your question has been closed. Vague. Low-effort. Cannot reproduce.'" />
+<Image class="meme" src={programmingWizard} alt="A programming wizard atop a throne of network cables. He intones 'Your question has been closed. Vague. Low-effort. Cannot reproduce.'" />
 
 LLMs have demolished this paradigm. The new algorithm is:
 1. Show the LLM the problem you're encountering and the file you're working on, along with any other relevant files and context.

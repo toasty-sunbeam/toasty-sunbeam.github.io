@@ -7,7 +7,7 @@ import type { Frontmatter } from '../frontmatter';
 import PostCard from '../components/PostCard.astro';
 
 // Blog posts
-const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./posts/*.md', { eager: true }))
+const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./posts/*.mdx', { eager: true }))
 	.sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
 ---
 
