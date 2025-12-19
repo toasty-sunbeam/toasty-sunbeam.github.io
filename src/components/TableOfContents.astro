@@ -46,7 +46,7 @@ const tocHeadings = buildToc(filteredHeadings);
 ---
 
 <nav class="toc" aria-label="Table of contents">
-	<span class="toc-title">Contents</span>
+	<a href="#" class="toc-title">Contents</a>
 	<ul class="toc-list">
 		{tocHeadings.map((h) => (
 			<li>
@@ -132,6 +132,12 @@ const tocHeadings = buildToc(filteredHeadings);
 		font-weight: 600;
 		margin-bottom: 0.75rem;
 		color: var(--color-maroon);
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	.toc-title:hover {
+		opacity: 0.8;
 	}
 
 	.toc-list {
@@ -141,7 +147,6 @@ const tocHeadings = buildToc(filteredHeadings);
 	}
 
 	.toc-list li {
-		margin-bottom: 0.5rem;
 	}
 
 	.toc-list a {
@@ -149,7 +154,6 @@ const tocHeadings = buildToc(filteredHeadings);
 		text-decoration: none;
 		transition: color 0.2s ease;
 		display: block;
-		padding: 0.125rem 0;
 	}
 
 	.toc-list a:hover {
