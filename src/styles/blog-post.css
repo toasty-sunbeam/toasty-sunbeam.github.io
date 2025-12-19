@@ -48,8 +48,9 @@
     order: 2;
 }
 
-/* Mobile: TOC appears above content */
-.toc-sidebar {
+/* Mobile: TOC/Footnotes appear above content by order */
+.left-sidebar,
+.right-sidebar {
     order: 1;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -57,22 +58,34 @@
 
 /* Desktop: grid layout with fixed sidebar when TOC is present */
 @media (min-width: 1024px) {
-    .blog-layout.has-sidebar {
+    .blog-layout {
         display: grid;
-        grid-template-columns: 1fr 220px;
-        gap: 3rem;
-        max-width: 72rem;
+        gap: 2rem;
+        max-width: 90rem;
+        /* Increased max width for 3 columns */
+        grid-template-columns: 220px 1fr 220px;
     }
 
     .blog-content {
         order: unset;
     }
 
-    .toc-sidebar {
+    .left-sidebar {
         order: unset;
-        margin-top: 0;
-        margin-bottom: 0;
+    }
+
+    .right-sidebar {
+        order: unset;
         position: relative;
+    }
+}
+
+/* Mobile: hide empty sidebars to prevent extra spacing */
+@media (max-width: 1023px) {
+
+    .left-sidebar:empty,
+    .right-sidebar:empty {
+        display: none;
     }
 }
 
@@ -101,4 +114,9 @@ html {
 
 .sidebar-footnote a[href^="#user-content-fnref"] {
     display: none;
+}
+
+#footnotes-container {
+    position: relative;
+    width: 100%;
 }

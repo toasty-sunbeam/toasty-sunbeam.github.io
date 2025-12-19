@@ -10,13 +10,13 @@ const { frontmatter, headings } = Astro.props;
 const tagsString = frontmatter.tags as string;
 const tagsArray = tagsString?.split(" ") || [];
 const showToc = frontmatter.toc === true && headings && headings.length > 0;
-const hasFootnotes = frontmatter.hasFootnotes === true;
-console.log("Frontmatter:", JSON.stringify(frontmatter));
-const showSidebar = showToc || hasFootnotes;
 ---
 
 <MainLayout pageTitle={frontmatter.title}>
-	<div class:list={["blog-layout", { "has-sidebar": showSidebar }]}>
+	<div class="blog-layout">
+		<aside class="left-sidebar">
+			{showToc && <TableOfContents headings={headings} />}
+		</aside>
 		<article class="blog-content">
 			<h1
 				class="mt-4"
@@ -31,14 +31,9 @@ const showSidebar = showToc || hasFootnotes;
 			<slot />
 		</article>
 
-		{
-			showSidebar && (
-				<aside class="toc-sidebar">
-					{showToc && <TableOfContents headings={headings} />}
-					{hasFootnotes && <div id="footnotes-container" />}
-				</aside>
-			)
-		}
+		<aside class="right-sidebar">
+			<div id="footnotes-container"></div>
+		</aside>
 	</div>
 </MainLayout>
 

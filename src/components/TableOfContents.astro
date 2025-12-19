@@ -12,7 +12,7 @@ interface Props {
 const { headings } = Astro.props;
 
 // Filter to only h2 and h3, then build nested structure
-const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
 interface TocHeading extends Heading {
 	subheadings: TocHeading[];
@@ -48,20 +48,22 @@ const tocHeadings = buildToc(filteredHeadings);
 <nav class="toc" aria-label="Table of contents">
 	<a href="#" class="toc-title">Contents</a>
 	<ul class="toc-list">
-		{tocHeadings.map((h) => (
-			<li>
-				<a href={`#${h.slug}`}>{h.text}</a>
-				{h.subheadings.length > 0 && (
-					<ul class="toc-sublist">
-						{h.subheadings.map((sub) => (
-							<li>
-								<a href={`#${sub.slug}`}>{sub.text}</a>
-							</li>
-						))}
-					</ul>
-				)}
-			</li>
-		))}
+		{
+			tocHeadings.map((h) => (
+				<li>
+					<a href={`#${h.slug}`}>{h.text}</a>
+					{h.subheadings.length > 0 && (
+						<ul class="toc-sublist">
+							{h.subheadings.map((sub) => (
+								<li>
+									<a href={`#${sub.slug}`}>{sub.text}</a>
+								</li>
+							))}
+						</ul>
+					)}
+				</li>
+			))
+		}
 	</ul>
 </nav>
 
@@ -71,7 +73,7 @@ const tocHeadings = buildToc(filteredHeadings);
 		if (window.innerWidth < 1024) return;
 
 		// Target the desktop TOC sidebar specifically
-		const tocSidebar = document.querySelector('.toc-sidebar .toc');
+		const tocSidebar = document.querySelector(".toc-sidebar .toc");
 		if (!tocSidebar) return;
 
 		// Track which heading is currently active
@@ -86,30 +88,36 @@ const tocHeadings = buildToc(filteredHeadings);
 						if (id !== currentActiveId) {
 							currentActiveId = id;
 							// Update active states
-							const tocLinks = tocSidebar.querySelectorAll('a');
-							tocLinks.forEach((link) => link.classList.remove('active'));
-							const activeLink = tocSidebar.querySelector(`a[href="#${id}"]`);
-							activeLink?.classList.add('active');
+							const tocLinks = tocSidebar.querySelectorAll("a");
+							tocLinks.forEach((link) =>
+								link.classList.remove("active"),
+							);
+							const activeLink = tocSidebar.querySelector(
+								`a[href="#${id}"]`,
+							);
+							activeLink?.classList.add("active");
 						}
 						break;
 					}
 				}
 			},
 			{
-				rootMargin: '0px 0px -70% 0px',
+				rootMargin: "0px 0px -70% 0px",
 				threshold: 0,
-			}
+			},
 		);
 
 		// Observe all h2 and h3 headings in the article
-		const headings = document.querySelectorAll('article :is(h2, h3)');
+		const headings = document.querySelectorAll("article :is(h2, h3)");
 		headings.forEach((heading) => observer.observe(heading));
 
 		// Set initial active state for the first heading
 		if (headings.length > 0) {
 			const firstHeading = headings[0] as HTMLElement;
-			const firstLink = tocSidebar.querySelector(`a[href="#${firstHeading.id}"]`);
-			firstLink?.classList.add('active');
+			const firstLink = tocSidebar.querySelector(
+				`a[href="#${firstHeading.id}"]`,
+			);
+			firstLink?.classList.add("active");
 			currentActiveId = firstHeading.id;
 		}
 	}
@@ -118,7 +126,7 @@ const tocHeadings = buildToc(filteredHeadings);
 	initTocScrollSpy();
 
 	// Re-run after Astro page transitions
-	document.addEventListener('astro:after-swap', initTocScrollSpy);
+	document.addEventListener("astro:after-swap", initTocScrollSpy);
 </script>
 
 <style>
@@ -147,8 +155,8 @@ const tocHeadings = buildToc(filteredHeadings);
 		margin: 0;
 	}
 
-	.toc-list>li {
-		margin-bottom: .25em;
+	.toc-list > li {
+		margin-bottom: 0.25em;
 	}
 
 	.toc-list a {
@@ -184,12 +192,12 @@ const tocHeadings = buildToc(filteredHeadings);
 		font-size: 0.8125rem;
 	}
 
-	/* Desktop: fixed positioning handled by parent layout */
+	/* Desktop: fixed positioning handled by parent layout or removed */
 	@media (min-width: 1024px) {
 		.toc {
-			position: sticky;
-			top: 2rem;
-			max-height: calc(100vh - 4rem);
+			position: sticky; /* Changed back to sticky for left sidebar */
+			top: 1rem;
+			max-height: calc(100vh - 2rem);
 			overflow-y: auto;
 		}
 	}
