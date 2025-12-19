@@ -59,7 +59,7 @@ const { footnotes } = Astro.props;
         const linesContainer = document.querySelector('#footnote-lines-container') as HTMLElement;
         if (!linesContainer) return;
 
-        // Clear any existing lines
+        // Clear any existing lines and circles
         linesContainer.innerHTML = '';
 
         const layoutRect = linesContainer.getBoundingClientRect();
@@ -74,12 +74,14 @@ const { footnotes } = Astro.props;
 
             const refRect = refLink.getBoundingClientRect();
             const footnoteRect = footnoteEl.getBoundingClientRect();
+            const refStyles = window.getComputedStyle(refLink);
 
             // Calculate position relative to the layout container
             const lineLeft = refRect.right + 8 - layoutRect.left;
             const lineRight = footnoteRect.left - layoutRect.left;
             const lineTop = refRect.top + refRect.height / 2 - layoutRect.top;
 
+            // Create connecting line
             const line = document.createElement('div');
             line.className = 'footnote-connecting-line';
             line.dataset.footnoteId = footnoteId;
@@ -87,6 +89,16 @@ const { footnotes } = Astro.props;
             line.style.top = `${lineTop}px`;
             line.style.width = `${Math.max(0, lineRight - lineLeft)}px`;
             linesContainer.appendChild(line);
+
+            // Create filled circle with footnote number
+            const circle = document.createElement('div');
+            circle.className = 'footnote-circle';
+            circle.dataset.footnoteId = footnoteId;
+            circle.textContent = refLink.textContent;
+            circle.style.left = `${refRect.left + refRect.width / 2 - layoutRect.left}px`;
+            circle.style.top = `${refRect.top + refRect.height / 2 - layoutRect.top}px`;
+            circle.style.fontSize = refStyles.fontSize;
+            linesContainer.appendChild(circle);
         });
     }
 
@@ -99,16 +111,17 @@ const { footnotes } = Astro.props;
 
             const refLink = document.querySelector(`a[href="#${footnoteId}"]`) as HTMLElement;
             const line = document.querySelector(`.footnote-connecting-line[data-footnote-id="${footnoteId}"]`) as HTMLElement;
+            const circle = document.querySelector(`.footnote-circle[data-footnote-id="${footnoteId}"]`) as HTMLElement;
             if (!refLink) return;
 
             footnoteEl.addEventListener('mouseenter', () => {
-                refLink.classList.add('footnote-highlighted');
                 if (line) line.classList.add('visible');
+                if (circle) circle.classList.add('visible');
             });
 
             footnoteEl.addEventListener('mouseleave', () => {
-                refLink.classList.remove('footnote-highlighted');
                 if (line) line.classList.remove('visible');
+                if (circle) circle.classList.remove('visible');
             });
         });
     }

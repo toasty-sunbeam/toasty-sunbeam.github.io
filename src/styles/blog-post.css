@@ -106,22 +106,24 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Footnote reference highlight when hovering sidebar footnote */
-.footnote-highlighted {
-    position: relative;
+/* Filled circle highlight for footnote number */
+.footnote-circle {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 50%;
+    width: 1.4em;
+    height: 1.4em;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-weight: bold;
+    line-height: 1;
 }
 
-.footnote-highlighted::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1.5em;
-    height: 1.5em;
-    border: 2px solid white;
-    border-radius: 50%;
-    pointer-events: none;
+.footnote-circle.visible {
+    display: flex;
 }
 
 /* Connecting line between footnote number and sidebar footnote */
