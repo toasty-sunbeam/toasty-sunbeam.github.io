@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 import svelte from '@astrojs/svelte';
 import { remarkExtractFootnotes } from './src/plugins/footnotes';
 
+import mdx from '@astrojs/mdx';
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -13,7 +15,7 @@ export default defineConfig({
   },
 
   site: 'https://toasty-sunbeam.github.io',
-  integrations: [svelte()],
+  integrations: [svelte(), mdx()],
   markdown: {
     remarkPlugins: [remarkExtractFootnotes],
   },
