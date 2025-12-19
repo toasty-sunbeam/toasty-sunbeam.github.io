@@ -126,12 +126,66 @@ const { footnotes } = Astro.props;
         });
     }
 
-    function initFootnotes() {
-        requestAnimationFrame(() => {
-            positionFootnotes();
-            createConnectingLines();
-            setupHoverHighlighting();
+    function setupMobileFootnotes() {
+        const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+        if (!isMobile) return;
+
+        let activePopup: HTMLElement | null = null;
+
+        function closePopup() {
+            if (activePopup) {
+                activePopup.remove();
+                activePopup = null;
+            }
+        }
+
+        // Find all footnote reference links in the content
+        const footnoteLinks = document.querySelectorAll('a[href^="#user-content-fn-"]') as NodeListOf<HTMLAnchorElement>;
+
+        footnoteLinks.forEach((link) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const footnoteId = link.getAttribute('href')?.slice(1);
+                if (!footnoteId) return;
+
+                // Find the corresponding sidebar footnote
+                const sidebarFootnote = document.querySelector(`.sidebar-footnote[data-footnote-id="${footnoteId}"]`) as HTMLElement;
+                if (!sidebarFootnote) return;
+
+                // Close any existing popup
+                closePopup();
+
+                // Create popup
+                const popup = document.createElement('div');
+                popup.className = 'mobile-footnote-popup';
+                popup.innerHTML = `<b>${link.textContent}.</b> ${sidebarFootnote.innerHTML.replace(/<b>\d+\.<\/b>\s*/, '')}`;
+                document.body.appendChild(popup);
+                activePopup = popup;
+            });
         });
+
+        // Close popup when tapping outside
+        document.addEventListener('click', (e) => {
+            if (activePopup && !activePopup.contains(e.target as Node)) {
+                closePopup();
+            }
+        });
+    }
+
+    function initFootnotes() {
+        const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+
+        if (isMobile) {
+            setupMobileFootnotes();
+        } else {
+            requestAnimationFrame(() => {
+                positionFootnotes();
+                createConnectingLines();
+                setupHoverHighlighting();
+            });
+        }
     }
 
     window.addEventListener('load', initFootnotes);

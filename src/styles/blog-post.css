@@ -92,13 +92,38 @@
     }
 }
 
-/* Mobile: hide empty sidebars to prevent extra spacing */
+/* Mobile: hide empty sidebars and right sidebar */
 @media (max-width: 1023px) {
 
     .left-sidebar:empty,
-    .right-sidebar:empty {
+    .right-sidebar {
         display: none;
     }
+}
+
+/* Mobile footnote popup */
+.mobile-footnote-popup {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    background: #f0f9ff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.mobile-footnote-popup p {
+    margin: 0;
+    display: inline;
+}
+
+.mobile-footnote-popup a[href^="#user-content-fnref"] {
+    display: none;
 }
 
 /* Smooth scroll for anchor links */
