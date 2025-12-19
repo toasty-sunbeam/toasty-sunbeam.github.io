@@ -129,6 +129,7 @@ const tocHeadings = buildToc(filteredHeadings);
 
 	.toc-title {
 		display: block;
+		font-size: 1.125em;
 		font-weight: 600;
 		margin-bottom: 0.75rem;
 		color: var(--color-maroon);
@@ -144,6 +145,10 @@ const tocHeadings = buildToc(filteredHeadings);
 		list-style: none;
 		padding: 0;
 		margin: 0;
+	}
+
+	.toc-list>li {
+		margin-bottom: .25em;
 	}
 
 	.toc-list a {
@@ -168,11 +173,11 @@ const tocHeadings = buildToc(filteredHeadings);
 	.toc-sublist {
 		list-style: none;
 		padding-left: 1rem;
-		margin: 0.25rem 0 0 0;
+		margin: 0.125rem 0 0 0;
 	}
 
 	.toc-sublist li {
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.125rem;
 	}
 
 	.toc-sublist a {
