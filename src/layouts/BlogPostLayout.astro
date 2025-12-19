@@ -8,7 +8,7 @@ import '../styles/blog-post.css';
 
 const { frontmatter, headings } = Astro.props;
 const tagsString = frontmatter.tags as string;
-const tagsArray = tagsString.split(' ');
+const tagsArray = tagsString?.split(' ') || [];
 const showToc = frontmatter.toc === true && headings && headings.length > 0;
 ---
 
