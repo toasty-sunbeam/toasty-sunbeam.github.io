@@ -35,7 +35,9 @@ A quick clarification: Strictly speaking, ChatGPT isn't an LLM. [ChatGPT](https:
 }
 </style>
 
-<a href="https://chatgpt.com/" class="no-shadow"><img class="logo" src="{{ '/assets/2025-03-02/OpenAI-black-monoblossom.svg' | absolute_url }}" alt="ChatGPT logo"/>ChatGPT</a> is popular for good reason. It does a lot of things very well, it has a good app, and it has a "memory" feature so it can remember things you tell it for future conversations. This is my favorite chatbot and the one I use most often. If you use it, make sure you sign in; logged-in users get a much smarter model.
+<div class="logo">[![ChatGPT logo](images/what-llms-are-good-for/OpenAI-black-monoblossom.svg)](https://chatgpt.com)</div>
+
+ChatGPT is popular for good reason. It does a lot of things very well, it has a good app, and it has a "memory" feature so it can remember things you tell it for future conversations. This is my favorite chatbot and the one I use most often. If you use it, make sure you sign in; logged-in users get a much smarter model.
 
 <a href="https://claude.ai" class="no-shadow"><img class="logo add-margin" src="{{ '/assets/2025-03-02/claude-ai-icon.svg' | absolute_url }}" alt="Claude logo" /></a>My second choice is [Claude](https://claude.ai). Claude is better at programming than ChatGPT, and some consider him to have more emotional intelligence. For me, his biggest drawback is the lack of a memory feature&mdash;you have to give him all the relevant context in each conversation.[^2] I use Claude for programming and when I'm out of free uses of ChatGPT.
 
