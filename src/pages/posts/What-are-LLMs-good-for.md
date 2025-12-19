@@ -111,6 +111,8 @@ Last week I had a question about a new programming library that wasn't answered 
 
 I often hear assertions that it's impossible for an LLM to reason. Moments like that one make me deeply skeptical of that claim.
 
+To some extent LLMs are reducing my dependence on libraries in general. While I was creating this blog, I asked Claude Code to set up an interactive table of contents "with the minimum of plugins". It did some research, then told me that my framework provided most of the big pieces and the minimum of plugins was zero. It asked a few clarifying questions and then coded the table of contents from scratch. This makes my blog easier to customize and reduces the amount of code I need to secure, configure, and maintain. JavaScript developers have long complained about the complexity and hassle of managing libraries; moving from third-party libraries that do everything to AI-written code that just does what you want is a big plus.
+
 ### Debugging code
 For most of my programming career, when I got stuck on a programming problem, my problem-solving algorithm looked like this:
 1. Make an educated guess about what has gone wrong
