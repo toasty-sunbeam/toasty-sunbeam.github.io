@@ -5,4 +5,5 @@ export interface Frontmatter {
 	pubDate: string | Date;
 	comments: boolean;
 	cardColor: string;
+	toc?: boolean;
 }

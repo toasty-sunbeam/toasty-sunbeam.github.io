@@ -24,3 +24,52 @@ ol {
 li {
     margin-bottom: .5em;
 }
+
+/* Blog layout with TOC */
+.blog-layout {
+    display: flex;
+    flex-direction: column;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.blog-content {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+}
+
+/* Mobile: TOC appears above content */
+.toc-sidebar {
+    order: 1;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Desktop: grid layout with fixed sidebar when TOC is present */
+@media (min-width: 1024px) {
+    .blog-layout.has-toc {
+        display: grid;
+        grid-template-columns: 1fr 220px;
+        gap: 3rem;
+        max-width: 72rem;
+    }
+
+    .blog-content {
+        order: unset;
+    }
+
+    .toc-sidebar {
+        order: unset;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+/* Smooth scroll for anchor links */
+html {
+    scroll-behavior: smooth;
+}

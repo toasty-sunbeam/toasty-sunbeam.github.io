@@ -1,0 +1,197 @@
+---
+interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
+
+interface Props {
+	headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+// Filter to only h2 and h3, then build nested structure
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+
+interface TocHeading extends Heading {
+	subheadings: TocHeading[];
+}
+
+function buildToc(headings: Heading[]): TocHeading[] {
+	const toc: TocHeading[] = [];
+	const parentHeadings = new Map<number, TocHeading>();
+
+	headings.forEach((h) => {
+		const heading: TocHeading = { ...h, subheadings: [] };
+		parentHeadings.set(heading.depth, heading);
+
+		if (heading.depth === 2) {
+			toc.push(heading);
+		} else if (heading.depth === 3) {
+			const parent = parentHeadings.get(2);
+			if (parent) {
+				parent.subheadings.push(heading);
+			} else {
+				// h3 without parent h2, add at top level
+				toc.push(heading);
+			}
+		}
+	});
+
+	return toc;
+}
+
+const tocHeadings = buildToc(filteredHeadings);
+---
+
+<nav class="toc" aria-label="Table of contents">
+	<span class="toc-title">Contents</span>
+	<ul class="toc-list">
+		{tocHeadings.map((h) => (
+			<li>
+				<a href={`#${h.slug}`}>{h.text}</a>
+				{h.subheadings.length > 0 && (
+					<ul class="toc-sublist">
+						{h.subheadings.map((sub) => (
+							<li>
+								<a href={`#${sub.slug}`}>{sub.text}</a>
+							</li>
+						))}
+					</ul>
+				)}
+			</li>
+		))}
+	</ul>
+</nav>
+
+<script>
+	function initTocScrollSpy() {
+		// Only enable scroll spy on larger screens
+		if (window.innerWidth < 1024) return;
+
+		// Target the desktop TOC sidebar specifically
+		const tocSidebar = document.querySelector('.toc-sidebar .toc');
+		if (!tocSidebar) return;
+
+		// Track which heading is currently active
+		let currentActiveId: string | null = null;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				// Find the first intersecting entry (topmost visible heading)
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						const id = entry.target.id;
+						if (id !== currentActiveId) {
+							currentActiveId = id;
+							// Update active states
+							const tocLinks = tocSidebar.querySelectorAll('a');
+							tocLinks.forEach((link) => link.classList.remove('active'));
+							const activeLink = tocSidebar.querySelector(`a[href="#${id}"]`);
+							activeLink?.classList.add('active');
+						}
+						break;
+					}
+				}
+			},
+			{
+				rootMargin: '0px 0px -70% 0px',
+				threshold: 0,
+			}
+		);
+
+		// Observe all h2 and h3 headings in the article
+		const headings = document.querySelectorAll('article :is(h2, h3)');
+		headings.forEach((heading) => observer.observe(heading));
+
+		// Set initial active state for the first heading
+		if (headings.length > 0) {
+			const firstHeading = headings[0] as HTMLElement;
+			const firstLink = tocSidebar.querySelector(`a[href="#${firstHeading.id}"]`);
+			firstLink?.classList.add('active');
+			currentActiveId = firstHeading.id;
+		}
+	}
+
+	// Run on initial load
+	initTocScrollSpy();
+
+	// Re-run after Astro page transitions
+	document.addEventListener('astro:after-swap', initTocScrollSpy);
+</script>
+
+<style>
+	.toc {
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+
+	.toc-title {
+		display: block;
+		font-weight: 600;
+		margin-bottom: 0.75rem;
+		color: var(--color-maroon);
+	}
+
+	.toc-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.toc-list li {
+		margin-bottom: 0.5rem;
+	}
+
+	.toc-list a {
+		color: #64748b;
+		text-decoration: none;
+		transition: color 0.2s ease;
+		display: block;
+		padding: 0.125rem 0;
+	}
+
+	.toc-list a:hover {
+		color: var(--color-maroon);
+	}
+
+	.toc-list a.active {
+		color: var(--color-maroon);
+		font-weight: 600;
+	}
+
+	.toc-sublist {
+		list-style: none;
+		padding-left: 1rem;
+		margin: 0.25rem 0 0 0;
+	}
+
+	.toc-sublist li {
+		margin-bottom: 0.25rem;
+	}
+
+	.toc-sublist a {
+		font-size: 0.8125rem;
+	}
+
+	/* Desktop: fixed positioning handled by parent layout */
+	@media (min-width: 1024px) {
+		.toc {
+			position: sticky;
+			top: 2rem;
+			max-height: calc(100vh - 4rem);
+			overflow-y: auto;
+		}
+	}
+
+	/* Mobile: styled box */
+	@media (max-width: 1023px) {
+		.toc {
+			background: rgba(255, 255, 255, 0.8);
+			border: 1px solid #e2e8f0;
+			border-radius: 0.5rem;
+			padding: 1rem;
+		}
+	}
+</style>
