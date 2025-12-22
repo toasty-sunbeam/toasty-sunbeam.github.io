@@ -15,7 +15,7 @@ const tagsString = frontmatter.tags as string;
 const tagsArray = tagsString?.split(" ") || [];
 const showToc = frontmatter.toc === true && headings && headings.length > 0;
 const footnotes = (frontmatter.footnotes as FootnoteData[]) || [];
-const slug = Astro.url.pathname.slice(1, -1); // removes leading/trailing slashes
+const slug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''; // removes leading/trailing slashes and '/posts' prefix
 ---
 
 <MainLayout pageTitle={frontmatter.title}>
