@@ -1,0 +1,103 @@
+---
+/**
+ * CommentList.astro
+ * Displays approved comments for a post
+ * 
+ * Comments are stored as JSON files in src/data/comments/{postSlug}/
+ */
+
+interface Props {
+	postSlug: string;
+}
+
+interface Comment {
+	id: string;
+	postSlug: string;
+	name: string;
+	email?: string | null;
+	website?: string | null;
+	content: string;
+	date: string;
+}
+
+const { postSlug } = Astro.props;
+
+// Load all comment JSON files using import.meta.glob
+// Adjust the path to match where you store comments
+const allCommentFiles = import.meta.glob<Comment>(
+	'/src/data/comments/**/*.json',
+	{ eager: true, import: 'default' }
+);
+
+// Filter to just this post's comments and sort by date
+const comments: Comment[] = Object.values(allCommentFiles)
+	.filter((comment): comment is Comment => 
+		comment !== null && 
+		typeof comment === 'object' && 
+		'postSlug' in comment &&
+		comment.postSlug === postSlug
+	)
+	.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+// Format date helper
+function formatDate(dateString: string): string {
+	const date = new Date(dateString);
+	return date.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+}
+---
+
+<section class="mt-8">
+	<h3 class="text-xl font-semibold mb-6">
+		Comments
+		{comments.length > 0 && (
+			<span class="font-normal text-gray-500 dark:text-gray-400">({comments.length})</span>
+		)}
+	</h3>
+
+	{comments.length === 0 ? (
+		<p class="text-gray-500 dark:text-gray-400 italic">
+			No comments yet. Be the first to share your thoughts!
+		</p>
+	) : (
+		<ol class="list-none p-0 m-0 space-y-0">
+			{comments.map((comment) => (
+				<li 
+					class="py-5 border-b border-gray-200 dark:border-gray-700 last:border-b-0" 
+					id={`comment-${comment.id}`}
+				>
+					<header class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
+						<span class="font-semibold">
+							{comment.website ? (
+								<a 
+									href={comment.website} 
+									rel="nofollow noopener" 
+									target="_blank"
+									class="hover:underline"
+								>
+									{comment.name}
+								</a>
+							) : (
+								comment.name
+							)}
+						</span>
+						<time 
+							class="text-sm text-gray-500 dark:text-gray-400" 
+							datetime={comment.date}
+						>
+							{formatDate(comment.date)}
+						</time>
+					</header>
+					<div class="leading-relaxed space-y-3">
+						{comment.content.split('\n').map((paragraph) => (
+							paragraph.trim() ? <p>{paragraph}</p> : null
+						))}
+					</div>
+				</li>
+			))}
+		</ol>
+	)}
+</section>

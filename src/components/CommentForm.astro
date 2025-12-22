@@ -1,0 +1,194 @@
+---
+/**
+ * CommentForm.astro
+ * A comment submission form that posts to the Cloudflare Worker
+ */
+
+interface Props {
+	postSlug: string;
+}
+
+const { postSlug } = Astro.props;
+
+// Configure your worker URL here or via environment variable
+const WORKER_URL = 'https://blog-comments.toasty-sunbeam.workers.dev';
+---
+
+<section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+	<h3 class="text-xl font-semibold mb-6">Leave a Comment</h3>
+	
+	<form 
+		id="comment-form" 
+		class="max-w-xl"
+		data-worker-url={WORKER_URL}
+		data-post-slug={postSlug}
+	>
+		<div class="mb-5">
+			<label for="comment-name" class="block mb-2 font-medium">
+				Name <span class="text-red-600 dark:text-red-400">*</span>
+			</label>
+			<input 
+				type="text" 
+				id="comment-name" 
+				name="name" 
+				required 
+				maxlength="100"
+				autocomplete="name"
+				class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
+							 bg-white dark:bg-gray-800 
+							 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+							 transition-colors"
+			/>
+		</div>
+
+		<div class="mb-5">
+			<label for="comment-email" class="block mb-2 font-medium">
+				Email <span class="font-normal text-gray-500 dark:text-gray-400 text-sm">(optional, not displayed, for reply notifications)</span>
+			</label>
+			<input 
+				type="email" 
+				id="comment-email" 
+				name="email" 
+				autocomplete="email"
+				class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
+							 bg-white dark:bg-gray-800 
+							 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+							 transition-colors"
+			/>
+		</div>
+
+		<div class="mb-5">
+			<label for="comment-website" class="block mb-2 font-medium">
+				Website <span class="font-normal text-gray-500 dark:text-gray-400 text-sm">(optional)</span>
+			</label>
+			<input 
+				type="url" 
+				id="comment-website" 
+				name="website" 
+				placeholder="https://"
+				autocomplete="url"
+				class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
+							 bg-white dark:bg-gray-800 
+							 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+							 transition-colors"
+			/>
+		</div>
+
+		<!-- Honeypot field - hidden from real users -->
+		<div class="absolute -left-[9999px]" aria-hidden="true">
+			<label for="comment-surname">Surname</label>
+			<input 
+				type="text" 
+				id="comment-surname" 
+				name="surname" 
+				tabindex="-1"
+				autocomplete="off"
+			/>
+		</div>
+
+		<div class="mb-5">
+			<label for="comment-content" class="block mb-2 font-medium">
+				Comment <span class="text-red-600 dark:text-red-400">*</span>
+			</label>
+			<textarea 
+				id="comment-content" 
+				name="content" 
+				required 
+				rows="5"
+				maxlength="10000"
+				placeholder="Share your thoughts..."
+				class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
+							 bg-white dark:bg-gray-800 
+							 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+							 transition-colors resize-y min-h-[120px]"
+			></textarea>
+		</div>
+
+		<div class="mt-6">
+			<button 
+				type="submit" 
+				id="submit-btn"
+				class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 
+							 text-white font-medium rounded-md 
+							 transition-colors disabled:cursor-not-allowed"
+			>
+				<span class="btn-text">Submit Comment</span>
+				<span class="btn-loading hidden">Submitting...</span>
+			</button>
+		</div>
+
+		<div 
+			id="form-status" 
+			class="mt-4 p-4 rounded-md hidden"
+			data-success-class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800"
+			data-error-class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800"
+		></div>
+	</form>
+
+	<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+		Comments are moderated and will appear after approval.
+	</p>
+</section>
+
+<script>
+	const form = document.getElementById('comment-form') as HTMLFormElement;
+	const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+	const btnText = submitBtn.querySelector('.btn-text') as HTMLSpanElement;
+	const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLSpanElement;
+	const formStatus = document.getElementById('form-status') as HTMLDivElement;
+
+	const workerUrl = form.dataset.workerUrl;
+	const postSlug = form.dataset.postSlug;
+	const successClass = formStatus.dataset.successClass || '';
+	const errorClass = formStatus.dataset.errorClass || '';
+
+	form.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		// Get form data
+		const formData = new FormData(form);
+		const data = {
+			postSlug,
+			name: formData.get('name') as string,
+			email: formData.get('email') as string,
+			website: formData.get('website') as string,
+			content: formData.get('content') as string,
+			surname: formData.get('surname') as string, // honeypot
+		};
+
+		// Disable form
+		submitBtn.disabled = true;
+		btnText.classList.add('hidden');
+		btnLoading.classList.remove('hidden');
+		formStatus.classList.add('hidden');
+
+		try {
+			const response = await fetch(workerUrl!, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
+			const result = await response.json();
+
+			if (response.ok && result.success) {
+				formStatus.textContent = 'Thank you! Your comment has been submitted for review.';
+				formStatus.className = `mt-4 p-4 rounded-md ${successClass}`;
+				form.reset();
+			} else {
+				throw new Error(result.error || 'Failed to submit comment');
+			}
+		} catch (error) {
+			formStatus.textContent = error instanceof Error 
+				? error.message 
+				: 'Something went wrong. Please try again.';
+			formStatus.className = `mt-4 p-4 rounded-md ${errorClass}`;
+		} finally {
+			submitBtn.disabled = false;
+			btnText.classList.remove('hidden');
+			btnLoading.classList.add('hidden');
+		}
+	});
+</script>
