@@ -1,0 +1,10 @@
+{
+    "[mdx]": {
+        "editor.quickSuggestions": false,
+        "editor.acceptSuggestionOnCommit": false
+    },
+    "[markdown]": {
+        "editor.quickSuggestions": false,
+        "editor.acceptSuggestionOnCommit": false
+    }
+}
