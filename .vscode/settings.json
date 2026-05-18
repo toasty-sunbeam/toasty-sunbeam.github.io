@@ -1,10 +1,18 @@
 {
     "[mdx]": {
-        "editor.quickSuggestions": false,
+        "editor.quickSuggestions": {
+            "comments": "off",
+            "strings": "off",
+            "other": "off"
+        },
         "editor.acceptSuggestionOnCommit": false
     },
     "[markdown]": {
-        "editor.quickSuggestions": false,
+        "editor.quickSuggestions": {
+            "comments": "off",
+            "strings": "off",
+            "other": "off"
+        },
         "editor.acceptSuggestionOnCommit": false
     }
 }
