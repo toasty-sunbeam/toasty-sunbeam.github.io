@@ -73,13 +73,14 @@
     .blog-layout {
         display: grid;
         gap: 2rem;
-        max-width: 90rem;
+        max-width: 80rem;
         /* Increased max width for 3 columns */
         grid-template-columns: 220px 1fr 220px;
     }
 
     .blog-content {
         order: unset;
+        max-width: 50rem;
     }
 
     .left-sidebar {
