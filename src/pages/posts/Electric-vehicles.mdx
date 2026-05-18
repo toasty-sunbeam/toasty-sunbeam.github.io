@@ -1,19 +1,37 @@
 ---
-title: "Our first year with an electric vehicle"
+title: "Should you buy an electric vehicle?"
 pubDate: 2026-05-17
 layout: '../../layouts/BlogPostLayout.astro'
-cardColor: yellow
+cardColor: green
+toc: true
+toc_sticky: true
+toc_label: Table of Contents
 ---
+
+import { Image } from 'astro:assets';
+import CarTypes from '/src/assets/posts/Electric-vehicles/Car types.png';
+import Mordin from '/src/assets/posts/Electric-vehicles/Mordin.jpg';
+import MordinWrecked from '/src/assets/posts/Electric-vehicles/Mordin-wrecked.jpg';
+import ShepardAndStella from '/src/assets/posts/Electric-vehicles/Shepard and Stella.jpg';
+import ShepardLoaded from '/src/assets/posts/Electric-vehicles/Shepard loaded.jpg';
+
+<style>{`
+.photo {
+	display: block;
+	margin: 1em auto;
+	max-width: 80%;
+}
+`}</style>
 
 ## Introduction
 
 I've always been a computer guy, not a car guy. But as cars get more computers in them and get more high-tech, they get more interesting to me, and the rise of electric vehicles has been very interesting indeed. Electric vehicles are innovating at a smartphone-like cadence -- every year sees major improvements in range and charging speed. In January of 2024, after extensive research, I decided to take the plunge and buy an electric vehicle. This post will share my research, the results, and my recommendations for those considering buying their own EV.
 
-I should begin by cautioning the reader about the information environment surrounding EVs. Energy is big business. Cars are big business. Both of these topics have big political implications, so you should expect to encounter misinformation surrounding them. In addition to the political spin, details about EVs can be pretty technical and can also change as the technology rapidly evolves, so even normally-trustworthy general-purpose sources like _Consumer Reports_ sometimes get important things wrong.
+I should begin by cautioning the reader about the information environment surrounding EVs. Energy is big business. Cars are big business. Both of these topics have big political implications, so you should expect to encounter misinformation surrounding them. In addition to the political spin, details about EVs can be pretty technical and can also change as the technology rapidly evolves, so even normally-trustworthy general-purpose sources like _Consumer Reports_ sometimes get important things wrong. But if you're willing to dive in and learn the details, huge benefits are yours for the taking.
 
 ## Should I buy an EV?
 
-### Operating cost
+### Charging
 
 The most important determinant of whether you'll be happy with an EV is your charging situation. First, will you be able to install a charger where you park your EV every night? If you own your home, the answer is probably yes. If you live in an apartment complex, the answer is probably no, unless you can persuade the owners to install one.
 
@@ -21,7 +39,9 @@ Second, what kind of rates does your electric utility provide for off-peak elect
 
 Okay, that covers cost of fuel/energy. Before I finish talking about operating cost, it's time for acronyms!
 
-### Plug-in hybrids, and their tradeoffs
+### Plug-in hybrids and their tradeoffs
+
+<Image src={CarTypes} class="photo" alt="Comparison diagram of ICE, BEV, and PHEV cars" />
 
 These three acronyms describe the three major categories of electric and non-electric vehicles:
 
@@ -39,13 +59,13 @@ Many Americans love the *idea* of road trips. If you are a person who *actually 
 
 If you have loads of money to spend, the sky's the limit. You have dozens of options. But if you're not in the market for a luxury vehicle, the two most popular cars at the low end of the pricing scale are the Nissan Leaf and the Chevy Bolt. I recommend test-driving both.
 
-The Leaf was the world's first mass-market EV all the way back in 2009. They made some decisions others have improved on. My biggest concern about the Leaf is that it uses an older charging connector called CHAdeMO; this connector is becoming less popular, and I am concerned that eventually it will become hard to find compatible charging stations. Leaf batteries also don't have liquid cooling systems, instead relying on the surrounding air; this makes charging take a long time when it's hot out, and it can degrade the batteries over time. On the plus side, if you have a power outage, the Leaf's battery can [power the appliances in your home](https://www.inverse.com/input/tech/nissan-leaf-bidirectional-charging-vehicle-to-grid), potentially for several days.
+The Leaf was the world's first mass-market EV all the way back in 2009. They made some decisions others have improved on. My biggest concern about the Leaf is that it uses an older charging connector called CHAdeMO; this connector is becoming less popular, and I am concerned that eventually it will become hard to find compatible charging stations. Leaf batteries also don't have liquid cooling systems, instead relying on the surrounding air; this makes charging take a long time when it's hot out, and it can degrade the batteries over time. (Both of these concerns were fixed in model year 2026, but those are still quite expensive.) On the plus side, if you have a power outage, the Leaf's battery can [power the appliances in your home](https://www.inverse.com/input/tech/nissan-leaf-bidirectional-charging-vehicle-to-grid), potentially for several days.
 
 The other popular choice is the Chevy Bolt. The Bolt comes in 2 variants: the Bolt EV and the Bolt EUV. The Bolt EUV is an SUV; the Bolt EV is a hatchback, and it's slightly smaller. Both are good, but my wife and I picked the EV. It's a solid all-around car with a good infotainment system and good safety features. They redesigned the infotainment system in 2022, and it was a big enough improvement that we didn't want to go back past that model year. It gets about 200 miles of range, and a DC fast-charger will get it back up to 80% in about an hour, after which charging slows down (as with most current EVs). I decided to get the 2LT trim, as that had some safety features I wanted, me being still traumatized by maniacal Dallas drivers.
 
 _Consumer Reports_ gives the 2022 Chevy Bolt a poor rating for reliability. As far as I can tell this is because sometimes their batteries used to catch fire. Chevy recalled every Bolt ever built and replaced all their batteries, and now they work fine. It's my view that whether your product works perfectly the first time is less important than how well you take responsibility for your mistakes and make sure they get fixed. Chevy stood behind their product and gave all their customers new batteries (including new warranties); that gives me a lot of confidence that they'll continue to stand behind their cars in the future.
 
-Chevy discontinued the Bolt in 2024; they plan to release the 2027 Bolt later this year. The main thing we know about the '27' Bolt is that it will no longer use Android Auto or Apple CarPlay, which project music and driving directions from your phone into the car's infotainment system. Instead it will use Android Automotive, a Google-built OS that runs its own software and uses its own internet connection instead of using your phone, which they will probably charge you a monthly subscription for. I haven't used Android Automotive, but lots of people are unhappy about this decision. I think there's a strong case to be made that the 2022-23 Bolt vehicles may be the best affordable EVs on the market for some time.
+Chevy discontinued the Bolt in 2024; they plan to release the 2027 Bolt later this year. The main thing we know about the &rsquo;27 Bolt is that it will no longer use Android Auto or Apple CarPlay, which project music and driving directions from your phone into the car's infotainment system. Instead it will use Android Automotive, a Google-built OS that runs its own software and uses its own internet connection instead of using your phone, which they will probably charge you a monthly subscription for. I haven't used Android Automotive, but lots of people are unhappy about this decision. I think there's a strong case to be made that the 2022-23 Bolt vehicles may be the best affordable EVs on the market for some time.
 
 ## Installing a charger
 
@@ -61,14 +81,26 @@ Lots of vendors will sell you a level 2 charger. (Chevy will even give you one i
 
 ## The Bolt Is Dead. Long Live the Bolt.
 
-We bought our '22 Bolt EV 2LT in January of 2024, naming him "Mordin" after a favorite video game character. In September of 2024, my wife was stopped at a stoplight when a truck smacked into her. Mordin gave its life to protect her.
+<Image src={Mordin} class="photo" alt="Mordin, our white Chevy Bolt EV" />
 
-With our Bolt totaled, we switched back to Holly's venerable Pontiac Vibe "Stella". We badly missed our Bolt; we spent over a year saving up for a replacement. Then in January of 2026, Stella started blowing smoke out of her engine compartment, and it became clear that the hour was at hand. We traded Stella for a '22 Bolt EUV Premier and named it "Shepard". The EUV being a little larger than the EV is really nice when Holly needs to haul supplies and merchandise for her stained glass business. The virtual overhead camera makes parallel parking easy. And it's really nice to wake up every morning with the car charged up so we don't need to visit the gas station.
+We bought our &rsquo;22 Bolt EV 2LT in January of 2024, naming him "Mordin" after a favorite video game character. In September of 2024, my wife was stopped at a stoplight when a truck smacked into her. Mordin gave its life to protect her.
+
+<Image src={MordinWrecked} class="photo" alt="The same car, with the front right quarter smashed in" />
+
+With our Bolt totaled, we switched back to Holly's venerable Pontiac Vibe "Stella". We badly missed our Bolt; we spent over a year saving up for a replacement. Then in January of 2026, Stella started blowing smoke out of her engine compartment, and it became clear that the hour was at hand. We traded Stella for a &rsquo;22 Bolt EUV Premier and named it "Shepard".
+
+<Image src={ShepardAndStella} class="photo" alt="A silver Chevy Bolt EUV alongside a teal Pontiac Vibe. My wife Holly stands between them, looking lovingly at the Vibe." />
+
+The EUV being a little larger than the EV is really nice when Holly needs to haul supplies and merchandise for her stained glass business. And it's really nice to wake up every morning with the car charged up so we don't need to visit the gas station.
+
+<Image src={ShepardLoaded} class="photo" alt="Our silver Bolt EUV, loaded completely full with boxes, suitcases, and a cat carrier. Holly is next to it, looking excited." />
+
+Shepard is incredibly quiet. It's so quiet that at low speeds it plays a soft sci-fi humming sound so that pedestrians know it's there. When accelerating, it sounds like the Batmobile. It has proximity sensors to let you know if someone's getting too close, and the virtual overhead camera makes parallel parking easy and safe. If you start to drift out of your lane, it will nudge you back in, and it automatically maintains following distance to the next car.
 
 ## Conclusion
 
 I'm extremely happy with my EV. I never want to go back. You never realize how much time and money you waste at gas stations until you don't have to do it any more. I'm looking forward to a day when most cars are electric and there's no exhaust smell as you walk down a busy road.
 
-To help you figure out the cost difference, [I made this spreadsheet](https://docs.google.com/spreadsheets/d/187zEBg-sRATTNvxQ3rqfCqKm-P6YNqOkpOKdeu809Yg/edit?usp=sharing). It's filled in with numbers from my own experience; you can make a copy and fill in your own figures to see if an EV makes sense for you.
+To help you figure out the cost difference, [<Image src="https://ssl.gstatic.com/docs/spreadsheets/spreadsheets_2023q4.ico" alt="" width="16" height="16" class="inline" /> I made this spreadsheet](https://docs.google.com/spreadsheets/d/187zEBg-sRATTNvxQ3rqfCqKm-P6YNqOkpOKdeu809Yg/edit?usp=sharing). It's filled in with numbers from my own experience; you can make a copy and fill in your own figures to see if an EV makes sense for you.
 
-There's a lot to learn about EVs, but they already make good financial sense. Next time you go car shopping, I hope you consider going electric.
+There's a lot to learn about EVs, but depending on your charging situation they're already a lot cheaper than traditional cars. If you have questions, drop a comment below and I'll answer what I can.
