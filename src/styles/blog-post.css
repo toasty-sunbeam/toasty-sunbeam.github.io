@@ -24,6 +24,11 @@
     margin-left: 1em;
 }
 
+.blog-content ul li {
+    list-style: disc;
+    margin-left: 1em;
+}
+
 .blog-content li {
     margin-bottom: .5em;
 }
