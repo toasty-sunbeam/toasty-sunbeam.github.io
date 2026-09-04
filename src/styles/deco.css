@@ -80,11 +80,13 @@ body.deco-body {
 	--deco-line: color-mix(in oklab, var(--deco-metal) 45%, transparent);
 	--deco-line-faint: color-mix(in oklab, var(--deco-metal) 20%, transparent);
 
-	/* The rays are their own layer so a page that wants a quieter ground --
-	   a long article, say -- can switch them off without restating the rest. */
-	--deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
-		color-mix(in oklab, var(--deco-metal) 6%, transparent) 0deg 1.6deg,
-		transparent 1.6deg 8deg);
+	/* No rays: the sunbeam is the light source on the home page, and a second
+	   one fanning out of the top center argues with it. Kept as a layer so
+	   putting them back is this one line.
+	   --deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
+	       color-mix(in oklab, var(--deco-metal) 6%, transparent) 0deg 1.6deg,
+	       transparent 1.6deg 8deg); */
+	--deco-rays: none;
 	--deco-grid: rgba(241, 231, 212, 0.035);
 	--deco-masthead-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 
@@ -157,10 +159,8 @@ body.deco-body {
 	--deco-pink: #a04f66;
 	--deco-gray: #55626c;
 
-	/* No rays on paper: the sunbeam is the light source here, and a second
-	   one fanning out of the top center argues with it. The graph paper has to
-	   invert as well: pale lines at 3.5% read on ink and vanish on cream. */
-	--deco-rays: none;
+	/* The graph paper has to invert: pale lines at 3.5% read on ink and
+	   vanish on cream. */
 	--deco-grid: rgba(27, 37, 48, 0.055);
 	--deco-masthead-shadow: none;
 	}
@@ -200,10 +200,8 @@ html[data-theme='light'] body.deco-body:not(.deco-post) {
 	--deco-pink: #a04f66;
 	--deco-gray: #55626c;
 
-	/* No rays on paper: the sunbeam is the light source here, and a second
-	   one fanning out of the top center argues with it. The graph paper has to
-	   invert as well: pale lines at 3.5% read on ink and vanish on cream. */
-	--deco-rays: none;
+	/* The graph paper has to invert: pale lines at 3.5% read on ink and
+	   vanish on cream. */
 	--deco-grid: rgba(27, 37, 48, 0.055);
 	--deco-masthead-shadow: none;
 }

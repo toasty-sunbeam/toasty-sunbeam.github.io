@@ -18,11 +18,6 @@
        dashed, the way an auxiliary line is.
    ===================================================================== */
 
-/* A long article wants a calmer ground than the masthead does. */
-body.deco-post {
-	--deco-rays: none;
-}
-
 .deco-post {
 	padding-block: clamp(1.25rem, 4vw, 2.5rem);
 	font-family: 'Rosario', sans-serif;

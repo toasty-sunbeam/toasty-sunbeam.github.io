@@ -3,12 +3,22 @@
  * lands on the masthead.
  *
  * It's a single fragment shader over the viewport, drawn as an ordinary
- * translucent overlay: a gentle cool shade over the page with the shaft cut
- * out of it, plus a little warmth inside the shaft. The paper never gets
- * brighter than paper; everything around the beam gets dimmer, which is both
- * how sunlight indoors actually reads and the only way it can read here --
- * adding light to near-white cream does nothing, and the first attempt at
- * this, with `screen`, was invisible.
+ * translucent overlay. Which direction it works in depends on the ground,
+ * and that is the whole difference between the two schemes:
+ *
+ *   on paper  there is no headroom to add light to cream -- the first
+ *             attempt at this used `screen` and was invisible -- so the
+ *             shader lays a gentle cool shade over the page and cuts the
+ *             shaft out of it. The paper never gets brighter than paper;
+ *             everything around the beam gets dimmer, which is also how
+ *             sunlight indoors actually reads.
+ *   on ink    all the headroom in the world, so the beam is simply warm
+ *             light laid over the page and there is no ambient shade at all.
+ *
+ * Both are the same shader with different numbers. Even the dust follows the
+ * rule: a mote is more light, and which direction more light lies in depends
+ * on the ground -- clearer than its surroundings on paper, brighter than them
+ * on ink.
  *
  * Plain alpha rather than a blend mode: `mix-blend-mode` on a fixed element
  * comes unstuck from the viewport when the page scrolls in Chromium, leaving
@@ -19,8 +29,6 @@
  * an uneven aperture, a slow drift of haze, dust caught in it, and a brighter
  * pool where it lands. The landing point is measured from the masthead rather
  * than hardcoded, so the beam keeps finding the name at any width.
- *
- * Light mode only; CSS hides the element in dark, and this stops drawing.
  */
 
 const VERTEX = `
@@ -44,7 +52,11 @@ uniform vec2 uDir;         // unit vector along the beam, y down
 uniform vec2 uTarget;      // the middle of the name
 uniform float uReach;      // distance from source to target
 uniform float uHalfWidth;  // half the shaft's width at the target
-uniform float uShade;
+uniform float uShade;      // deepest ambient shade; nothing on ink
+uniform vec3 uShadeColor;
+uniform float uLit;        // how much light the shaft lays down
+uniform vec3 uLitColor;
+uniform float uMoteLift;   // which way a mote carries, away from the ground
 uniform float uSpan;
 
 float hash(vec2 p) {
@@ -132,30 +144,58 @@ void main() {
 	}
 
 	// Ambient shade, deepening with distance from where the light comes in.
-	// Cool, but only a little: the paper is warm cream and too much blue in
-	// the shade turns the whole page gray.
+	// On paper it's cool, but only a little: the ground is warm cream and too
+	// much blue in the shade turns the whole page gray. On ink uShade is 0 and
+	// this falls away to nothing.
 	float away = clamp(length(p - uSource) / uSpan, 0.0, 1.0);
 	float shadeAlpha = uShade * (0.72 + 0.28 * away);
-	vec3 shadeColor = vec3(0.22, 0.26, 0.38);
 
-	// Inside the shaft, a wash of warmth instead. Kept light, so the lit
-	// paper stays close to paper and reads as the bright part of the page.
-	vec3 warmColor = vec3(1.0, 0.93, 0.76);
+	float alpha = mix(shadeAlpha, uLit, lit);
+	vec3 color = mix(uShadeColor, uLitColor, lit);
 
-	float alpha = mix(shadeAlpha, 0.1, lit);
-	vec3 color = mix(shadeColor, warmColor, lit);
-
-	// Motes read as specks of paper with nothing over them at all.
-	alpha *= 1.0 - motes * 0.85;
+	// A mote is more light. On paper that means less of the shade over it; on
+	// ink it means more of the warm light on it. Same sentence, opposite sign.
+	alpha = clamp(alpha + motes * uMoteLift, 0.0, 1.0);
+	color = mix(color, vec3(1.0, 0.97, 0.90), motes * 0.55);
 
 	gl_FragColor = vec4(color * alpha, alpha);
 }`;
 
 interface Running {
+	refresh(): void;
 	stop(): void;
 }
 
-function prefersLight(): boolean {
+interface Ground {
+	shade: number;
+	shadeColor: [number, number, number];
+	lit: number;
+	litColor: [number, number, number];
+	moteLift: number;
+}
+
+const PAPER: Ground = {
+	shade: 0.16,
+	shadeColor: [0.22, 0.26, 0.38],
+	lit: 0.1,
+	litColor: [1.0, 0.93, 0.76],
+	moteLift: -0.12,
+};
+
+// 0.21 is not a taste decision: the beam brightens the ground it crosses, and
+// above about 0.22 the dimmed text on a post card stops clearing 4.5:1 where
+// the shaft passes over one. The motes go past that ceiling at their centers,
+// which is a two-pixel point drifting through the shaft rather than anything
+// text sits on.
+const INK: Ground = {
+	shade: 0,
+	shadeColor: [0, 0, 0],
+	lit: 0.21,
+	litColor: [1.0, 0.86, 0.62],
+	moteLift: 0.16,
+};
+
+function onPaper(): boolean {
 	const chosen = document.documentElement.dataset.theme;
 	if (chosen === 'light') return true;
 	if (chosen === 'dark') return false;
@@ -216,6 +256,10 @@ function start(root: HTMLElement): Running | null {
 	const uReach = uniform('uReach');
 	const uHalfWidth = uniform('uHalfWidth');
 	const uShade = uniform('uShade');
+	const uShadeColor = uniform('uShadeColor');
+	const uLit = uniform('uLit');
+	const uLitColor = uniform('uLitColor');
+	const uMoteLift = uniform('uMoteLift');
 	const uSpan = uniform('uSpan');
 
 	let width = 0;
@@ -263,8 +307,14 @@ function start(root: HTMLElement): Running | null {
 		gl.uniform2f(uTarget, target.x, target.y);
 		gl.uniform1f(uReach, reach);
 		gl.uniform1f(uHalfWidth, halfWidth);
-		gl.uniform1f(uShade, 0.16);
 		gl.uniform1f(uSpan, Math.hypot(width, height) * 1.15);
+
+		const ground = onPaper() ? PAPER : INK;
+		gl.uniform1f(uShade, ground.shade);
+		gl.uniform3fv(uShadeColor, ground.shadeColor);
+		gl.uniform1f(uLit, ground.lit);
+		gl.uniform3fv(uLitColor, ground.litColor);
+		gl.uniform1f(uMoteLift, ground.moteLift);
 	}
 
 	const still = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -306,6 +356,10 @@ function start(root: HTMLElement): Running | null {
 	still.addEventListener('change', play);
 
 	return {
+		refresh() {
+			layout();
+			play();
+		},
 		stop() {
 			cancelAnimationFrame(frame);
 			resizeObserver.disconnect();
@@ -324,16 +378,17 @@ function start(root: HTMLElement): Running | null {
 let running: Running | null = null;
 
 function sync() {
-	const root = document.querySelector('.deco-sunbeam');
-	const wanted = root instanceof HTMLElement && prefersLight();
-	if (wanted && !running) {
-		// If WebGL isn't available the element keeps its CSS beam, which is
-		// the same shape without the volume.
-		running = start(root as HTMLElement);
-	} else if (!wanted && running) {
-		running.stop();
-		running = null;
+	if (running) {
+		// The scheme is a handful of uniforms, so switching it is a redraw
+		// rather than a teardown.
+		running.refresh();
+		return;
 	}
+	const root = document.querySelector('.deco-sunbeam');
+	if (!(root instanceof HTMLElement)) return;
+	// If WebGL isn't available the element keeps its CSS beam, which is the
+	// same shape without the volume.
+	running = start(root);
 }
 
 function teardown() {

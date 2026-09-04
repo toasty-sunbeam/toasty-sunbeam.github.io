@@ -97,37 +97,35 @@ html[data-theme='light'] .deco-theme-toggle__mark {
    The sunbeam
 
    Comes in over the top right and lands on the masthead. The shading is a
-   fragment shader (scripts/sunbeam.ts) drawn across the viewport: on cream
-   paper there is no headroom to add light, so it lays a gentle shade over
-   the page and cuts the shaft out of it. Fixed rather than scrolled -- the
-   light stays where it is in the room while the page moves past it. Light
-   mode only.
+   fragment shader (scripts/sunbeam.ts) drawn across the viewport, in both
+   schemes -- what changes is the direction it works in. On ink it lays warm
+   light over the page. On paper there is no headroom to add light to cream,
+   so it lays a gentle shade over the page and cuts the shaft out of it
+   instead. Fixed rather than scrolled: the light stays where it is in the
+   room while the page moves past it.
 
    No `mix-blend-mode` anywhere here: on a fixed element it comes unstuck
    from the viewport when the page scrolls in Chromium, leaving a hard seam
    across the page. Plain translucent overlay instead.
 
-   What's below is the shape without the volume, for no JavaScript, no
-   WebGL, or a context that failed to come up: one gradient run perpendicular
-   to the beam, shaded at both ends and clear through the middle. The script
-   adds `is-live` once the shader is running, which puts it away.
+   The gradients below are the shape without the volume, for no JavaScript,
+   no WebGL, or a context that failed to come up: one run perpendicular to
+   the beam. On ink that's a warm band and nothing else; on paper it's shade
+   at both ends and clear through the middle. The script adds `is-live` once
+   the shader is running, which puts them away.
    ===================================================================== */
 
 .deco-sunbeam {
 	position: fixed;
 	inset: 0;
 	z-index: 3;
-	display: none;
 	overflow: hidden;
 	pointer-events: none;
 	background-image: linear-gradient(164deg,
-		rgba(56, 66, 97, 0.11) 0%,
-		rgba(56, 66, 97, 0.11) 26%,
-		rgba(56, 66, 97, 0) 38%,
-		rgba(255, 238, 205, 0.16) 44%,
-		rgba(56, 66, 97, 0) 50%,
-		rgba(56, 66, 97, 0.11) 62%,
-		rgba(56, 66, 97, 0.13) 100%);
+		rgba(255, 214, 150, 0) 32%,
+		rgba(255, 214, 150, 0.13) 43%,
+		rgba(255, 224, 170, 0.17) 47%,
+		rgba(255, 214, 150, 0) 58%);
 }
 
 .deco-sunbeam canvas {
@@ -147,12 +145,26 @@ html[data-theme='light'] .deco-theme-toggle__mark {
 @media (prefers-color-scheme: light) {
 
 	html:not([data-theme='dark']) .deco-sunbeam {
-		display: block;
+		background-image: linear-gradient(164deg,
+			rgba(56, 66, 97, 0.11) 0%,
+			rgba(56, 66, 97, 0.11) 26%,
+			rgba(56, 66, 97, 0) 38%,
+			rgba(255, 238, 205, 0.16) 44%,
+			rgba(56, 66, 97, 0) 50%,
+			rgba(56, 66, 97, 0.11) 62%,
+			rgba(56, 66, 97, 0.13) 100%);
 	}
 }
 
 html[data-theme='light'] .deco-sunbeam {
-	display: block;
+	background-image: linear-gradient(164deg,
+		rgba(56, 66, 97, 0.11) 0%,
+		rgba(56, 66, 97, 0.11) 26%,
+		rgba(56, 66, 97, 0) 38%,
+		rgba(255, 238, 205, 0.16) 44%,
+		rgba(56, 66, 97, 0) 50%,
+		rgba(56, 66, 97, 0.11) 62%,
+		rgba(56, 66, 97, 0.13) 100%);
 }
 
 /* =====================================================================
