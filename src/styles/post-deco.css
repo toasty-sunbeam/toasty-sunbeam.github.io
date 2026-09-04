@@ -31,7 +31,7 @@
 .deco-post .site-name {
 	display: block;
 	margin-bottom: 1.25rem;
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-size: 0.9rem;
 	font-weight: 400;
 	letter-spacing: 0.28em;
@@ -98,7 +98,7 @@
 
 .deco-post .blog-content h1 {
 	margin: 0;
-	font-family: 'Poiret One', 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-size: clamp(1.9rem, 4.5vw, 2.6rem);
 	font-style: normal;
 	font-weight: 400;
@@ -114,7 +114,7 @@
 	align-items: center;
 	gap: 0.5rem 0.85rem;
 	margin: 0.7rem 0 0.9rem;
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-size: 0.78rem;
 	letter-spacing: 0.2em;
 	text-transform: uppercase;
@@ -134,7 +134,7 @@
 .deco-post .blog-content h2,
 .deco-post .blog-content h3 {
 	margin-top: 2rem;
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-weight: 600;
 	letter-spacing: 0.06em;
 	color: var(--deco-metal-em);
@@ -216,7 +216,7 @@
 }
 
 .deco-post .blog-content th {
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--deco-metal-em);
@@ -254,7 +254,7 @@
 }
 
 .deco-post .comments h3 {
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-weight: 400;
 	letter-spacing: 0.24em;
 	text-transform: uppercase;
@@ -271,14 +271,14 @@
 }
 
 .deco-post .comments time {
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--deco-text-dim);
 }
 
 .deco-post .comments label {
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	letter-spacing: 0.1em;
 	color: var(--deco-text);
 }
@@ -311,7 +311,7 @@
 	border: 1px solid var(--deco-metal);
 	border-radius: 0;
 	background-color: transparent;
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
 	color: var(--deco-metal-em);

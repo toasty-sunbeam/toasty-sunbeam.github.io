@@ -11,7 +11,7 @@
 
 .deco-home {
 	position: relative;
-	font-family: 'Josefin Sans', 'Rosario', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	padding-block: clamp(1.5rem, 5vw, 3rem);
 }
 
@@ -174,11 +174,10 @@ html[data-theme='light'] .deco-sunbeam {
 .deco-masthead {
 	position: relative;
 	margin: 0;
-	font-family: 'Poiret One', 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-size: clamp(2rem, 7vw, 3rem);
+	font-weight: 300;
 	line-height: 1.05;
-	letter-spacing: 0.16em;
-	text-transform: uppercase;
 	color: var(--deco-metal-em);
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
@@ -377,7 +376,7 @@ html[data-theme='light'] .deco-sunbeam {
 
 .deco-card__title {
 	margin: 0;
-	font-family: 'Poiret One', 'Josefin Sans', sans-serif;
+	font-family: 'Rosario', sans-serif;
 	font-size: 1.3rem;
 	font-style: normal;
 	letter-spacing: 0.06em;
