@@ -17,9 +17,14 @@
                    lines that form the angle. Goes on real 90-degree corners
                    and nowhere else.
      midpoint mark one hatch on each half of a segment: the halves are
-                   congruent, so the point between them is the midpoint.
-                   Self-contained, which is what makes it safe to repeat on
-                   cards of different sizes.
+                   congruent, so the point between them is the midpoint. On
+                   the rule under the masthead.
+     congruence    three hatches on an edge: this edge is congruent to the
+                   others carrying the same count. On the top edge of the
+                   three panels in the left column, which are all a column
+                   wide and so really are congruent. The post cards get no
+                   hatching at all -- their heights differ, so there is
+                   nothing for a mark on them to be congruent to.
      vertex dot    a segment's endpoint, where no second line makes a corner.
      angle arc     the arc across an angle. A square corner is already fully
                    described by .deco-ra, so an arc there would be both wrong
@@ -309,16 +314,17 @@ body.deco-body {
 	border-radius: 0;
 	background-color: var(--deco-panel);
 	background-image:
-		/* one hatch on each half of the top edge, marking its midpoint */
-		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
-		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
+		/* three hatches: the three panels are a column wide apiece, so their
+		   top edges are congruent and all three carry the same count */
+		repeating-linear-gradient(to right,
+			var(--deco-hatch) 0 1px, transparent 1px 6px),
 		linear-gradient(160deg,
 			color-mix(in oklab, var(--deco-accent) 10%, transparent) 0%,
 			transparent 55%);
-	background-size: 1px 0.5rem, 1px 0.5rem, auto;
-	background-position: 25% top, 75% top, 0 0;
+	background-size: 13px 0.4rem, auto;
+	background-position: center top, 0 0;
 	background-repeat: no-repeat;
-	background-origin: border-box, border-box, padding-box;
+	background-origin: border-box, padding-box;
 	color: var(--deco-ivory);
 }
 
@@ -427,24 +433,15 @@ body.deco-body {
 
 .deco-home .deco-card {
 	position: relative;
-	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, white);
 	margin-bottom: 1rem;
 	padding: 0.7rem 1rem 0.9rem 1.4rem;
 	border: 1px solid var(--deco-line-faint);
 	border-left: 2px solid var(--deco-accent);
 	border-radius: 0;
 	background-color: var(--deco-panel);
-	background-image:
-		/* one hatch on each half of the left edge, marking its midpoint */
-		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
-		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
-		linear-gradient(105deg,
-			color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
-			transparent 45%);
-	background-size: 0.55rem 1px, 0.55rem 1px, auto;
-	background-position: left 25%, left 75%, 0 0;
-	background-repeat: no-repeat;
-	background-origin: border-box, border-box, padding-box;
+	background-image: linear-gradient(105deg,
+		color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
+		transparent 45%);
 	color: var(--deco-ivory);
 	transition: transform 0.25s ease, border-color 0.25s ease,
 		background-color 0.25s ease;
