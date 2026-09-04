@@ -16,10 +16,10 @@ const { id, number, html } = Astro.props;
     .sidebar-footnote {
         font-size: 0.85rem;
         line-height: 1.4;
-        color: var(--deco-ivory-dim);
+        color: var(--deco-text-dim);
         margin-bottom: 0.5rem;
         padding: 0.5rem 0.6rem;
-        background: color-mix(in oklab, var(--deco-panel) 70%, transparent);
+        background: color-mix(in oklab, var(--deco-surface) 70%, transparent);
         border: 1px solid var(--deco-line-faint);
         border-left: 2px solid var(--deco-accent);
         width: 100%;
@@ -30,11 +30,11 @@ const { id, number, html } = Astro.props;
     }
 
     .sidebar-footnote b {
-        color: var(--deco-brass-lit);
+        color: var(--deco-metal-em);
     }
 
     .sidebar-footnote :global(a) {
-        color: var(--deco-ivory);
+        color: var(--deco-text);
     }
 
     .sidebar-footnote :global(p) {

@@ -118,7 +118,7 @@
     bottom: 1rem;
     left: 1rem;
     right: 1rem;
-    background: var(--deco-panel, #f0f9ff);
+    background: var(--deco-surface, #f0f9ff);
     border: 1px solid var(--deco-line, transparent);
     border-left: 2px solid var(--deco-accent, transparent);
     padding: 1rem;
@@ -126,7 +126,7 @@
     z-index: 1000;
     font-size: 0.9rem;
     line-height: 1.5;
-    color: var(--deco-ivory, #333);
+    color: var(--deco-text, #333);
 }
 
 .mobile-footnote-popup p {
@@ -148,14 +148,14 @@ html {
 .footnote-circle {
     position: absolute;
     transform: translate(-50%, -50%);
-    background-color: var(--deco-brass-lit, white);
+    background-color: var(--deco-metal-em, white);
     border-radius: 50%;
     width: 1.4em;
     height: 1.4em;
     display: none;
     align-items: center;
     justify-content: center;
-    color: var(--deco-ink, black);
+    color: var(--deco-ground, black);
     font-weight: bold;
     line-height: 1;
 }
@@ -171,7 +171,7 @@ html {
 .footnote-connecting-line {
     position: absolute;
     height: 0;
-    border-top: 1px dashed var(--deco-brass, white);
+    border-top: 1px dashed var(--deco-metal, white);
     pointer-events: none;
     display: none;
 }

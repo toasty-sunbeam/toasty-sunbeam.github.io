@@ -20,6 +20,17 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 			<span class="deco-ra deco-ra--tr" aria-hidden="true"></span>
 			<span class="deco-ra deco-ra--bl" aria-hidden="true"></span>
 			<span class="deco-ra deco-ra--br" aria-hidden="true"></span>
+			<div class="deco-toolbar">
+				<button
+					type="button"
+					class="deco-theme-toggle"
+					data-theme-toggle
+					title="Switch between light and dark"
+					aria-label="Switch between light and dark"
+				>
+					<span class="deco-theme-toggle__mark" aria-hidden="true"></span>
+				</button>
+			</div>
 			<div class="deco-fan" aria-hidden="true"></div>
 			<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-x-5 gap-y-4 max-w-3xl">
 				<h1 class="deco-masthead">James Harris</h1>

@@ -143,7 +143,7 @@ const tocHeadings = buildToc(filteredHeadings);
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
 		margin-bottom: 0.75rem;
-		color: color-mix(in oklab, var(--deco-accent) 72%, white);
+		color: color-mix(in oklab, var(--deco-accent) 72%, var(--deco-lift));
 		text-decoration: none;
 		cursor: pointer;
 	}
@@ -163,7 +163,7 @@ const tocHeadings = buildToc(filteredHeadings);
 	}
 
 	.toc-list a {
-		color: var(--deco-ivory-dim);
+		color: var(--deco-text-dim);
 		text-decoration: none;
 		transition: color 0.2s ease;
 		display: block;
@@ -173,13 +173,13 @@ const tocHeadings = buildToc(filteredHeadings);
 	}
 
 	.toc-list a:hover {
-		color: var(--deco-brass-lit);
+		color: var(--deco-metal-em);
 	}
 
 	/* Solid square bullet: Deco furniture, not diagram notation, so it makes
 	   no claim about the item it marks. */
 	.toc-list a.active {
-		color: var(--deco-brass-lit);
+		color: var(--deco-metal-em);
 		font-weight: 600;
 	}
 

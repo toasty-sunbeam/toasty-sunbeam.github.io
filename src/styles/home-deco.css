@@ -19,7 +19,7 @@
 	position: relative;
 	padding: clamp(1rem, 4vw, 2.5rem);
 	border: 1px solid var(--deco-line);
-	background: color-mix(in oklab, var(--deco-ink) 60%, transparent);
+	background: color-mix(in oklab, var(--deco-ground) 60%, transparent);
 }
 
 /* The corner markers belong to the inner rule, so they clear the outer
@@ -38,6 +38,61 @@
 	pointer-events: none;
 }
 
+/* =====================================================================
+   Color scheme toggle
+
+   A half-filled disc, which is the ordinary icon for this and happens to be
+   drawn out of the same circle-and-straight-edge parts as everything else.
+   Furniture, not notation: it describes no figure and asserts nothing.
+   ===================================================================== */
+
+.deco-toolbar {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: -0.5rem;
+}
+
+.deco-theme-toggle {
+	display: grid;
+	place-items: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	padding: 0;
+	border: 1px solid var(--deco-line);
+	border-radius: 0;
+	background: transparent;
+	cursor: pointer;
+	transition: border-color 0.2s ease;
+}
+
+.deco-theme-toggle:hover {
+	border-color: var(--deco-metal-em);
+}
+
+.deco-theme-toggle__mark {
+	width: 0.85rem;
+	height: 0.85rem;
+	border: 1px solid var(--deco-metal-em);
+	border-radius: 50%;
+	/* The filled half flips with the scheme, so the control shows a state
+	   rather than sitting there as a static icon. */
+	background-image: linear-gradient(90deg,
+		var(--deco-metal-em) 0 50%, transparent 50% 100%);
+}
+
+html[data-theme='light'] .deco-theme-toggle__mark {
+	background-image: linear-gradient(90deg,
+		transparent 0 50%, var(--deco-metal-em) 50% 100%);
+}
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme]) .deco-theme-toggle__mark {
+		background-image: linear-gradient(90deg,
+			transparent 0 50%, var(--deco-metal-em) 50% 100%);
+	}
+}
+
 /* The sunburst ornament sitting on the masthead. Its rays are a pencil of
    lines through one point, which makes it the only figure here with angles
    that aren't 90 degrees -- so it gets the page's only arcs. */
@@ -48,7 +103,7 @@
 	height: calc(var(--deco-fan-size) / 2);
 	margin: 0 auto clamp(0.75rem, 3vw, 1.5rem);
 	background-image: repeating-conic-gradient(from -1deg at 50% 100%,
-		var(--deco-brass) 0deg 2deg, transparent 2deg 9deg);
+		var(--deco-metal) 0deg 2deg, transparent 2deg 9deg);
 	background-repeat: no-repeat;
 	--deco-fan-mask: radial-gradient(circle calc(var(--deco-fan-size) / 2) at 50% 100%,
 		transparent 26%, #000 28%, #000 88%, transparent 100%);
@@ -73,7 +128,7 @@
 	width: calc(var(--deco-fan-size) * 0.62);
 	height: calc(var(--deco-fan-size) * 0.62);
 	transform: translate(-50%, 50%);
-	border: 1px solid var(--deco-brass-lit);
+	border: 1px solid var(--deco-metal-em);
 	border-radius: 50%;
 	-webkit-mask-repeat: no-repeat;
 	mask-repeat: no-repeat;
@@ -104,7 +159,7 @@
 	line-height: 1.05;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
-	color: var(--deco-brass-lit);
+	color: var(--deco-metal-em);
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 
@@ -115,7 +170,7 @@
 	height: 7px;
 	margin-top: 0.5rem;
 	background-image:
-		linear-gradient(var(--deco-brass), var(--deco-brass)),
+		linear-gradient(var(--deco-metal), var(--deco-metal)),
 		linear-gradient(var(--deco-line), var(--deco-line)),
 		linear-gradient(var(--deco-line), var(--deco-line));
 	background-size: 100% 2px, 100% 1px, 55% 1px;
@@ -132,12 +187,12 @@
 	/* Declared here, not on the body: a custom property built out of another
 	   one is substituted where it's declared, so a shared --deco-hatch would
 	   freeze at the brass default instead of following each panel's accent. */
-	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, white);
+	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, var(--deco-lift));
 	padding: 0.85rem 1.1rem 1.1rem;
 	border: 1px solid var(--deco-line);
 	border-top: 2px solid var(--deco-accent);
 	border-radius: 0;
-	background-color: var(--deco-panel);
+	background-color: var(--deco-surface);
 	background-image:
 		/* three hatches: the three panels are a column wide apiece, so their
 		   top edges are congruent and all three carry the same count */
@@ -150,7 +205,7 @@
 	background-position: center top, 0 0;
 	background-repeat: no-repeat;
 	background-origin: border-box, padding-box;
-	color: var(--deco-ivory);
+	color: var(--deco-text);
 }
 
 /* The two corners at the ends of that edge. Flush, so each marker's undrawn
@@ -187,7 +242,7 @@
 	letter-spacing: 0.24em;
 	text-transform: uppercase;
 	/* Lifted off the raw accent so the heading clears 4.5:1 on the panel. */
-	color: color-mix(in oklab, var(--deco-accent) 72%, white);
+	color: color-mix(in oklab, var(--deco-accent) 72%, var(--deco-lift));
 }
 
 .deco-panel__title::after {
@@ -229,7 +284,7 @@
 	display: block;
 	padding: 6px;
 	border: 1px solid var(--deco-line);
-	background: color-mix(in oklab, var(--deco-panel) 70%, transparent);
+	background: color-mix(in oklab, var(--deco-surface) 70%, transparent);
 	transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
@@ -244,7 +299,7 @@
 
 .deco-plate:hover,
 .deco-plate:focus-visible {
-	border-color: var(--deco-brass-lit);
+	border-color: var(--deco-metal-em);
 }
 
 .deco-plate:hover img,
@@ -263,11 +318,11 @@
 	border: 1px solid var(--deco-line-faint);
 	border-left: 2px solid var(--deco-accent);
 	border-radius: 0;
-	background-color: var(--deco-panel);
+	background-color: var(--deco-surface);
 	background-image: linear-gradient(105deg,
 		color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
 		transparent 45%);
-	color: var(--deco-ivory);
+	color: var(--deco-text);
 	transition: transform 0.25s ease, border-color 0.25s ease,
 		background-color 0.25s ease;
 }
@@ -297,7 +352,7 @@
 .deco-home .hover-card:hover .deco-card {
 	transform: translateX(3px);
 	border-color: color-mix(in oklab, var(--deco-accent) 55%, transparent);
-	background-color: var(--deco-panel-lift);
+	background-color: var(--deco-surface-lift);
 }
 
 .deco-card__title {
@@ -306,7 +361,7 @@
 	font-size: 1.3rem;
 	font-style: normal;
 	letter-spacing: 0.06em;
-	color: var(--deco-brass-lit);
+	color: var(--deco-metal-em);
 }
 
 .deco-card time {
@@ -315,13 +370,13 @@
 	font-size: 0.78rem;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
-	color: var(--deco-ivory-dim);
+	color: var(--deco-text-dim);
 }
 
 .deco-card p {
 	margin: 0.45rem 0 0;
 	font-family: 'Rosario', sans-serif;
-	color: color-mix(in oklab, var(--deco-ivory) 82%, transparent);
+	color: color-mix(in oklab, var(--deco-text) 82%, transparent);
 }
 
 /* =====================================================================
@@ -334,7 +389,7 @@
 }
 
 .deco-home .deco-panel a:hover {
-	color: var(--deco-brass-lit);
+	color: var(--deco-metal-em);
 }
 
 /* =====================================================================
@@ -345,7 +400,8 @@
 
 	.deco-home .deco-card,
 	.deco-plate,
-	.deco-plate img {
+	.deco-plate img,
+	.deco-theme-toggle {
 		transition: none;
 	}
 

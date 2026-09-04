@@ -34,18 +34,29 @@
                    arcs live (see .deco-fan).
    ===================================================================== */
 
-body.deco-body {
-	/* Ground */
-	--deco-ink: #0c1219;
-	--deco-ink-lift: #131f2a;
-	--deco-panel: #16222e;
-	--deco-panel-lift: #1d2c3a;
+/* ---------------------------------------------------------------------
+   The dark palette is the base; the light one further down overrides the
+   tokens and nothing else. Names describe a role rather than a color, so
+   they stay honest in both: --deco-ground is whatever the page is printed
+   on, --deco-text whatever it's printed in, and --deco-lift the direction
+   that carries a color further from the ground.
+   --------------------------------------------------------------------- */
 
-	/* Metal + paper */
-	--deco-brass: #c9a227;
-	--deco-brass-lit: #e8c976;
-	--deco-ivory: #f1e7d4;
-	--deco-ivory-dim: #a9b4bd;
+body.deco-body {
+	color-scheme: dark;
+
+	/* Ground */
+	--deco-ground: #0c1219;
+	--deco-ground-lift: #131f2a;
+	--deco-surface: #16222e;
+	--deco-surface-lift: #1d2c3a;
+
+	/* Metal + text */
+	--deco-metal: #c9a227;
+	--deco-metal-em: #e8c976;
+	--deco-text: #f1e7d4;
+	--deco-text-dim: #a9b4bd;
+	--deco-lift: white;
 
 	/* Jewel accents, keyed to the card colors used in post frontmatter */
 	--deco-red: #b83e4d;
@@ -64,29 +75,136 @@ body.deco-body {
 	--deco-gray: #93a1ab;
 
 	/* Derived */
-	--deco-accent: var(--deco-brass);
-	--deco-line: color-mix(in oklab, var(--deco-brass) 45%, transparent);
-	--deco-line-faint: color-mix(in oklab, var(--deco-brass) 20%, transparent);
+	--deco-accent: var(--deco-metal);
+	--deco-line: color-mix(in oklab, var(--deco-metal) 45%, transparent);
+	--deco-line-faint: color-mix(in oklab, var(--deco-metal) 20%, transparent);
 
 	/* The rays are their own layer so a page that wants a quieter ground --
 	   a long article, say -- can switch them off without restating the rest. */
 	--deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
-		color-mix(in oklab, var(--deco-brass) 6%, transparent) 0deg 1.6deg,
+		color-mix(in oklab, var(--deco-metal) 6%, transparent) 0deg 1.6deg,
 		transparent 1.6deg 8deg);
+	--deco-grid: rgba(241, 231, 212, 0.035);
+	--deco-masthead-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 
-	background-color: var(--deco-ink);
+	background-color: var(--deco-ground);
 	background-image:
 		/* the sunburst: rays fanning up out of the masthead */
 		var(--deco-rays),
 		/* graph paper, barely there */
-		linear-gradient(to right, rgba(241, 231, 212, 0.035) 1px, transparent 1px),
-		linear-gradient(to bottom, rgba(241, 231, 212, 0.035) 1px, transparent 1px),
+		linear-gradient(to right, var(--deco-grid) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--deco-grid) 1px, transparent 1px),
 		/* vignette, so the rays burn out toward the edges */
-		radial-gradient(120% 70% at 50% 0%, var(--deco-ink-lift) 0%, var(--deco-ink) 70%);
+		radial-gradient(120% 70% at 50% 0%, var(--deco-ground-lift) 0%, var(--deco-ground) 70%);
 	background-size: auto, 34px 34px, 34px 34px, auto;
 	background-attachment: fixed;
 	background-repeat: no-repeat, repeat, repeat, no-repeat;
-	color: var(--deco-ivory);
+	color: var(--deco-text);
+}
+
+/* =====================================================================
+   The light palette
+
+   Only the tokens change. --deco-line, --deco-accent and the rest are
+   declared above in terms of --deco-metal, and a derived custom property
+   resolves against the element it's declared on -- the same body -- so
+   overriding the metal here re-derives all of them for free.
+
+   The default is whatever the reader's system asks for; the toggle on the
+   page writes data-theme onto <html> to override it, and that wins in both
+   directions.
+
+   The post pages are excluded for now: they're still being fitted for
+   paper, and the pieces that need it -- the mounts behind article images,
+   the footnote leaders, the comment form -- are theirs, not shared. Drop
+   the :not(.deco-post) from both selectors when they're ready.
+   ===================================================================== */
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme='dark']) body.deco-body:not(.deco-post) {
+	color-scheme: light;
+
+	/* Ground: warm paper rather than plain white */
+	--deco-ground: #f2e9d6;
+	--deco-ground-lift: #fbf5e6;
+	--deco-surface: #fbf6ea;
+	--deco-surface-lift: #fffdf6;
+
+	/* Metal + text. The metal has to darken to hold against paper, and the
+	   emphatic one darkens further -- the same relationship as in the dark
+	   palette, pointed the other way. */
+	--deco-metal: #9c7714;
+	--deco-metal-em: #6b4f0d;
+	--deco-text: #1b2530;
+	--deco-text-dim: #4c5a66;
+	--deco-lift: black;
+
+	/* Jewel accents, deepened to the same end */
+	--deco-red: #9c2f3d;
+	--deco-orange: #a5541f;
+	--deco-amber: #8a6a12;
+	--deco-yellow: #86701a;
+	--deco-lime: #66742a;
+	--deco-green: #1f6a51;
+	--deco-cyan: #1d6a70;
+	--deco-blue: #2d5891;
+	--deco-indigo: #3d4b93;
+	--deco-violet: #614795;
+	--deco-purple: #724489;
+	--deco-fuchsia: #923f78;
+	--deco-pink: #a04f66;
+	--deco-gray: #55626c;
+
+	/* Gold at 6% vanishes on paper; the rays and the grid both need more. */
+	--deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
+		color-mix(in oklab, var(--deco-metal) 8%, transparent) 0deg 1.6deg,
+		transparent 1.6deg 8deg);
+	--deco-grid: rgba(27, 37, 48, 0.055);
+	--deco-masthead-shadow: none;
+	}
+}
+
+html[data-theme='light'] body.deco-body:not(.deco-post) {
+	color-scheme: light;
+
+	/* Ground: warm paper rather than plain white */
+	--deco-ground: #f2e9d6;
+	--deco-ground-lift: #fbf5e6;
+	--deco-surface: #fbf6ea;
+	--deco-surface-lift: #fffdf6;
+
+	/* Metal + text. The metal has to darken to hold against paper, and the
+	   emphatic one darkens further -- the same relationship as in the dark
+	   palette, pointed the other way. */
+	--deco-metal: #9c7714;
+	--deco-metal-em: #6b4f0d;
+	--deco-text: #1b2530;
+	--deco-text-dim: #4c5a66;
+	--deco-lift: black;
+
+	/* Jewel accents, deepened to the same end */
+	--deco-red: #9c2f3d;
+	--deco-orange: #a5541f;
+	--deco-amber: #8a6a12;
+	--deco-yellow: #86701a;
+	--deco-lime: #66742a;
+	--deco-green: #1f6a51;
+	--deco-cyan: #1d6a70;
+	--deco-blue: #2d5891;
+	--deco-indigo: #3d4b93;
+	--deco-violet: #614795;
+	--deco-purple: #724489;
+	--deco-fuchsia: #923f78;
+	--deco-pink: #a04f66;
+	--deco-gray: #55626c;
+
+	/* Gold at 6% vanishes on paper; the rays and the grid both need more. */
+	--deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
+		color-mix(in oklab, var(--deco-metal) 8%, transparent) 0deg 1.6deg,
+		transparent 1.6deg 8deg);
+	--deco-grid: rgba(27, 37, 48, 0.055);
+	--deco-masthead-shadow: none;
 }
 
 /* =====================================================================
@@ -143,11 +261,11 @@ body.deco-body {
 	height: 0.75rem;
 	background-image:
 		/* endpoints */
-		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
-		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px),
 		/* one hatch on each half: the point between them is the midpoint */
-		linear-gradient(var(--deco-brass-lit), var(--deco-brass-lit)),
-		linear-gradient(var(--deco-brass-lit), var(--deco-brass-lit)),
+		linear-gradient(var(--deco-metal-em), var(--deco-metal-em)),
+		linear-gradient(var(--deco-metal-em), var(--deco-metal-em)),
 		/* the segment */
 		linear-gradient(var(--deco-line), var(--deco-line));
 	background-size: 7px 7px, 7px 7px, 1px 9px, 1px 9px, 100% 1px;
@@ -161,7 +279,7 @@ body.deco-body {
    ===================================================================== */
 
 body.deco-body a {
-	color: var(--deco-ivory);
+	color: var(--deco-text);
 	text-decoration: none;
 }
 
@@ -172,7 +290,7 @@ body.deco-body .underline-hover::after {
 }
 
 body.deco-body a:focus-visible {
-	outline: 1px solid var(--deco-brass-lit);
+	outline: 1px solid var(--deco-metal-em);
 	outline-offset: 4px;
 }
 
@@ -191,7 +309,7 @@ body.deco-body a:focus-visible {
 	font-weight: 400;
 	letter-spacing: 0.32em;
 	text-transform: uppercase;
-	color: var(--deco-ivory-dim);
+	color: var(--deco-text-dim);
 }
 
 .deco-section-label::after {
@@ -201,8 +319,8 @@ body.deco-body a:focus-visible {
 	margin-bottom: 0.35rem;
 	background-image:
 		linear-gradient(var(--deco-line), var(--deco-line)),
-		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
-		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px);
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px);
 	background-size: 100% 1px, 7px 7px, 7px 7px;
 	background-position: left center, left center, right center;
 	background-repeat: no-repeat;
