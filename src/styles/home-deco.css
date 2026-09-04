@@ -93,58 +93,66 @@ html[data-theme='light'] .deco-theme-toggle__mark {
 	}
 }
 
-/* The sunburst ornament sitting on the masthead. Its rays are a pencil of
-   lines through one point, which makes it the only figure here with angles
-   that aren't 90 degrees -- so it gets the page's only arcs. */
-.deco-fan {
-	position: relative;
-	--deco-fan-size: clamp(6rem, 16vw, 9.5rem);
-	width: var(--deco-fan-size);
-	height: calc(var(--deco-fan-size) / 2);
-	margin: 0 auto clamp(0.75rem, 3vw, 1.5rem);
-	background-image: repeating-conic-gradient(from -1deg at 50% 100%,
-		var(--deco-metal) 0deg 2deg, transparent 2deg 9deg);
-	background-repeat: no-repeat;
-	--deco-fan-mask: radial-gradient(circle calc(var(--deco-fan-size) / 2) at 50% 100%,
-		transparent 26%, #000 28%, #000 88%, transparent 100%);
-	-webkit-mask-image: var(--deco-fan-mask);
-	mask-image: var(--deco-fan-mask);
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
-	opacity: 0.7;
+/* =====================================================================
+   The sunbeam
+
+   Comes in over the top right and lands on the masthead. The shading is a
+   fragment shader (scripts/sunbeam.ts) drawn across the viewport: on cream
+   paper there is no headroom to add light, so it lays a gentle shade over
+   the page and cuts the shaft out of it. Fixed rather than scrolled -- the
+   light stays where it is in the room while the page moves past it. Light
+   mode only.
+
+   No `mix-blend-mode` anywhere here: on a fixed element it comes unstuck
+   from the viewport when the page scrolls in Chromium, leaving a hard seam
+   across the page. Plain translucent overlay instead.
+
+   What's below is the shape without the volume, for no JavaScript, no
+   WebGL, or a context that failed to come up: one gradient run perpendicular
+   to the beam, shaded at both ends and clear through the middle. The script
+   adds `is-live` once the shader is running, which puts it away.
+   ===================================================================== */
+
+.deco-sunbeam {
+	position: fixed;
+	inset: 0;
+	z-index: 3;
+	display: none;
+	overflow: hidden;
+	pointer-events: none;
+	background-image: linear-gradient(164deg,
+		rgba(56, 66, 97, 0.11) 0%,
+		rgba(56, 66, 97, 0.11) 26%,
+		rgba(56, 66, 97, 0) 38%,
+		rgba(255, 238, 205, 0.16) 44%,
+		rgba(56, 66, 97, 0) 50%,
+		rgba(56, 66, 97, 0.11) 62%,
+		rgba(56, 66, 97, 0.13) 100%);
 }
 
-/* Two arcs, each struck from the vertex the rays share and each spanning the
-   same two ray-gaps. The rays are evenly spaced, so the angles really are
-   congruent and a matching pair of single arcs is the right way to say so.
-   The wedge mask is centered on the element, which is centered on the vertex,
-   so the arc is bounded by actual rays rather than drawn near them. */
-.deco-fan::before,
-.deco-fan::after {
-	content: '';
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	width: calc(var(--deco-fan-size) * 0.62);
-	height: calc(var(--deco-fan-size) * 0.62);
-	transform: translate(-50%, 50%);
-	border: 1px solid var(--deco-metal-em);
-	border-radius: 50%;
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
+.deco-sunbeam canvas {
+	display: none;
+	width: 100%;
+	height: 100%;
 }
 
-/* The rays sit at multiples of 9deg from vertical. These span 9deg->27deg and
-   its mirror, skipping the pair either side of the vertical ray: two arcs that
-   met at that ray would read as one 36deg curve rather than as a matched pair. */
-.deco-fan::before {
-	-webkit-mask-image: conic-gradient(from 9deg, #000 0deg 18deg, transparent 18deg);
-	mask-image: conic-gradient(from 9deg, #000 0deg 18deg, transparent 18deg);
+.deco-sunbeam.is-live {
+	background-image: none;
 }
 
-.deco-fan::after {
-	-webkit-mask-image: conic-gradient(from -27deg, #000 0deg 18deg, transparent 18deg);
-	mask-image: conic-gradient(from -27deg, #000 0deg 18deg, transparent 18deg);
+.deco-sunbeam.is-live canvas {
+	display: block;
+}
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme='dark']) .deco-sunbeam {
+		display: block;
+	}
+}
+
+html[data-theme='light'] .deco-sunbeam {
+	display: block;
 }
 
 /* =====================================================================

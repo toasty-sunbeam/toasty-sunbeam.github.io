@@ -27,11 +27,12 @@
                    hatching at all -- their heights differ, so there is
                    nothing for a mark on them to be congruent to.
      vertex dot    a segment's endpoint, where no second line makes a corner.
-     angle arc     the arc across an angle. A square corner is already fully
-                   described by .deco-ra, so an arc there would be both wrong
-                   and redundant; the only genuine angles on this page are
-                   between the rays of the sunburst, which is where the two
-                   arcs live (see .deco-fan).
+     angle arc     not used. A square corner is already fully described by
+                   .deco-ra, so an arc there would be both wrong and
+                   redundant, and every corner on the page is square. The two
+                   arcs that used to exist marked congruent angles between the
+                   rays of the sunburst ornament, and went with it when the
+                   sunbeam replaced it.
    ===================================================================== */
 
 /* ---------------------------------------------------------------------
@@ -156,10 +157,10 @@ body.deco-body {
 	--deco-pink: #a04f66;
 	--deco-gray: #55626c;
 
-	/* Gold at 6% vanishes on paper; the rays and the grid both need more. */
-	--deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
-		color-mix(in oklab, var(--deco-metal) 8%, transparent) 0deg 1.6deg,
-		transparent 1.6deg 8deg);
+	/* No rays on paper: the sunbeam is the light source here, and a second
+	   one fanning out of the top center argues with it. The graph paper has to
+	   invert as well: pale lines at 3.5% read on ink and vanish on cream. */
+	--deco-rays: none;
 	--deco-grid: rgba(27, 37, 48, 0.055);
 	--deco-masthead-shadow: none;
 	}
@@ -199,10 +200,10 @@ html[data-theme='light'] body.deco-body:not(.deco-post) {
 	--deco-pink: #a04f66;
 	--deco-gray: #55626c;
 
-	/* Gold at 6% vanishes on paper; the rays and the grid both need more. */
-	--deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
-		color-mix(in oklab, var(--deco-metal) 8%, transparent) 0deg 1.6deg,
-		transparent 1.6deg 8deg);
+	/* No rays on paper: the sunbeam is the light source here, and a second
+	   one fanning out of the top center argues with it. The graph paper has to
+	   invert as well: pale lines at 3.5% read on ink and vanish on cream. */
+	--deco-rays: none;
 	--deco-grid: rgba(27, 37, 48, 0.055);
 	--deco-masthead-shadow: none;
 }

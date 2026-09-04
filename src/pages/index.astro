@@ -15,6 +15,9 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 
 <MainLayout pageTitle="James Harris" bodyClass="deco-body">
 	<div class="deco-home mx-auto w-fit px-4">
+		<div class="deco-sunbeam" aria-hidden="true">
+			<canvas></canvas>
+		</div>
 		<div class="deco-frame">
 			<span class="deco-ra deco-ra--tl" aria-hidden="true"></span>
 			<span class="deco-ra deco-ra--tr" aria-hidden="true"></span>
@@ -31,7 +34,6 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 					<span class="deco-theme-toggle__mark" aria-hidden="true"></span>
 				</button>
 			</div>
-			<div class="deco-fan" aria-hidden="true"></div>
 			<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-x-5 gap-y-4 max-w-3xl">
 				<h1 class="deco-masthead">James Harris</h1>
 				<h2 class="deco-section-label hidden sm:flex">Blog posts</h2>
@@ -148,6 +150,8 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 </style>
 
 <script>
+	import '../scripts/sunbeam.ts';
+
 	const ONE_HOUR = 60 * 60 * 1000;
 
 	function handleFlutterAnimation() {
