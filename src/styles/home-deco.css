@@ -1,0 +1,553 @@
+/* =====================================================================
+   Art Deco paint job for the home page.
+
+   Everything here is scoped to `body.deco-body` / `.deco-home` so the blog
+   posts and the periodic table keep the styling they already have.
+
+   The ornament vocabulary is borrowed from geometry diagrams, which turn
+   out to share an alphabet with Deco: hard verticals, repeated hatching,
+   arcs struck from a vertex. Four primitives do most of the work:
+
+     .deco-ra      the little square drawn inside a 90-degree corner. Only
+                   the two sides facing *away* from the vertex are drawn,
+                   the way it's done on a diagram.
+     .deco-arc     the arc struck across an angle. Doubled (--double) it
+                   means "these two angles are congruent."
+     .deco-rule    a segment: hairline, endpoint vertices, and hatch marks
+                   at the midpoint.
+     .deco-tick    the hatch marks on their own, for edges and spines.
+   ===================================================================== */
+
+body.deco-body {
+	/* Ground */
+	--deco-ink: #0c1219;
+	--deco-ink-lift: #131f2a;
+	--deco-panel: #16222e;
+	--deco-panel-lift: #1d2c3a;
+
+	/* Metal + paper */
+	--deco-brass: #c9a227;
+	--deco-brass-lit: #e8c976;
+	--deco-ivory: #f1e7d4;
+	--deco-ivory-dim: #a9b4bd;
+
+	/* Jewel accents, keyed to the card colors used in post frontmatter */
+	--deco-red: #b83e4d;
+	--deco-orange: #c46b2c;
+	--deco-amber: #c9a227;
+	--deco-yellow: #d7b64c;
+	--deco-lime: #9aab4e;
+	--deco-green: #3f9e7d;
+	--deco-cyan: #46a3a8;
+	--deco-blue: #4a7cc0;
+	--deco-indigo: #6070c0;
+	--deco-violet: #8a6fc4;
+	--deco-purple: #9b6bb5;
+	--deco-fuchsia: #c164a0;
+	--deco-pink: #d07a8a;
+	--deco-gray: #93a1ab;
+
+	/* Derived */
+	--deco-accent: var(--deco-brass);
+	--deco-line: color-mix(in oklab, var(--deco-brass) 45%, transparent);
+	--deco-line-faint: color-mix(in oklab, var(--deco-brass) 20%, transparent);
+
+	background-color: var(--deco-ink);
+	background-image:
+		/* the sunburst: rays fanning up out of the masthead */
+		repeating-conic-gradient(from 178.4deg at 50% 0%,
+			color-mix(in oklab, var(--deco-brass) 6%, transparent) 0deg 1.6deg,
+			transparent 1.6deg 8deg),
+		/* graph paper, barely there */
+		linear-gradient(to right, rgba(241, 231, 212, 0.035) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(241, 231, 212, 0.035) 1px, transparent 1px),
+		/* vignette, so the rays burn out toward the edges */
+		radial-gradient(120% 70% at 50% 0%, var(--deco-ink-lift) 0%, var(--deco-ink) 70%);
+	background-size: auto, 34px 34px, 34px 34px, auto;
+	background-attachment: fixed;
+	background-repeat: no-repeat, repeat, repeat, no-repeat;
+	color: var(--deco-ivory);
+}
+
+/* =====================================================================
+   Primitive: the right-angle marker
+   ===================================================================== */
+
+.deco-ra {
+	position: absolute;
+	width: var(--deco-ra-size, 0.7rem);
+	height: var(--deco-ra-size, 0.7rem);
+	border: 0 solid var(--deco-accent);
+	opacity: var(--deco-ra-opacity, 0.85);
+	pointer-events: none;
+}
+
+/* The two sides that get drawn are the ones opposite the vertex. */
+.deco-ra--tl {
+	top: var(--deco-ra-inset, 0.55rem);
+	left: var(--deco-ra-inset, 0.55rem);
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+}
+
+.deco-ra--tr {
+	top: var(--deco-ra-inset, 0.55rem);
+	right: var(--deco-ra-inset, 0.55rem);
+	border-left-width: 1px;
+	border-bottom-width: 1px;
+}
+
+.deco-ra--bl {
+	bottom: var(--deco-ra-inset, 0.55rem);
+	left: var(--deco-ra-inset, 0.55rem);
+	border-right-width: 1px;
+	border-top-width: 1px;
+}
+
+.deco-ra--br {
+	bottom: var(--deco-ra-inset, 0.55rem);
+	right: var(--deco-ra-inset, 0.55rem);
+	border-left-width: 1px;
+	border-top-width: 1px;
+}
+
+/* =====================================================================
+   Primitive: the angle arc
+
+   Rounding one corner and drawing only the two borders that meet there
+   leaves a quarter arc struck from the *opposite* corner, which is the
+   vertex the modifier is named for.
+   ===================================================================== */
+
+.deco-arc {
+	position: absolute;
+	width: var(--deco-arc-size, 1.4rem);
+	height: var(--deco-arc-size, 1.4rem);
+	border: 1px solid transparent;
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.deco-arc--tl {
+	top: 0;
+	left: 0;
+	border-radius: 0 0 100% 0;
+	border-bottom-color: var(--deco-accent);
+	border-right-color: var(--deco-accent);
+}
+
+.deco-arc--br {
+	right: 0;
+	bottom: 0;
+	border-radius: 100% 0 0 0;
+	border-top-color: var(--deco-accent);
+	border-left-color: var(--deco-accent);
+}
+
+/* A second, tighter arc: the diagram shorthand for congruent angles. */
+.deco-arc--double::before {
+	content: '';
+	position: absolute;
+	inset: 0.28rem;
+	border: inherit;
+	border-radius: inherit;
+	opacity: 0.9;
+}
+
+/* =====================================================================
+   Primitive: segments and hatch marks
+   ===================================================================== */
+
+.deco-rule {
+	border: 0;
+	height: 0.75rem;
+	background-image:
+		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
+		linear-gradient(var(--deco-line), var(--deco-line));
+	background-size: 7px 7px, 7px 7px, 100% 1px;
+	background-position: left center, right center, center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+/* Two hatch marks at the midpoint: this segment is congruent to that one. */
+.deco-rule::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: 7px;
+	transform: translateX(-50%);
+	background-image: repeating-linear-gradient(90deg,
+		var(--deco-brass-lit) 0 1px, transparent 1px 6px);
+}
+
+/* =====================================================================
+   Page frame
+   ===================================================================== */
+
+.deco-home {
+	position: relative;
+	font-family: 'Josefin Sans', 'Rosario', sans-serif;
+	padding-block: clamp(1.5rem, 5vw, 3rem);
+}
+
+.deco-frame {
+	position: relative;
+	padding: clamp(1rem, 4vw, 2.5rem);
+	border: 1px solid var(--deco-line);
+	background: color-mix(in oklab, var(--deco-ink) 60%, transparent);
+}
+
+/* Inner hairline: the classic Deco double rule. */
+.deco-frame::before {
+	content: '';
+	position: absolute;
+	inset: 5px;
+	border: 1px solid var(--deco-line-faint);
+	pointer-events: none;
+}
+
+/* The sunburst ornament sitting on the masthead. */
+.deco-fan {
+	--deco-fan-size: clamp(5rem, 14vw, 8rem);
+	width: var(--deco-fan-size);
+	height: calc(var(--deco-fan-size) / 2);
+	margin: 0 auto clamp(0.75rem, 3vw, 1.5rem);
+	background-image: repeating-conic-gradient(from -1deg at 50% 100%,
+		var(--deco-brass) 0deg 2deg, transparent 2deg 9deg);
+	--deco-fan-mask: radial-gradient(circle calc(var(--deco-fan-size) / 2) at 50% 100%,
+		transparent 26%, #000 28%, #000 88%, transparent 100%);
+	-webkit-mask-image: var(--deco-fan-mask);
+	mask-image: var(--deco-fan-mask);
+	opacity: 0.7;
+}
+
+/* =====================================================================
+   Masthead
+   ===================================================================== */
+
+.deco-masthead {
+	position: relative;
+	margin: 0;
+	font-family: 'Poiret One', 'Josefin Sans', sans-serif;
+	font-size: clamp(2rem, 7vw, 3rem);
+	line-height: 1.05;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--deco-brass-lit);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Triple rule under the name: heavy, hairline, short hairline. */
+.deco-masthead::after {
+	content: '';
+	display: block;
+	height: 7px;
+	margin-top: 0.5rem;
+	background-image:
+		linear-gradient(var(--deco-brass), var(--deco-brass)),
+		linear-gradient(var(--deco-line), var(--deco-line)),
+		linear-gradient(var(--deco-line), var(--deco-line));
+	background-size: 100% 2px, 100% 1px, 55% 1px;
+	background-position: 0 0, 0 4px, 0 6px;
+	background-repeat: no-repeat;
+}
+
+/* Small-caps label with a hairline running off toward the margin. */
+/* `display` deliberately lives on the elements as a utility class: this file
+   is unlayered, so anything it sets here would outrank Tailwind's `hidden`
+   and both copies of the label would show at once. */
+.deco-section-label {
+	align-items: flex-end;
+	gap: 0.7rem;
+	margin: 0;
+	font-size: 0.95rem;
+	font-weight: 400;
+	letter-spacing: 0.32em;
+	text-transform: uppercase;
+	color: var(--deco-ivory-dim);
+}
+
+.deco-section-label::after {
+	content: '';
+	flex: 1;
+	height: 5px;
+	margin-bottom: 0.35rem;
+	background-image:
+		linear-gradient(var(--deco-line), var(--deco-line)),
+		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px);
+	background-size: 100% 1px, 7px 7px;
+	background-position: left center, right center;
+	background-repeat: no-repeat;
+}
+
+/* =====================================================================
+   Panels (Guides / Tools / Blogroll)
+   ===================================================================== */
+
+.deco-panel {
+	position: relative;
+	padding: 0.85rem 1.1rem 1.1rem;
+	border: 1px solid var(--deco-line);
+	border-top: 2px solid var(--deco-accent);
+	border-radius: 0;
+	background-color: var(--deco-panel);
+	background-image: linear-gradient(160deg,
+		color-mix(in oklab, var(--deco-accent) 10%, transparent) 0%,
+		transparent 55%);
+	color: var(--deco-ivory);
+}
+
+/* Right-angle marker tucked into the top-left vertex... */
+.deco-panel::before {
+	content: '';
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	width: 0.65rem;
+	height: 0.65rem;
+	border-right: 1px solid var(--deco-accent);
+	border-bottom: 1px solid var(--deco-accent);
+	opacity: 0.8;
+}
+
+/* ...and congruent-angle arcs across the one diagonally opposite. */
+.deco-panel::after {
+	content: '';
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	width: 1.3rem;
+	height: 1.3rem;
+	border: 1px solid transparent;
+	border-top-color: var(--deco-accent);
+	border-left-color: var(--deco-accent);
+	border-radius: 100% 0 0 0;
+	opacity: 0.55;
+}
+
+.deco-panel--jade { --deco-accent: var(--deco-green); }
+.deco-panel--lapis { --deco-accent: var(--deco-blue); }
+.deco-panel--amethyst { --deco-accent: var(--deco-violet); }
+
+.deco-panel__title {
+	margin: 0 0 0.5rem;
+	font-size: 1.05rem;
+	font-weight: 600;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	/* Lifted off the raw accent so the heading clears 4.5:1 on the panel. */
+	color: color-mix(in oklab, var(--deco-accent) 72%, white);
+}
+
+.deco-panel__title::after {
+	content: '';
+	display: block;
+	height: 3px;
+	margin-top: 0.35rem;
+	background-image:
+		linear-gradient(var(--deco-accent), var(--deco-accent)),
+		linear-gradient(var(--deco-line-faint), var(--deco-line-faint));
+	background-size: 2.2rem 1px, 100% 1px;
+	background-position: 0 0, 0 2px;
+	background-repeat: no-repeat;
+}
+
+.deco-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.deco-list li + li {
+	margin-top: 0.15rem;
+}
+
+.deco-list img {
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	vertical-align: -2px;
+}
+
+/* =====================================================================
+   Plate (the Periodic Table preview)
+   ===================================================================== */
+
+.deco-plate {
+	position: relative;
+	display: block;
+	padding: 6px;
+	border: 1px solid var(--deco-line);
+	background: color-mix(in oklab, var(--deco-panel) 70%, transparent);
+	transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.deco-plate img {
+	display: block;
+	width: 100%;
+	border: 0;
+	border-radius: 0;
+	filter: saturate(0.85) contrast(1.05);
+	transition: filter 0.25s ease;
+}
+
+.deco-plate:hover,
+.deco-plate:focus-visible {
+	border-color: var(--deco-brass-lit);
+}
+
+.deco-plate:hover img,
+.deco-plate:focus-visible img {
+	filter: none;
+}
+
+/* =====================================================================
+   Post cards
+   ===================================================================== */
+
+.deco-home .deco-card {
+	position: relative;
+	margin-bottom: 1rem;
+	padding: 0.7rem 1rem 0.9rem 1.4rem;
+	border: 1px solid var(--deco-line-faint);
+	border-left: 2px solid var(--deco-accent);
+	border-radius: 0;
+	background-color: var(--deco-panel);
+	background-image:
+		/* three hatch marks on the left edge, as on a measured segment */
+		repeating-linear-gradient(to bottom,
+			var(--deco-accent) 0 1px, transparent 1px 6px),
+		linear-gradient(105deg,
+			color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
+			transparent 45%);
+	background-size: 7px 17px, auto;
+	background-position: left center, 0 0;
+	background-repeat: no-repeat, no-repeat;
+	color: var(--deco-ivory);
+	transition: transform 0.25s ease, border-color 0.25s ease,
+		background-color 0.25s ease;
+}
+
+/* Right-angle marker at the card's top-left vertex. */
+.deco-home .deco-card::before {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 7px;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-right: 1px solid var(--deco-accent);
+	border-bottom: 1px solid var(--deco-accent);
+	opacity: 0.75;
+}
+
+.deco-home .deco-card::after {
+	content: '';
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	width: 1.1rem;
+	height: 1.1rem;
+	border: 1px solid transparent;
+	border-top-color: var(--deco-accent);
+	border-left-color: var(--deco-accent);
+	border-radius: 100% 0 0 0;
+	opacity: 0.5;
+}
+
+.deco-home .hover-card:hover .deco-card {
+	transform: translateX(3px);
+	border-color: color-mix(in oklab, var(--deco-accent) 55%, transparent);
+	background-color: var(--deco-panel-lift);
+}
+
+.deco-card__title {
+	margin: 0;
+	font-family: 'Poiret One', 'Josefin Sans', sans-serif;
+	font-size: 1.3rem;
+	font-style: normal;
+	letter-spacing: 0.06em;
+	color: var(--deco-brass-lit);
+}
+
+.deco-card time {
+	display: block;
+	margin-top: 0.15rem;
+	font-size: 0.78rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--deco-ivory-dim);
+}
+
+.deco-card p {
+	margin: 0.45rem 0 0;
+	font-family: 'Rosario', sans-serif;
+	color: color-mix(in oklab, var(--deco-ivory) 82%, transparent);
+}
+
+/* Post cards keep the color the author picked in frontmatter; it just
+   gets translated into the Deco palette on the way through. */
+.deco-home .deco-card[data-card-color='red'] { --deco-accent: var(--deco-red); }
+.deco-home .deco-card[data-card-color='orange'] { --deco-accent: var(--deco-orange); }
+.deco-home .deco-card[data-card-color='amber'] { --deco-accent: var(--deco-amber); }
+.deco-home .deco-card[data-card-color='yellow'] { --deco-accent: var(--deco-yellow); }
+.deco-home .deco-card[data-card-color='lime'] { --deco-accent: var(--deco-lime); }
+.deco-home .deco-card[data-card-color='green'] { --deco-accent: var(--deco-green); }
+.deco-home .deco-card[data-card-color='cyan'] { --deco-accent: var(--deco-cyan); }
+.deco-home .deco-card[data-card-color='blue'] { --deco-accent: var(--deco-blue); }
+.deco-home .deco-card[data-card-color='indigo'] { --deco-accent: var(--deco-indigo); }
+.deco-home .deco-card[data-card-color='violet'] { --deco-accent: var(--deco-violet); }
+.deco-home .deco-card[data-card-color='purple'] { --deco-accent: var(--deco-purple); }
+.deco-home .deco-card[data-card-color='fuchsia'] { --deco-accent: var(--deco-fuchsia); }
+.deco-home .deco-card[data-card-color='pink'] { --deco-accent: var(--deco-pink); }
+.deco-home .deco-card[data-card-color='gray'] { --deco-accent: var(--deco-gray); }
+
+/* =====================================================================
+   Links
+   ===================================================================== */
+
+.deco-home a {
+	color: var(--deco-ivory);
+	text-decoration: none;
+}
+
+.deco-home .deco-card__title a,
+.deco-home .deco-panel a:hover {
+	color: inherit;
+}
+
+/* The hover underline starts from a vertex dot and extends like a ray. */
+.deco-home .underline-hover::after {
+	background-color: var(--deco-accent);
+	opacity: 0.85;
+}
+
+.deco-home .deco-panel a:hover {
+	color: var(--deco-brass-lit);
+}
+
+.deco-home a:focus-visible {
+	outline: 1px solid var(--deco-brass-lit);
+	outline-offset: 4px;
+}
+
+/* =====================================================================
+   Motion
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.deco-home .deco-card,
+	.deco-plate,
+	.deco-plate img {
+		transition: none;
+	}
+
+	.deco-home .hover-card:hover .deco-card {
+		transform: none;
+	}
+}

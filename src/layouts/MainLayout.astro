@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-const { pageTitle } = Astro.props;
+const { pageTitle, bodyClass = '' } = Astro.props;
 ---
 
 <html lang="en">
@@ -12,12 +12,11 @@ const { pageTitle } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Poiret+One&family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
         <ClientRouter/>
 		<title>{pageTitle}</title>
 	</head>
-	<body class="bg-sky-200/65">
+	<body class:list={['bg-sky-200/65', bodyClass]}>
 		<slot/>
 	</body>
 </html>
-
