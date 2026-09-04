@@ -6,16 +6,26 @@
 
    The ornament vocabulary is borrowed from geometry diagrams, which turn
    out to share an alphabet with Deco: hard verticals, repeated hatching,
-   arcs struck from a vertex. Four primitives do most of the work:
+   arcs struck from a vertex.
 
-     .deco-ra      the little square drawn inside a 90-degree corner. Only
-                   the two sides facing *away* from the vertex are drawn,
-                   the way it's done on a diagram.
-     .deco-arc     the arc struck across an angle. Doubled (--double) it
-                   means "these two angles are congruent."
-     .deco-rule    a segment: hairline, endpoint vertices, and hatch marks
-                   at the midpoint.
-     .deco-tick    the hatch marks on their own, for edges and spines.
+   THE RULE: a marking only goes where it is true. Each one is an assertion
+   about the figure it sits on, so it has to be earned:
+
+     .deco-ra      the square drawn inside a 90-degree corner. Only the two
+                   sides facing *away* from the vertex are drawn, and it sits
+                   flush in the corner, its other two sides lying along the
+                   lines that form the angle. Goes on real 90-degree corners
+                   and nowhere else.
+     midpoint mark one hatch on each half of a segment: the halves are
+                   congruent, so the point between them is the midpoint.
+                   Self-contained, which is what makes it safe to repeat on
+                   cards of different sizes.
+     vertex dot    a segment's endpoint, where no second line makes a corner.
+     angle arc     the arc across an angle. A square corner is already fully
+                   described by .deco-ra, so an arc there would be both wrong
+                   and redundant; the only genuine angles on this page are
+                   between the rays of the sunburst, which is where the two
+                   arcs live (see .deco-fan).
    ===================================================================== */
 
 body.deco-body {
@@ -82,76 +92,36 @@ body.deco-body {
 	pointer-events: none;
 }
 
-/* The two sides that get drawn are the ones opposite the vertex. */
+/* The two sides that get drawn are the ones opposite the vertex; the other
+   two are the lines of the corner itself, so the marker is flush by default.
+   Absolute offsets resolve against the padding box, which puts those sides
+   exactly on the inner edge of the borders forming the angle. */
 .deco-ra--tl {
-	top: var(--deco-ra-inset, 0.55rem);
-	left: var(--deco-ra-inset, 0.55rem);
+	top: var(--deco-ra-inset, 0);
+	left: var(--deco-ra-inset, 0);
 	border-right-width: 1px;
 	border-bottom-width: 1px;
 }
 
 .deco-ra--tr {
-	top: var(--deco-ra-inset, 0.55rem);
-	right: var(--deco-ra-inset, 0.55rem);
+	top: var(--deco-ra-inset, 0);
+	right: var(--deco-ra-inset, 0);
 	border-left-width: 1px;
 	border-bottom-width: 1px;
 }
 
 .deco-ra--bl {
-	bottom: var(--deco-ra-inset, 0.55rem);
-	left: var(--deco-ra-inset, 0.55rem);
+	bottom: var(--deco-ra-inset, 0);
+	left: var(--deco-ra-inset, 0);
 	border-right-width: 1px;
 	border-top-width: 1px;
 }
 
 .deco-ra--br {
-	bottom: var(--deco-ra-inset, 0.55rem);
-	right: var(--deco-ra-inset, 0.55rem);
+	bottom: var(--deco-ra-inset, 0);
+	right: var(--deco-ra-inset, 0);
 	border-left-width: 1px;
 	border-top-width: 1px;
-}
-
-/* =====================================================================
-   Primitive: the angle arc
-
-   Rounding one corner and drawing only the two borders that meet there
-   leaves a quarter arc struck from the *opposite* corner, which is the
-   vertex the modifier is named for.
-   ===================================================================== */
-
-.deco-arc {
-	position: absolute;
-	width: var(--deco-arc-size, 1.4rem);
-	height: var(--deco-arc-size, 1.4rem);
-	border: 1px solid transparent;
-	opacity: 0.7;
-	pointer-events: none;
-}
-
-.deco-arc--tl {
-	top: 0;
-	left: 0;
-	border-radius: 0 0 100% 0;
-	border-bottom-color: var(--deco-accent);
-	border-right-color: var(--deco-accent);
-}
-
-.deco-arc--br {
-	right: 0;
-	bottom: 0;
-	border-radius: 100% 0 0 0;
-	border-top-color: var(--deco-accent);
-	border-left-color: var(--deco-accent);
-}
-
-/* A second, tighter arc: the diagram shorthand for congruent angles. */
-.deco-arc--double::before {
-	content: '';
-	position: absolute;
-	inset: 0.28rem;
-	border: inherit;
-	border-radius: inherit;
-	opacity: 0.9;
 }
 
 /* =====================================================================
@@ -162,26 +132,18 @@ body.deco-body {
 	border: 0;
 	height: 0.75rem;
 	background-image:
+		/* endpoints */
 		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
 		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
+		/* one hatch on each half: the point between them is the midpoint */
+		linear-gradient(var(--deco-brass-lit), var(--deco-brass-lit)),
+		linear-gradient(var(--deco-brass-lit), var(--deco-brass-lit)),
+		/* the segment */
 		linear-gradient(var(--deco-line), var(--deco-line));
-	background-size: 7px 7px, 7px 7px, 100% 1px;
-	background-position: left center, right center, center;
+	background-size: 7px 7px, 7px 7px, 1px 9px, 1px 9px, 100% 1px;
+	background-position: left center, right center, 25% center, 75% center, center;
 	background-repeat: no-repeat;
 	position: relative;
-}
-
-/* Two hatch marks at the midpoint: this segment is congruent to that one. */
-.deco-rule::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 50%;
-	width: 7px;
-	transform: translateX(-50%);
-	background-image: repeating-linear-gradient(90deg,
-		var(--deco-brass-lit) 0 1px, transparent 1px 6px);
 }
 
 /* =====================================================================
@@ -201,6 +163,13 @@ body.deco-body {
 	background: color-mix(in oklab, var(--deco-ink) 60%, transparent);
 }
 
+/* The corner markers belong to the inner rule, so they clear the outer
+   border (5px) plus that rule's own hairline. */
+.deco-frame .deco-ra {
+	--deco-ra-inset: 6px;
+	--deco-ra-size: 0.8rem;
+}
+
 /* Inner hairline: the classic Deco double rule. */
 .deco-frame::before {
 	content: '';
@@ -210,19 +179,58 @@ body.deco-body {
 	pointer-events: none;
 }
 
-/* The sunburst ornament sitting on the masthead. */
+/* The sunburst ornament sitting on the masthead. Its rays are a pencil of
+   lines through one point, which makes it the only figure here with angles
+   that aren't 90 degrees -- so it gets the page's only arcs. */
 .deco-fan {
-	--deco-fan-size: clamp(5rem, 14vw, 8rem);
+	position: relative;
+	--deco-fan-size: clamp(6rem, 16vw, 9.5rem);
 	width: var(--deco-fan-size);
 	height: calc(var(--deco-fan-size) / 2);
 	margin: 0 auto clamp(0.75rem, 3vw, 1.5rem);
 	background-image: repeating-conic-gradient(from -1deg at 50% 100%,
 		var(--deco-brass) 0deg 2deg, transparent 2deg 9deg);
+	background-repeat: no-repeat;
 	--deco-fan-mask: radial-gradient(circle calc(var(--deco-fan-size) / 2) at 50% 100%,
 		transparent 26%, #000 28%, #000 88%, transparent 100%);
 	-webkit-mask-image: var(--deco-fan-mask);
 	mask-image: var(--deco-fan-mask);
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
 	opacity: 0.7;
+}
+
+/* Two arcs, each struck from the vertex the rays share and each spanning the
+   same two ray-gaps. The rays are evenly spaced, so the angles really are
+   congruent and a matching pair of single arcs is the right way to say so.
+   The wedge mask is centered on the element, which is centered on the vertex,
+   so the arc is bounded by actual rays rather than drawn near them. */
+.deco-fan::before,
+.deco-fan::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: calc(var(--deco-fan-size) * 0.62);
+	height: calc(var(--deco-fan-size) * 0.62);
+	transform: translate(-50%, 50%);
+	border: 1px solid var(--deco-brass-lit);
+	border-radius: 50%;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+}
+
+/* The rays sit at multiples of 9deg from vertical. These span 9deg->27deg and
+   its mirror, skipping the pair either side of the vertical ray: two arcs that
+   met at that ray would read as one 36deg curve rather than as a matched pair. */
+.deco-fan::before {
+	-webkit-mask-image: conic-gradient(from 9deg, #000 0deg 18deg, transparent 18deg);
+	mask-image: conic-gradient(from 9deg, #000 0deg 18deg, transparent 18deg);
+}
+
+.deco-fan::after {
+	-webkit-mask-image: conic-gradient(from -27deg, #000 0deg 18deg, transparent 18deg);
+	mask-image: conic-gradient(from -27deg, #000 0deg 18deg, transparent 18deg);
 }
 
 /* =====================================================================
@@ -278,9 +286,10 @@ body.deco-body {
 	margin-bottom: 0.35rem;
 	background-image:
 		linear-gradient(var(--deco-line), var(--deco-line)),
+		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
 		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px);
-	background-size: 100% 1px, 7px 7px;
-	background-position: left center, right center;
+	background-size: 100% 1px, 7px 7px, 7px 7px;
+	background-position: left center, left center, right center;
 	background-repeat: no-repeat;
 }
 
@@ -290,43 +299,50 @@ body.deco-body {
 
 .deco-panel {
 	position: relative;
+	/* Declared here, not on the body: a custom property built out of another
+	   one is substituted where it's declared, so a shared --deco-hatch would
+	   freeze at the brass default instead of following each panel's accent. */
+	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, white);
 	padding: 0.85rem 1.1rem 1.1rem;
 	border: 1px solid var(--deco-line);
 	border-top: 2px solid var(--deco-accent);
 	border-radius: 0;
 	background-color: var(--deco-panel);
-	background-image: linear-gradient(160deg,
-		color-mix(in oklab, var(--deco-accent) 10%, transparent) 0%,
-		transparent 55%);
+	background-image:
+		/* one hatch on each half of the top edge, marking its midpoint */
+		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
+		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
+		linear-gradient(160deg,
+			color-mix(in oklab, var(--deco-accent) 10%, transparent) 0%,
+			transparent 55%);
+	background-size: 1px 0.5rem, 1px 0.5rem, auto;
+	background-position: 25% top, 75% top, 0 0;
+	background-repeat: no-repeat;
+	background-origin: border-box, border-box, padding-box;
 	color: var(--deco-ivory);
 }
 
-/* Right-angle marker tucked into the top-left vertex... */
-.deco-panel::before {
-	content: '';
-	position: absolute;
-	top: 6px;
-	left: 6px;
-	width: 0.65rem;
-	height: 0.65rem;
-	border-right: 1px solid var(--deco-accent);
-	border-bottom: 1px solid var(--deco-accent);
-	opacity: 0.8;
-}
-
-/* ...and congruent-angle arcs across the one diagonally opposite. */
+/* The two corners at the ends of that edge. Flush, so each marker's undrawn
+   sides lie along the border and the top rule that form the angle. */
+.deco-panel::before,
 .deco-panel::after {
 	content: '';
 	position: absolute;
-	right: 5px;
-	bottom: 5px;
-	width: 1.3rem;
-	height: 1.3rem;
-	border: 1px solid transparent;
-	border-top-color: var(--deco-accent);
-	border-left-color: var(--deco-accent);
-	border-radius: 100% 0 0 0;
-	opacity: 0.55;
+	top: 0;
+	width: 0.65rem;
+	height: 0.65rem;
+	border-bottom: 1px solid var(--deco-accent);
+	opacity: 0.85;
+}
+
+.deco-panel::before {
+	left: 0;
+	border-right: 1px solid var(--deco-accent);
+}
+
+.deco-panel::after {
+	right: 0;
+	border-left: 1px solid var(--deco-accent);
 }
 
 .deco-panel--jade { --deco-accent: var(--deco-green); }
@@ -411,6 +427,7 @@ body.deco-body {
 
 .deco-home .deco-card {
 	position: relative;
+	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, white);
 	margin-bottom: 1rem;
 	padding: 0.7rem 1rem 0.9rem 1.4rem;
 	border: 1px solid var(--deco-line-faint);
@@ -418,45 +435,41 @@ body.deco-body {
 	border-radius: 0;
 	background-color: var(--deco-panel);
 	background-image:
-		/* three hatch marks on the left edge, as on a measured segment */
-		repeating-linear-gradient(to bottom,
-			var(--deco-accent) 0 1px, transparent 1px 6px),
+		/* one hatch on each half of the left edge, marking its midpoint */
+		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
+		linear-gradient(var(--deco-hatch), var(--deco-hatch)),
 		linear-gradient(105deg,
 			color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
 			transparent 45%);
-	background-size: 7px 17px, auto;
-	background-position: left center, 0 0;
-	background-repeat: no-repeat, no-repeat;
+	background-size: 0.55rem 1px, 0.55rem 1px, auto;
+	background-position: left 25%, left 75%, 0 0;
+	background-repeat: no-repeat;
+	background-origin: border-box, border-box, padding-box;
 	color: var(--deco-ivory);
 	transition: transform 0.25s ease, border-color 0.25s ease,
 		background-color 0.25s ease;
 }
 
-/* Right-angle marker at the card's top-left vertex. */
-.deco-home .deco-card::before {
-	content: '';
-	position: absolute;
-	top: 5px;
-	left: 7px;
-	width: 0.6rem;
-	height: 0.6rem;
-	border-right: 1px solid var(--deco-accent);
-	border-bottom: 1px solid var(--deco-accent);
-	opacity: 0.75;
-}
-
+/* The corners at each end of the left edge, flush in the corner. */
+.deco-home .deco-card::before,
 .deco-home .deco-card::after {
 	content: '';
 	position: absolute;
-	right: 5px;
-	bottom: 5px;
-	width: 1.1rem;
-	height: 1.1rem;
-	border: 1px solid transparent;
-	border-top-color: var(--deco-accent);
-	border-left-color: var(--deco-accent);
-	border-radius: 100% 0 0 0;
-	opacity: 0.5;
+	left: 0;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-right: 1px solid var(--deco-accent);
+	opacity: 0.8;
+}
+
+.deco-home .deco-card::before {
+	top: 0;
+	border-bottom: 1px solid var(--deco-accent);
+}
+
+.deco-home .deco-card::after {
+	bottom: 0;
+	border-top: 1px solid var(--deco-accent);
 }
 
 .deco-home .hover-card:hover .deco-card {
