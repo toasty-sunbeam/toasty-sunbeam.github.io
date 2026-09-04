@@ -1,0 +1,360 @@
+/* =====================================================================
+   Art Deco: the blog posts.
+
+   Palette and ornament primitives come from deco.css; blog-post.css owns
+   the layout and the type scale. This file is the paint on top, scoped to
+   `.deco-post` so it can't reach the home page.
+
+   A post page is for reading, so it carries far less ornament than the
+   home page: no frame, no sunburst, and only the markings that have
+   something true to say --
+
+     - right-angle squares at the two corners of the contents panel's
+       accented left edge, exactly as on the post cards;
+     - the segment under the post title, with its endpoints and the hatch
+       on each half that marks its midpoint;
+     - the footnote leaders, which really are construction lines joining a
+       marked point in the text to its note in the margin, and so are drawn
+       dashed, the way an auxiliary line is.
+   ===================================================================== */
+
+/* A long article wants a calmer ground than the masthead does. */
+body.deco-post {
+	--deco-rays: none;
+}
+
+.deco-post {
+	padding-block: clamp(1.25rem, 4vw, 2.5rem);
+	font-family: 'Rosario', sans-serif;
+	color: var(--deco-ivory);
+}
+
+/* =====================================================================
+   Left sidebar: the way back, and the contents
+   ===================================================================== */
+
+.deco-post .site-name {
+	display: block;
+	margin-bottom: 1.25rem;
+	font-family: 'Josefin Sans', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 400;
+	letter-spacing: 0.28em;
+	text-transform: uppercase;
+	color: var(--deco-brass-lit);
+}
+
+/* The same triple rule that sits under the name on the home page. */
+.deco-post .site-name::after {
+	content: '';
+	display: block;
+	height: 5px;
+	margin-top: 0.4rem;
+	background-image:
+		linear-gradient(var(--deco-brass), var(--deco-brass)),
+		linear-gradient(var(--deco-line), var(--deco-line));
+	background-size: 100% 1px, 60% 1px;
+	background-position: 0 0, 0 3px;
+	background-repeat: no-repeat;
+}
+
+.deco-post .site-name:hover {
+	color: var(--deco-brass);
+}
+
+.deco-post .toc {
+	position: relative;
+	padding: 0.8rem 0.9rem 0.9rem 1.2rem;
+	border: 1px solid var(--deco-line-faint);
+	border-left: 2px solid var(--deco-accent);
+	background-color: color-mix(in oklab, var(--deco-panel) 75%, transparent);
+}
+
+/* The corners at each end of that left edge, flush in the corner. */
+.deco-post .toc::before,
+.deco-post .toc::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 0.55rem;
+	height: 0.55rem;
+	border-right: 1px solid var(--deco-accent);
+	opacity: 0.8;
+	pointer-events: none;
+}
+
+.deco-post .toc::before {
+	top: 0;
+	border-bottom: 1px solid var(--deco-accent);
+}
+
+.deco-post .toc::after {
+	bottom: 0;
+	border-top: 1px solid var(--deco-accent);
+}
+
+/* =====================================================================
+   The post itself
+   ===================================================================== */
+
+.deco-post .post-header {
+	margin-bottom: 1.75rem;
+}
+
+.deco-post .blog-content h1 {
+	margin: 0;
+	font-family: 'Poiret One', 'Josefin Sans', sans-serif;
+	font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.15;
+	letter-spacing: 0.04em;
+	color: var(--deco-brass-lit);
+	text-wrap: balance;
+}
+
+.deco-post .post-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 0.85rem;
+	margin: 0.7rem 0 0.9rem;
+	font-family: 'Josefin Sans', sans-serif;
+	font-size: 0.78rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--deco-ivory-dim);
+}
+
+.deco-post .deco-tag {
+	padding: 0.05rem 0.5rem;
+	border: 1px solid color-mix(in oklab, var(--deco-accent) 55%, transparent);
+	border-radius: 0;
+	background: transparent;
+	font-weight: 400;
+	letter-spacing: 0.2em;
+	color: color-mix(in oklab, var(--deco-accent) 72%, white);
+}
+
+.deco-post .blog-content h2,
+.deco-post .blog-content h3 {
+	margin-top: 2rem;
+	font-family: 'Josefin Sans', sans-serif;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	color: var(--deco-brass-lit);
+	scroll-margin-top: 1.5rem;
+}
+
+.deco-post .blog-content h2 {
+	padding-bottom: 0.3rem;
+	border-bottom: 1px solid var(--deco-line-faint);
+}
+
+.deco-post .blog-content h3 {
+	color: color-mix(in oklab, var(--deco-brass-lit) 80%, white);
+}
+
+.deco-post .blog-content p,
+.deco-post .blog-content li {
+	color: color-mix(in oklab, var(--deco-ivory) 88%, transparent);
+	line-height: 1.65;
+}
+
+.deco-post .blog-content a {
+	color: var(--deco-ivory);
+	text-decoration-color: color-mix(in oklab, var(--deco-accent) 65%, transparent);
+	text-underline-offset: 3px;
+	transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.deco-post .blog-content a:hover {
+	color: var(--deco-brass-lit);
+	text-decoration-color: var(--deco-brass-lit);
+}
+
+.deco-post .blog-content li::marker {
+	color: color-mix(in oklab, var(--deco-accent) 70%, transparent);
+}
+
+/* Every plate in an article gets a paper mount. Most are screenshots on white,
+   which need the edge to sit against; the rest are line art and logos on
+   transparency, one of which is solid black and would otherwise disappear
+   into the ink entirely. */
+.deco-post .blog-content article img {
+	box-sizing: border-box;
+	padding: 4px;
+	border: 1px solid var(--deco-line-faint);
+	background: var(--deco-ivory);
+	box-shadow: none;
+}
+
+.deco-post .blog-content .logo img {
+	padding: 2px;
+}
+
+/* A section break, in the Deco manner: hairline with a knot at the center.
+   Ornament, not notation -- it asserts nothing about the rule it sits on. */
+.deco-post article > hr {
+	height: 9px;
+	margin: 2.25rem 0;
+	border: 0;
+	background-image:
+		linear-gradient(var(--deco-line), var(--deco-line)),
+		linear-gradient(var(--deco-brass), var(--deco-brass));
+	background-size: 100% 1px, 7px 7px;
+	background-position: center, center;
+	background-repeat: no-repeat;
+	clip-path: polygon(0 40%, calc(50% - 6px) 40%, 50% 0, calc(50% + 6px) 40%,
+		100% 40%, 100% 60%, calc(50% + 6px) 60%, 50% 100%, calc(50% - 6px) 60%,
+		0 60%);
+}
+
+.deco-post .blog-content table {
+	border-collapse: collapse;
+	margin-bottom: 1em;
+}
+
+.deco-post .blog-content :is(th, td) {
+	padding: 0.35rem 0.7rem;
+	border: 1px solid var(--deco-line-faint);
+}
+
+.deco-post .blog-content th {
+	font-family: 'Josefin Sans', sans-serif;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--deco-brass-lit);
+}
+
+/* =====================================================================
+   Footnotes in the margin
+   ===================================================================== */
+
+.deco-post :is(sup, .footnotes) a {
+	color: var(--deco-brass-lit);
+}
+
+/* =====================================================================
+   Comments
+   ===================================================================== */
+
+.deco-post .comments {
+	margin-top: 3rem;
+}
+
+/* A plain segment with both its endpoints -- no midpoint claim here. */
+.deco-post .comments::before {
+	content: '';
+	display: block;
+	height: 7px;
+	margin-bottom: 1.5rem;
+	background-image:
+		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-brass) 0 2px, transparent 2.5px),
+		linear-gradient(var(--deco-line), var(--deco-line));
+	background-size: 7px 7px, 7px 7px, 100% 1px;
+	background-position: left center, right center, center;
+	background-repeat: no-repeat;
+}
+
+.deco-post .comments h3 {
+	font-family: 'Josefin Sans', sans-serif;
+	font-weight: 400;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	color: var(--deco-brass-lit);
+}
+
+.deco-post .comments :is(.text-gray-400, .text-gray-500, .text-gray-600,
+	.text-gray-700, .text-gray-800) {
+	color: var(--deco-ivory-dim);
+}
+
+.deco-post .comments :is(.border-gray-200, .border-gray-300, .border-gray-700) {
+	border-color: var(--deco-line-faint);
+}
+
+.deco-post .comments time {
+	font-family: 'Josefin Sans', sans-serif;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--deco-ivory-dim);
+}
+
+.deco-post .comments label {
+	font-family: 'Josefin Sans', sans-serif;
+	letter-spacing: 0.1em;
+	color: var(--deco-ivory);
+}
+
+/* Tailwind's red-600 lands at 3.9:1 on the ink; lifted to clear 4.5:1 while
+   staying red, since that's what the marker means. */
+.deco-post .comments .text-red-600 {
+	color: color-mix(in oklab, var(--deco-red) 45%, white);
+}
+
+.deco-post .comments :is(input, textarea) {
+	border: 1px solid var(--deco-line-faint);
+	border-radius: 0;
+	background-color: var(--deco-ink-lift);
+	color: var(--deco-ivory);
+}
+
+.deco-post .comments :is(input, textarea)::placeholder {
+	color: color-mix(in oklab, var(--deco-ivory-dim) 70%, transparent);
+}
+
+.deco-post .comments :is(input, textarea):focus {
+	border-color: var(--deco-brass);
+	box-shadow: none;
+	outline: 1px solid var(--deco-brass-lit);
+	outline-offset: 2px;
+}
+
+.deco-post .comments button[type='submit'] {
+	border: 1px solid var(--deco-brass);
+	border-radius: 0;
+	background-color: transparent;
+	font-family: 'Josefin Sans', sans-serif;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--deco-brass-lit);
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.deco-post .comments button[type='submit']:hover:not(:disabled) {
+	background-color: var(--deco-brass);
+	color: var(--deco-ink);
+}
+
+.deco-post .comments button[type='submit']:disabled {
+	border-color: var(--deco-line-faint);
+	color: var(--deco-ivory-dim);
+}
+
+/* The form's own script swaps these utility classes in at runtime, so the
+   status panel is recolored by matching them rather than by changing it. */
+.deco-post #form-status {
+	border-radius: 0;
+}
+
+.deco-post #form-status.bg-green-100 {
+	border-color: var(--deco-green);
+	background-color: color-mix(in oklab, var(--deco-green) 18%, var(--deco-ink));
+	color: color-mix(in oklab, var(--deco-green) 65%, white);
+}
+
+.deco-post #form-status.bg-red-100 {
+	border-color: var(--deco-red);
+	background-color: color-mix(in oklab, var(--deco-red) 18%, var(--deco-ink));
+	color: color-mix(in oklab, var(--deco-red) 60%, white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.deco-post .blog-content a,
+	.deco-post .comments button[type='submit'] {
+		transition: none;
+	}
+}

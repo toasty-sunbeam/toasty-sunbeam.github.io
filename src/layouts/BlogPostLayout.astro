@@ -5,7 +5,9 @@ import Tag from "../components/Tag.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import FootnotesSidebar from "../components/FootnotesSidebar.astro";
 import MainLayout from "./MainLayout.astro";
+import "../styles/deco.css";
 import "../styles/blog-post.css";
+import "../styles/post-deco.css";
 import type { FootnoteData } from "../plugins/footnotes";
 import CommentList from "../components/CommentList.astro";
 import CommentForm from "../components/CommentForm.astro";
@@ -18,25 +20,27 @@ const footnotes = (frontmatter.footnotes as FootnoteData[]) || [];
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''; // removes leading/trailing slashes and '/posts' prefix
 ---
 
-<MainLayout pageTitle={frontmatter.title}>
-	<div class="blog-layout">
+<MainLayout pageTitle={frontmatter.title} bodyClass="deco-body deco-post">
+	<div class="blog-layout deco-post" data-card-color={frontmatter.cardColor}>
 		<div id="footnote-lines-container"></div>
 		<aside class="left-sidebar">
-			<a href="/" class="font-bold text-lg block mb-2">James Harris</a>
+			<a href="/" class="site-name">James Harris</a>
 			{showToc && <TableOfContents headings={headings} />}
 		</aside>
 		<div class="blog-content">
 			<article>
-				<h1
-					class="mt-4"
-					transition:name={`post-title-${Astro.url.pathname}`}
-				>
-					{frontmatter.title}
-				</h1>
-				<div class="flex flex-row gap-1 mb-4">
-					<PostDate date={frontmatter.pubDate} />
-					{tagsArray.map((tag) => <Tag name={tag} />)}
-				</div>
+				<header class="post-header">
+					<h1
+						transition:name={`post-title-${Astro.url.pathname}`}
+					>
+						{frontmatter.title}
+					</h1>
+					<div class="post-meta">
+						<PostDate date={frontmatter.pubDate} />
+						{tagsArray.map((tag) => <Tag name={tag} />)}
+					</div>
+					<hr class="deco-rule" />
+				</header>
 				<slot />
 			</article>
 			<div class="comments">
