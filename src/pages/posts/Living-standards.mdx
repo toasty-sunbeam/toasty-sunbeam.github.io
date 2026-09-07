@@ -9,10 +9,18 @@ cardColor: orange
 import { Image } from 'astro:assets';
 import { YouTube } from 'astro-embed';
 import shaded from '/src/assets/posts/Human-Living-Standards/Living standards shaded.png';
-import incomeLevels from '/src/assets/posts/Human-Living-Standards/income-levels.jpg'
-import future from '/src/assets/posts/Human-Living-Standards/pop_by_region_and_level_2017_2040.jpg';
+import level1 from '/src/assets/posts/Human-Living-Standards/level-1.png';
+import level2 from '/src/assets/posts/Human-Living-Standards/level-2.png';
+import level3 from '/src/assets/posts/Human-Living-Standards/level-3.png';
+import level4 from '/src/assets/posts/Human-Living-Standards/level-4.png';
 
 <style>{`
+:root {
+	--level-image-width: 300px;
+	--text-max-width: 800px;
+	--infographic-max-height: calc(100vh - 2rem);
+}
+
 .sticky-figure-section {
 	display: flex;
 	flex-direction: column;
@@ -23,18 +31,19 @@ import future from '/src/assets/posts/Human-Living-Standards/pop_by_region_and_l
 	.sticky-figure-section {
 		flex-direction: row-reverse;
 		align-items: flex-start;
+		justify-content: center;
 		gap: 2rem;
 	}
 
 	.sticky-figure-image {
 		position: sticky;
 		top: 1rem;
-		flex: 0 0 45%;
-		max-width: 45%;
+		flex: 0 1 auto;
+		max-width: 100%;
 	}
 
 	.sticky-figure-image img {
-		max-height: calc(100vh - 2rem);
+		max-height: var(--infographic-max-height);
 		width: auto;
 		margin: 0 auto;
 	}
@@ -42,6 +51,7 @@ import future from '/src/assets/posts/Human-Living-Standards/pop_by_region_and_l
 	.sticky-figure-text {
 		flex: 1;
 		min-width: 0;
+		max-width: var(--text-max-width);
 	}
 }
 
@@ -55,7 +65,6 @@ import future from '/src/assets/posts/Human-Living-Standards/pop_by_region_and_l
 	}
 
 	.sticky-figure-section {
-		max-width: 1200px;
 		margin: 0 auto;
 		padding: 0 1rem;
 	}
@@ -69,6 +78,44 @@ import future from '/src/assets/posts/Human-Living-Standards/pop_by_region_and_l
 .left-sidebar.sidebar-faded {
 	opacity: 0;
 	pointer-events: none;
+}
+
+.level-rows {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	margin: 1.5rem 0;
+}
+
+.level-row {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+	.level-row {
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+}
+
+.level-image {
+	flex: 0 0 var(--level-image-width);
+	width: var(--level-image-width);
+	height: auto;
+	margin: 0;
+}
+
+.level-row p {
+	flex: 1;
+	min-width: 0;
+	margin: 0;
+}
+
+h2 {
+    margin-top: .5em;
 }
 `}</style>
 
@@ -113,22 +160,37 @@ We're not going to be able to stop comparing our lives to other people's. This i
         </div>
 
         <div class="sticky-figure-text">
-            This summarizes the material living circumstances of every human who has ever lived in one chart. (Some rounding will be involved.) Each stick figure or coffin represents one billion people, alive or dead. We divide them into four broad columns.
+            The infographic to the right summarizes the material living circumstances of every human who has ever lived in one chart. (Some rounding will be involved.) Each stick figure or coffin represents one billion people, alive or dead. We divide them into four broad columns.
 
-            At **level 1**, everywhere you travel, you do it on foot. All of the water you use, you (or a family member) must carry from a well or spring, which might be 15-60 minutes of walking from your home, where you sleep on the floor under a rug. Most people at this level grow their own food, which means they usually eat the same thing every meal, often some kind of porridge, and if the crops fail, you starve. 1 billion people live at level 1, including large portions of sub-Saharan Africa.
+            <div class="level-rows">
+                <div class="level-row">
+                    <Image src={level1} class="level-image" alt="Woman getting water from a well" width="300" />
 
-            Life at level 1 is very precarious, so getting to **level 2** is a big upgrade--you can start to save money, and hunger is no longer a constant concern. Your village has a water pump so you don't have to walk long distances to fetch water. You get some variety in your diet by adding vegetables and eggs, and you get a mattress to sleep on. When you need to go into town, you can do so by bicycle, which can carry a little bit of cargo and is a huge upgrade from walking. If someone in your family gets sick, you can buy medicine, although too major an illness risks pushing your family back to level 1. And although it's not reliable, you will often have electricity, which allows you to work and study after dark. 3 billion people live at level 2, including much of India.
+                    At **level 1**, everywhere you travel, you do it on foot. All of the water you use, you (or a family member) must carry from a well or spring, which might be 15-60 minutes of walking from your home, where you sleep on the floor under a rug. Most people at this level grow their own food, which means they usually eat the same thing every meal, often some kind of porridge, and if the crops fail, you starve. 1 billion people live at level 1, including large portions of sub-Saharan Africa.
+                </div>
 
-            Places that do very well at level 2 may advance to **level 3**, where you get a cold-water tap in your home. At this level you can buy a refrigerator, which means you can eat meat regularly and keep what you don't eat for a few days. You get a real bed to sleep on instead of a mattress, although you may need to share a room. And you can get to work on a moped or motorbike instead of using pedal power. At this level you have reliable electricity, and perhaps a television or laptop. 2 billion people live at level 2, including much of China.
+                <div class="level-row">
+                    <Image src={level2} class="level-image" alt="Person transporting water by bicycle" width="300" />
 
-            Finally, you have **level 4.** These people have it made: they have hot and cold running water in their home, so they can take hot showers and baths. Their food has endless variety--they get their food from grocery stores that sell more kinds of food than anyone would ever eat. In fact, in some level 4 places, people worry about eating too much instead of too little! People at level 4 get their own bedroom if they want, and they have cars, allowing them to travel great distances in comfort. 1 billion people are at level 4, including most of the United States and western Europe.
+                    Life at level 1 is very precarious, so getting to **level 2** is a big upgrade--you can start to save money, and hunger is no longer a constant concern. Your village has a water pump so you don't have to walk long distances to fetch water. You get some variety in your diet by adding vegetables and eggs, and you get a mattress to sleep on. When you need to go into town, you can do so by bicycle, which can carry a little bit of cargo and is a huge upgrade from walking. If someone in your family gets sick, you can buy medicine, although too major an illness risks pushing your family back to level 1. And although it's not reliable, you will often have electricity, which allows you to work and study after dark. 3 billion people live at level 2, including much of India.
+                </div>
+
+                <div class="level-row">
+                    <Image src={level3} class="level-image" alt="Plastic water tap" width="300" />
+
+                    Places that do very well at level 2 may advance to **level 3**, where you get a cold-water tap in your home. At this level you can buy a refrigerator, which means you can eat meat regularly and keep what you don't eat for a few days. You get a real bed to sleep on instead of a mattress, although you may need to share a room. And you can get to work on a moped or motorbike instead of using pedal power. At this level you have reliable electricity, and perhaps a television or laptop. 2 billion people live at level 3, including much of China.
+                </div>
+
+                <div class="level-row">
+
+                    <Image src={level4} class="level-image" alt="Sink with water faucet" width="300" />
+
+                    Finally, you have **level 4.** These people have it made: they have hot and cold running water in their home, so they can take hot showers and baths. Their food has endless variety--they get their food from grocery stores that sell more kinds of food than anyone would ever eat. In fact, in some level 4 places, people worry about eating too much instead of too little! People at level 4 get their own bedroom if they want, and they have cars, allowing them to travel great distances in comfort. 1 billion people are at level 4, including most of the United States and western Europe.
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<a href="https://www.gapminder.org/fw/income-levels/">
-    <Image src={incomeLevels} alt="Chart of income levels: 1 billion people at level 1, 3 billion at level 2, 2 billion at level 3, 1 billion at level 4" />
-</a>
 
 In the United States we tend to think of level 4 as the default and the other levels as tragic outliers. That's wrong. Most of the world is at level 2 or 3. And even that is an innovation. Humanity stopped being *majority* level 1 only in 1966. That's within living memory. The Beatles were touring that year. Between 1966 and the dawn of humanity, most people around the world were subsistence farmers who were one bad harvest away from starvation. Go back to 1800 and level 1 is 85% of the population. That's why the first column of this chart has coffins for 101 billion people: almost everyone throughout human history lived the precarious life of a subsistence farmer.[^1]
 
@@ -148,7 +210,7 @@ A lot of people today don't believe the world's most important problems can be s
 
 ## I'm still unhappy.
 
-You're allowed! Money isn't everything. There are lots of non-money things people need to be happy.
+You're allowed! How to feel is up to you. Money isn't everything. There are lots of non-money things people need to be happy.
 
 This is worth some thought. If you're unhappy, is money really the reason? How much money would you need to solve your problem? Is there a way you can [reduce the amount of money you need](https://www.mrmoneymustache.com/2013/02/22/getting-rich-from-zero-to-hero-in-one-blog-post/)?
 
@@ -156,9 +218,11 @@ Are you unhappy because of national or world events? Then do something about it!
 
 <center><iframe width="560" height="315" src="https://www.youtube.com/embed/nbPY2hyU3zk?si=voaqAAAnXXJK6eS2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></center>
 
+<br/>
+
 <center><iframe width="560" height="315" src="https://www.youtube.com/embed/Bew3EMicf8g?si=i-jy07be5keXgfbe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></center>
 
-
+<blockquote><em>Images and research courtesy of <a href="https://www.gapminder.org/fw/income-levels/">Gapminder</a>. Stick figure icon by <a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome</a>; other icons by <a href="https://pinhead.ink/">Pinhead</a>, <a href="https://rapideditor.github.io/temaki/docs/">Temaki</a>, <a href="https://tdesign.tencent.com/icons">TDesign</a>, and <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</em></blockquote>
 
 [^1]: See <a href="https://www.gapminder.org/fw/income-mountains/">Gapminder's Income Mountains</a> page to explore this data for yourself.
 
