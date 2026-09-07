@@ -1,5 +1,5 @@
 ---
-title: "Things are better than they look"
+title: "Things are better than they seem"
 comments: true
 pubDate: 2026-09-06
 layout: '../../layouts/BlogPostLayout.astro'
@@ -12,21 +12,119 @@ import shaded from '/src/assets/posts/Human-Living-Standards/Living standards sh
 import incomeLevels from '/src/assets/posts/Human-Living-Standards/income-levels.jpg'
 import future from '/src/assets/posts/Human-Living-Standards/pop_by_region_and_level_2017_2040.jpg';
 
+<style>{`
+.sticky-figure-section {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+@media (min-width: 768px) {
+	.sticky-figure-section {
+		flex-direction: row-reverse;
+		align-items: flex-start;
+		gap: 2rem;
+	}
+
+	.sticky-figure-image {
+		position: sticky;
+		top: 1rem;
+		flex: 0 0 45%;
+		max-width: 45%;
+	}
+
+	.sticky-figure-image img {
+		max-height: calc(100vh - 2rem);
+		width: auto;
+		margin: 0 auto;
+	}
+
+	.sticky-figure-text {
+		flex: 1;
+		min-width: 0;
+	}
+}
+
+/* Break out of the narrow content column so the image and text both get more room */
+@media (min-width: 1024px) {
+	.sticky-figure-breakout {
+		width: 100vw;
+		position: relative;
+		left: 50%;
+		margin-left: -50vw;
+	}
+
+	.sticky-figure-section {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+}
+
+/* The breakout spans the full viewport width, so it can overlap the sticky left sidebar. Fade the sidebar out while that's happening. */
+.left-sidebar {
+	transition: opacity 0.3s ease;
+}
+
+.left-sidebar.sidebar-faded {
+	opacity: 0;
+	pointer-events: none;
+}
+`}</style>
+
+<script>{`
+(function () {
+	let bound = false;
+
+	function init() {
+		if (bound) return;
+
+		const breakout = document.querySelector('.sticky-figure-breakout');
+		const sidebar = document.querySelector('.left-sidebar');
+		if (!breakout || !sidebar) return;
+
+		bound = true;
+
+		function updateFade() {
+			const sidebarRect = sidebar.getBoundingClientRect();
+			const breakoutRect = breakout.getBoundingClientRect();
+			const overlapping = breakoutRect.top < sidebarRect.bottom && breakoutRect.bottom > sidebarRect.top;
+			sidebar.classList.toggle('sidebar-faded', overlapping);
+		}
+
+		window.addEventListener('scroll', updateFade, { passive: true });
+		window.addEventListener('resize', updateFade);
+		updateFade();
+	}
+
+	window.addEventListener('load', init);
+	document.addEventListener('astro:page-load', init);
+})();
+`}</script>
+
 They say comparison is the thief of joy--that if you want to be happy, stop comparing your life to other people's. The problem with this advice is that it goes against human psychology. Comparing ourselves to others is what humans *do.*
 
 We're not going to be able to stop comparing our lives to other people's. This is fine, actually. You just have to look at the complete picture.
 
-<Image src={shaded} alt="4-column chart of human living standards through time. The first column is people who fetch water from a distance on foot, eat mostly porridge, sleep on the floor, and travel by foot; this column has had 102 billion people in it throughout history, of whom 1 billion are alive today. The second column is people who get water from a village pump, often eat vegetables and eggs, sleep on a mattress, and travel by bicycle; this column has had ten billion people in it throughout history, of whom four billion are alive today. The third column is people who have a cold-water tap in their house, can eat meat regularly, sleep on beds in a shared bedroom with others, and travel by motorbike; this column has had 3.5 billion people in it throughout history, of whom 2 billion are alive today. The fourth column is people who have hot and cold running water in their house, eat a wide variety of food (often prepared for them by others), can sleep in their own bedroom, and travel by car; this category has had 1.5 billion in it throughout history, of whom 1 billion are alive today." />
+<div class="sticky-figure-breakout">
+    <div class="sticky-figure-section">
+        <div class="sticky-figure-image">
+            <Image src={shaded} alt="4-column chart of human living standards through time. The first column is people who fetch water from a distance on foot, eat mostly porridge, sleep on the floor, and travel by foot; this column has had 102 billion people in it throughout history, of whom 1 billion are alive today. The second column is people who get water from a village pump, often eat vegetables and eggs, sleep on a mattress, and travel by bicycle; this column has had ten billion people in it throughout history, of whom four billion are alive today. The third column is people who have a cold-water tap in their house, can eat meat regularly, sleep on beds in a shared bedroom with others, and travel by motorbike; this column has had 3.5 billion people in it throughout history, of whom 2 billion are alive today. The fourth column is people who have hot and cold running water in their house, eat a wide variety of food (often prepared for them by others), can sleep in their own bedroom, and travel by car; this category has had 1.5 billion in it throughout history, of whom 1 billion are alive today." />
+        </div>
 
-This summarizes the material living circumstances of every human who has ever lived in one chart. (Some rounding will be involved.) Each stick figure or coffin represents one billion people, alive or dead. We divide them into four broad columns.
+        <div class="sticky-figure-text">
+            This summarizes the material living circumstances of every human who has ever lived in one chart. (Some rounding will be involved.) Each stick figure or coffin represents one billion people, alive or dead. We divide them into four broad columns.
 
-At **level 1**, everywhere you travel, you do it on foot. All of the water you use, you (or a family member) must carry from a well or spring, which might be 15-60 minutes of walking from your home, where you sleep on the floor under a rug. Most people at this level grow their own food, which means they usually eat the same thing every meal, often some kind of porridge, and if the crops fail, you starve. 1 billion people live at level 1, including large portions of sub-Saharan Africa.
+            At **level 1**, everywhere you travel, you do it on foot. All of the water you use, you (or a family member) must carry from a well or spring, which might be 15-60 minutes of walking from your home, where you sleep on the floor under a rug. Most people at this level grow their own food, which means they usually eat the same thing every meal, often some kind of porridge, and if the crops fail, you starve. 1 billion people live at level 1, including large portions of sub-Saharan Africa.
 
-Life at level 1 is very precarious, so getting to **level 2** is a big upgrade--you can start to save money, and hunger is no longer a constant concern. Your village has a water pump so you don't have to walk long distances to fetch water. You get some variety in your diet by adding vegetables and eggs, and you get a mattress to sleep on. When you need to go into town, you can do so by bicycle, which can carry a little bit of cargo and is a huge upgrade from walking. If someone in your family gets sick, you can buy medicine, although too major an illness risks pushing your family back to level 1. And although it's not reliable, you will often have electricity, which allows you to work and study after dark. 3 billion people live at level 2, including much of India.
+            Life at level 1 is very precarious, so getting to **level 2** is a big upgrade--you can start to save money, and hunger is no longer a constant concern. Your village has a water pump so you don't have to walk long distances to fetch water. You get some variety in your diet by adding vegetables and eggs, and you get a mattress to sleep on. When you need to go into town, you can do so by bicycle, which can carry a little bit of cargo and is a huge upgrade from walking. If someone in your family gets sick, you can buy medicine, although too major an illness risks pushing your family back to level 1. And although it's not reliable, you will often have electricity, which allows you to work and study after dark. 3 billion people live at level 2, including much of India.
 
-Places that do very well at level 2 may advance to **level 3**, where you get a cold-water tap in your home. At this level you can buy a refrigerator, which means you can eat meat regularly and keep what you don't eat for a few days. You get a real bed to sleep on instead of a mattress, although you may need to share a room. And you can get to work on a moped or motorbike instead of using pedal power. At this level you have reliable electricity, and perhaps a television or laptop. 2 billion people live at level 2, including much of China.
+            Places that do very well at level 2 may advance to **level 3**, where you get a cold-water tap in your home. At this level you can buy a refrigerator, which means you can eat meat regularly and keep what you don't eat for a few days. You get a real bed to sleep on instead of a mattress, although you may need to share a room. And you can get to work on a moped or motorbike instead of using pedal power. At this level you have reliable electricity, and perhaps a television or laptop. 2 billion people live at level 2, including much of China.
 
-Finally, you have **level 4.** These people have it made: they have hot and cold running water in their home, so they can take hot showers and baths. Their food has endless variety--they get their food from grocery stores that sell more kinds of food than anyone would ever eat. In fact, in some level 4 places, people worry about eating too much instead of too little! People at level 4 get their own bedroom if they want, and they have cars, allowing them to travel great distances in comfort. 1 billion people are at level 4, including most of the United States and western Europe.
+            Finally, you have **level 4.** These people have it made: they have hot and cold running water in their home, so they can take hot showers and baths. Their food has endless variety--they get their food from grocery stores that sell more kinds of food than anyone would ever eat. In fact, in some level 4 places, people worry about eating too much instead of too little! People at level 4 get their own bedroom if they want, and they have cars, allowing them to travel great distances in comfort. 1 billion people are at level 4, including most of the United States and western Europe.
+        </div>
+    </div>
+</div>
 
 <a href="https://www.gapminder.org/fw/income-levels/">
     <Image src={incomeLevels} alt="Chart of income levels: 1 billion people at level 1, 3 billion at level 2, 2 billion at level 3, 1 billion at level 4" />
