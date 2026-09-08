@@ -154,12 +154,22 @@ html[data-theme='light'] .deco-sunbeam {
 	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, var(--deco-lift));
 	padding: 0.85rem 1.1rem 1.1rem;
 	/* A corner marker says the two lines meeting there are at a right angle, so
-	   those two lines have to read as the same figure. That means the whole
-	   outline takes the accent -- the marked edge is only thicker, not a
-	   different color from the ones it meets. */
+	   those two lines have to read as the same figure -- the marked edge is
+	   only thicker, never a different color from the ones it meets. */
 	border: 1px solid var(--deco-accent);
-	border-top: 2px solid var(--deco-accent);
+	border-top-width: 2px;
 	border-radius: 0;
+	/* The accent holds on the left, where the markers are, and fades to the
+	   neutral hairline by the right edge. Two things fall out of that: every
+	   corner still meets two edges of one color, and the right-hand corners
+	   are visibly not the same kind of corner as the left-hand ones, so they
+	   aren't asking for a square. border-image because a border can't take a
+	   gradient directly; it has to come after the `border` shorthand, which
+	   resets it. */
+	border-image: linear-gradient(to right,
+		var(--deco-accent) 0 25%,
+		var(--deco-line) 100%) 1;
+
 	background-color: var(--deco-surface);
 	background-image:
 		/* three hatches: the three panels are a column wide apiece, so their
@@ -176,27 +186,28 @@ html[data-theme='light'] .deco-sunbeam {
 	color: var(--deco-text);
 }
 
-/* The two corners at the ends of that edge. Flush, so each marker's undrawn
-   sides lie along the border and the top rule that form the angle. */
+/* Both markers sit on the left, where the accent is still at full strength --
+   the same pair of corners the post cards carry. Flush, so each marker's
+   undrawn sides lie along the two borders that form the angle. */
 .deco-panel::before,
 .deco-panel::after {
 	content: '';
 	position: absolute;
-	top: 0;
+	left: 0;
 	width: 0.65rem;
 	height: 0.65rem;
-	border-bottom: 1px solid var(--deco-accent);
+	border-right: 1px solid var(--deco-accent);
 	opacity: 0.85;
 }
 
 .deco-panel::before {
-	left: 0;
-	border-right: 1px solid var(--deco-accent);
+	top: 0;
+	border-bottom: 1px solid var(--deco-accent);
 }
 
 .deco-panel::after {
-	right: 0;
-	border-left: 1px solid var(--deco-accent);
+	bottom: 0;
+	border-top: 1px solid var(--deco-accent);
 }
 
 .deco-panel--jade { --deco-accent: var(--deco-green); }
@@ -285,8 +296,19 @@ html[data-theme='light'] .deco-sunbeam {
 	padding: 0.7rem 1rem 0.9rem 1.4rem;
 	/* See the note on .deco-panel: the outline matches the marked edge. */
 	border: 1px solid var(--deco-accent);
-	border-left: 2px solid var(--deco-accent);
+	border-left-width: 2px;
 	border-radius: 0;
+	/* The accent holds on the left, where the markers are, and fades to the
+	   neutral hairline by the right edge. Two things fall out of that: every
+	   corner still meets two edges of one color, and the right-hand corners
+	   are visibly not the same kind of corner as the left-hand ones, so they
+	   aren't asking for a square. border-image because a border can't take a
+	   gradient directly; it has to come after the `border` shorthand, which
+	   resets it. */
+	border-image: linear-gradient(to right,
+		var(--deco-accent) 0 25%,
+		var(--deco-line) 100%) 1;
+
 	background-color: var(--deco-surface);
 	background-image: linear-gradient(105deg,
 		color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,

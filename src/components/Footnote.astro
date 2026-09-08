@@ -20,8 +20,12 @@ const { id, number, html } = Astro.props;
         margin-bottom: 0.5rem;
         padding: 0.5rem 0.6rem;
         background: color-mix(in oklab, var(--deco-surface) 70%, transparent);
-        border: 1px solid var(--deco-line-faint);
-        border-left: 2px solid var(--deco-accent);
+        border: 1px solid var(--deco-accent);
+        border-left-width: 2px;
+        /* Same left-to-neutral fade as the cards; see home-deco.css. */
+        border-image: linear-gradient(to right,
+            var(--deco-accent) 0 25%,
+            var(--deco-line) 100%) 1;
         width: 100%;
         box-sizing: border-box;
         transition: top 0.2s ease;

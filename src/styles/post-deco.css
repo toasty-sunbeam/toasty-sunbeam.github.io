@@ -66,9 +66,20 @@
 .deco-post .toc {
 	position: relative;
 	padding: 0.8rem 0.9rem 0.9rem 1.2rem;
-	/* See the note on .deco-panel: the outline matches the marked edge. */
+	/* See the note on .deco-panel: the outline matches the marked edge, and
+	   fades to neutral by the right. */
 	border: 1px solid var(--deco-accent);
-	border-left: 2px solid var(--deco-accent);
+	border-left-width: 2px;
+	/* The accent holds on the left, where the markers are, and fades to the
+	   neutral hairline by the right edge. Two things fall out of that: every
+	   corner still meets two edges of one color, and the right-hand corners
+	   are visibly not the same kind of corner as the left-hand ones, so they
+	   aren't asking for a square. border-image because a border can't take a
+	   gradient directly; it has to come after the `border` shorthand, which
+	   resets it. */
+	border-image: linear-gradient(to right,
+		var(--deco-accent) 0 25%,
+		var(--deco-line) 100%) 1;
 	background-color: color-mix(in oklab, var(--deco-surface) 75%, transparent);
 }
 
