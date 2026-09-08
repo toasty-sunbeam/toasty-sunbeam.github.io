@@ -363,9 +363,9 @@ body.deco-body [data-card-color='gray'] { --deco-accent: var(--deco-gray); }
 /* =====================================================================
    Color scheme toggle
 
-   A half-filled disc, which is the ordinary icon for this and happens to be
-   drawn out of the same circle-and-straight-edge parts as everything else.
-   Furniture, not notation: it describes no figure and asserts nothing.
+   Sun on paper, moon on ink: the icon shows the scheme you're in rather than
+   the one a click would take you to. Furniture, not notation -- it describes
+   no figure and asserts nothing.
    ===================================================================== */
 
 .deco-toolbar {
@@ -391,27 +391,35 @@ body.deco-body [data-card-color='gray'] { --deco-accent: var(--deco-gray); }
 	border-color: var(--deco-metal-em);
 }
 
-.deco-theme-toggle__mark {
-	width: 0.85rem;
-	height: 0.85rem;
-	border: 1px solid var(--deco-metal-em);
-	border-radius: 50%;
-	/* The filled half flips with the scheme, so the control shows a state
-	   rather than sitting there as a static icon. */
-	background-image: linear-gradient(90deg,
-		var(--deco-metal-em) 0 50%, transparent 50% 100%);
+.deco-theme-toggle__icon {
+	display: block;
+	grid-area: 1 / 1;
+	width: 1rem;
+	height: 1rem;
+	color: var(--deco-metal-em);
 }
 
-html[data-theme='light'] .deco-theme-toggle__mark {
-	background-image: linear-gradient(90deg,
-		transparent 0 50%, var(--deco-metal-em) 50% 100%);
+/* Ink is the base, so the moon shows and the sun waits. */
+.deco-theme-toggle__icon--sun {
+	display: none;
+}
+
+html[data-theme='light'] .deco-theme-toggle__icon--sun {
+	display: block;
+}
+
+html[data-theme='light'] .deco-theme-toggle__icon--moon {
+	display: none;
 }
 
 @media (prefers-color-scheme: light) {
 
-	html:not([data-theme]) .deco-theme-toggle__mark {
-		background-image: linear-gradient(90deg,
-			transparent 0 50%, var(--deco-metal-em) 50% 100%);
+	html:not([data-theme]) .deco-theme-toggle__icon--sun {
+		display: block;
+	}
+
+	html:not([data-theme]) .deco-theme-toggle__icon--moon {
+		display: none;
 	}
 }
 

@@ -11,6 +11,7 @@ import "../styles/post-deco.css";
 import type { FootnoteData } from "../plugins/footnotes";
 import CommentList from "../components/CommentList.astro";
 import CommentForm from "../components/CommentForm.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 const { frontmatter, headings } = Astro.props;
 const tagsString = frontmatter.tags as string;
@@ -24,17 +25,6 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''; // remov
 	<div class="blog-layout deco-post" data-card-color={frontmatter.cardColor}>
 		<div id="footnote-lines-container"></div>
 		<aside class="left-sidebar">
-			<div class="deco-toolbar">
-				<button
-					type="button"
-					class="deco-theme-toggle"
-					data-theme-toggle
-					title="Switch between light and dark"
-					aria-label="Switch between light and dark"
-				>
-					<span class="deco-theme-toggle__mark" aria-hidden="true"></span>
-				</button>
-			</div>
 			<a href="/" class="site-name">James Harris</a>
 			{showToc && <TableOfContents headings={headings} />}
 		</aside>
@@ -49,6 +39,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''; // remov
 					<div class="post-meta">
 						<PostDate date={frontmatter.pubDate} />
 						{tagsArray.map((tag) => <Tag name={tag} />)}
+						<ThemeToggle />
 					</div>
 					<hr class="deco-rule" />
 				</header>

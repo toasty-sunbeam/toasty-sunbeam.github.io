@@ -7,6 +7,7 @@ import '../styles/home-deco.css';
 import type { MarkdownInstance } from 'astro';
 import type { Frontmatter } from '../frontmatter';
 import PostCard from '../components/PostCard.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 // Blog posts
 const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./posts/*.mdx', { eager: true }))
@@ -24,15 +25,7 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 			<span class="deco-ra deco-ra--bl" aria-hidden="true"></span>
 			<span class="deco-ra deco-ra--br" aria-hidden="true"></span>
 			<div class="deco-toolbar">
-				<button
-					type="button"
-					class="deco-theme-toggle"
-					data-theme-toggle
-					title="Switch between light and dark"
-					aria-label="Switch between light and dark"
-				>
-					<span class="deco-theme-toggle__mark" aria-hidden="true"></span>
-				</button>
+				<ThemeToggle />
 			</div>
 			<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-x-5 gap-y-4 max-w-3xl">
 				<h1 class="deco-masthead">James Harris</h1>
