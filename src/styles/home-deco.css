@@ -159,14 +159,10 @@ html[data-theme='light'] .deco-sunbeam {
 	border: 1px solid var(--deco-accent);
 	border-top-width: 2px;
 	border-radius: 0;
-	/* The accent holds on the left, where the markers are, and fades to the
-	   neutral hairline by the right edge. Two things fall out of that: every
-	   corner still meets two edges of one color, and the right-hand corners
-	   are visibly not the same kind of corner as the left-hand ones, so they
-	   aren't asking for a square. border-image because a border can't take a
-	   gradient directly; it has to come after the `border` shorthand, which
-	   resets it. */
-	border-image: linear-gradient(to right,
+	/* The left column fades downward instead: that puts both top corners at
+	   full accent, so the pair of markers sits across the top, and leaves the
+	   bottom corners neutral and unmarked. */
+	border-image: linear-gradient(to bottom,
 		var(--deco-accent) 0 25%,
 		var(--deco-line) 100%) 1;
 
@@ -186,28 +182,28 @@ html[data-theme='light'] .deco-sunbeam {
 	color: var(--deco-text);
 }
 
-/* Both markers sit on the left, where the accent is still at full strength --
-   the same pair of corners the post cards carry. Flush, so each marker's
-   undrawn sides lie along the two borders that form the angle. */
+/* Both markers sit across the top, at the two ends of the accented edge and
+   where the fade is still at full strength. Flush, so each marker's undrawn
+   sides lie along the two borders that form the angle. */
 .deco-panel::before,
 .deco-panel::after {
 	content: '';
 	position: absolute;
-	left: 0;
+	top: 0;
 	width: 0.65rem;
 	height: 0.65rem;
-	border-right: 1px solid var(--deco-accent);
+	border-bottom: 1px solid var(--deco-accent);
 	opacity: 0.85;
 }
 
 .deco-panel::before {
-	top: 0;
-	border-bottom: 1px solid var(--deco-accent);
+	left: 0;
+	border-right: 1px solid var(--deco-accent);
 }
 
 .deco-panel::after {
-	bottom: 0;
-	border-top: 1px solid var(--deco-accent);
+	right: 0;
+	border-left: 1px solid var(--deco-accent);
 }
 
 .deco-panel--jade { --deco-accent: var(--deco-green); }
