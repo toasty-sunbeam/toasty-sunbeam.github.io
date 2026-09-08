@@ -57,7 +57,7 @@ import level4 from '/src/assets/posts/Human-Living-Standards/level-4.png';
 
 /* Break out of the narrow content column so the image and text both get more room */
 @media (min-width: 1024px) {
-	.sticky-figure-breakout {
+	.breakout {
 		width: 100vw;
 		position: relative;
 		left: 50%;
@@ -126,7 +126,7 @@ h2 {
 	function init() {
 		if (bound) return;
 
-		const breakout = document.querySelector('.sticky-figure-breakout');
+		const breakout = document.querySelector('.breakout');
 		const sidebar = document.querySelector('.left-sidebar');
 		if (!breakout || !sidebar) return;
 
@@ -153,7 +153,7 @@ They say comparison is the thief of joy--that if you want to be happy, stop comp
 
 We're not going to be able to stop comparing our lives to other people's. This is fine, actually. You just have to look at the complete picture.
 
-<div class="sticky-figure-breakout">
+<div class="breakout">
     <div class="sticky-figure-section">
         <div class="sticky-figure-image">
             <Image src={shaded} alt="4-column chart of human living standards through time. The first column is people who fetch water from a distance on foot, eat mostly porridge, sleep on the floor, and travel by foot; this column has had 102 billion people in it throughout history, of whom 1 billion are alive today. The second column is people who get water from a village pump, often eat vegetables and eggs, sleep on a mattress, and travel by bicycle; this column has had ten billion people in it throughout history, of whom four billion are alive today. The third column is people who have a cold-water tap in their house, can eat meat regularly, sleep on beds in a shared bedroom with others, and travel by motorbike; this column has had 3.5 billion people in it throughout history, of whom 2 billion are alive today. The fourth column is people who have hot and cold running water in their house, eat a wide variety of food (often prepared for them by others), can sleep in their own bedroom, and travel by car; this category has had 1.5 billion in it throughout history, of whom 1 billion are alive today." />
@@ -192,11 +192,24 @@ We're not going to be able to stop comparing our lives to other people's. This i
     </div>
 </div>
 
-In the United States we tend to think of level 4 as the default and the other levels as tragic outliers. That's wrong. Most of the world is at level 2 or 3. And even that is an innovation. Humanity stopped being *majority* level 1 only in 1966. That's within living memory. The Beatles were touring that year. Between 1966 and the dawn of humanity, most people around the world were subsistence farmers who were one bad harvest away from starvation. Go back to 1800 and level 1 is 85% of the population. That's why the first column of this chart has coffins for 101 billion people: almost everyone throughout human history lived the precarious life of a subsistence farmer.[^1]
+In the United States we tend to think of level 4 as the default and the other levels as tragic outliers. That's wrong. Most of the world is at level 2 or 3. And even that is an innovation. Humanity stopped being *majority* level 1 only in 1966. That's within living memory. The Beatles were touring that year. Between 1966 and the dawn of humanity, most people around the world were subsistence farmers who were one bad harvest away from starvation. Go back to 1800 and level 1 is 85% of the population. That's why the first column of this chart has coffins for 101 billion people: almost everyone throughout human history lived the precarious life of a subsistence farmer.
 
-Those of us who live at level 4 are **fantastically** lucky. We are cosmic lottery winners to be born in this time and place.[^2]
+Those of us who live at level 4 are **fantastically** lucky. We are cosmic lottery winners to be born in this time and place.
 
-<center><big><strong>If you have hot and cold running water, your own bedroom, and a car, you're in the top 13% most fortunate people alive. And on the grand scale of every human ever born, you're in the top 1.4%.</strong></big></center>
+<style>{`
+.stat-callout {
+    font-size: 28px;
+    max-width: 1200px;
+    text-align: center;
+    margin: 0 auto;
+}
+`}</style>
+
+<div class="breakout">
+<div class="stat-callout">
+If you have hot and cold running water, your own bedroom, and a car, you're in the top 13% most fortunate people alive. And on the grand scale of every human ever born, you're in the top 1.4%.
+</div>
+</div>
 
 ## What, you're saying everything is fine?
 
@@ -216,14 +229,30 @@ This is worth some thought. If you're unhappy, is money really the reason? How m
 
 Are you unhappy because of national or world events? Then do something about it! Start by watching these two four-minute videos about getting from "this is hopeless, everything sucks" to finding a problem you want to work on. I promise you will feel better helping to fix one of these problems than you will sitting on your couch and doomscrolling.
 
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/nbPY2hyU3zk?si=voaqAAAnXXJK6eS2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></center>
+<style>{`
+center iframe {
+    margin: 1em 0;
+}
+`}</style>
 
-<br/>
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/nbPY2hyU3zk?si=voaqAAAnXXJK6eS2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></center>
 
 <center><iframe width="560" height="315" src="https://www.youtube.com/embed/Bew3EMicf8g?si=i-jy07be5keXgfbe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></center>
 
-<blockquote><em>Images and research courtesy of <a href="https://www.gapminder.org/fw/income-levels/">Gapminder</a>. Stick figure icon by <a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome</a>; other icons by <a href="https://pinhead.ink/">Pinhead</a>, <a href="https://rapideditor.github.io/temaki/docs/">Temaki</a>, <a href="https://tdesign.tencent.com/icons">TDesign</a>, and <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</em></blockquote>
+The one thing you shouldn't do is despair. If you're reading this from the US or Europe and you're not homeless, you are one of the luckiest people in history. Americans and Europeans live our lives [surrounded by luxury that we usually don't notice](https://ordinaryabundance.com/).
 
-[^1]: See <a href="https://www.gapminder.org/fw/income-mountains/">Gapminder's Income Mountains</a> page to explore this data for yourself.
+If you let the news or social media tell you how happy to be, you will *always* be unhappy, regardless of what is happening in the world, because selling anger and fear is their business model. Those feelings are how they keep you coming back.
 
-[^2]: https://ordinaryabundance.com/
+Ignore the haters. Enjoy what you have. Work to make things better. 
+
+<style>{`
+blockquote {
+    font-size: .8em;
+}
+`}</style>
+
+<blockquote>
+    <p><em>Images and research courtesy of Gapminder. See their <a href="https://www.gapminder.org/fw/income-levels/">Income Levels</a> page to explore current global living standards in more detail, or <a href="https://www.gapminder.org/fw/income-mountains/">Income Mountains</a> for historical trends.</em></p>
+
+    <p><em>Stick figure icon by <a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome</a>; other icons by <a href="https://pinhead.ink/">Pinhead</a>, <a href="https://rapideditor.github.io/temaki/docs/">Temaki</a>, <a href="https://tdesign.tencent.com/icons">TDesign</a>, and <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</em></p>
+</blockquote>
