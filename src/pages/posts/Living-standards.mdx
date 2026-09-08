@@ -146,16 +146,18 @@ iframe {
 	function init() {
 		if (bound) return;
 
-		const breakout = document.querySelector('.breakout');
+		const breakouts = document.querySelectorAll('.breakout');
 		const sidebar = document.querySelector('.left-sidebar');
-		if (!breakout || !sidebar) return;
+		if (!breakouts.length || !sidebar) return;
 
 		bound = true;
 
 		function updateFade() {
 			const sidebarRect = sidebar.getBoundingClientRect();
-			const breakoutRect = breakout.getBoundingClientRect();
-			const overlapping = breakoutRect.top < sidebarRect.bottom && breakoutRect.bottom > sidebarRect.top;
+			const overlapping = [...breakouts].some((breakout) => {
+				const breakoutRect = breakout.getBoundingClientRect();
+				return breakoutRect.top < sidebarRect.bottom && breakoutRect.bottom > sidebarRect.top;
+			});
 			sidebar.classList.toggle('sidebar-faded', overlapping);
 		}
 
