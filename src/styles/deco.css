@@ -290,7 +290,6 @@ html[data-theme='light'] body.deco-body {
 
 body.deco-body a {
 	color: var(--deco-text);
-	text-decoration: none;
 }
 
 /* The hover underline global.css draws takes the local accent. */
