@@ -91,13 +91,23 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
         perspective: 1000px;
     }
 
+    /* transform-style and will-change removed. Neither was doing any work:
+       nothing inside a card is positioned in 3D, so preserve-3d had no
+       children to preserve, and the flutter is one 1.2s run an hour, which
+       does not need every card pre-promoted to its own compositing layer for
+       the life of the page.
+
+       This is also a guess at an intermittent report of a card not being
+       repainted after the pointer leaves it. Between them these two kept all
+       eleven cards on their own layers inside the 3D context the parent's
+       perspective sets up, which is where that class of Chromium bug lives.
+       Unconfirmed: it does not reproduce under software rendering, so this
+       is a narrowing of the surface rather than a diagnosis. */
     .animate-flutter {
         animation-name: flutter;
         animation-duration: 1.2s;
         animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         animation-iteration-count: 1;
-        transform-style: preserve-3d;
-        will-change: transform;
     }
 	.animate-flutter.left {
         transform-origin: right center;
@@ -147,19 +157,44 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 
 	const ONE_HOUR = 60 * 60 * 1000;
 
+	// The perspective is only wanted while the flutter is turning. After that
+	// it is a 3D rendering context sitting around the list for the life of the
+	// page for no reason, and the same suspect as the two properties dropped
+	// from .animate-flutter above. Clearing it costs nothing: the animation
+	// ends at rotateY(0), so there is nothing left to project.
+	function dropPerspective() {
+		document.querySelectorAll<HTMLElement>('.perspective-container').forEach(el => {
+			el.style.perspective = 'none';
+		});
+	}
+
 	function handleFlutterAnimation() {
+		const flutter = document.querySelectorAll<HTMLElement>('.animate-flutter');
 		const lastPlayed = sessionStorage.getItem('flutterPlayedAt');
 		const now = Date.now();
 
 		if (lastPlayed && now - parseInt(lastPlayed) < ONE_HOUR) {
 			// Animation played recently, skip it
-			document.querySelectorAll<HTMLElement>('.animate-flutter').forEach(el => {
+			flutter.forEach(el => {
 				el.style.animation = 'none';
 			});
-		} else {
-			// Let animation play and record the time
-			sessionStorage.setItem('flutterPlayedAt', now.toString());
+			dropPerspective();
+			return;
 		}
+
+		// Let animation play and record the time
+		sessionStorage.setItem('flutterPlayedAt', now.toString());
+
+		let running = flutter.length;
+		flutter.forEach(el => el.addEventListener('animationend', () => {
+			running -= 1;
+			if (running === 0) dropPerspective();
+		}, { once: true }));
+
+		// Reduced motion turns the animation off in CSS, so animationend never
+		// fires and the count never lands. Longest delay plus duration is about
+		// 1.65s; this is well clear of it.
+		setTimeout(dropPerspective, 3000);
 	}
 
 	// Run on initial load and on view transition navigation
