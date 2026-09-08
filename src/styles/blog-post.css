@@ -80,7 +80,10 @@
         gap: 2rem;
         max-width: 80rem;
         /* Increased max width for 3 columns */
-        grid-template-columns: 220px 1fr 220px;
+        /* minmax(0, 1fr) instead of a bare 1fr: a bare 1fr implies a content-based
+           "auto" minimum, so a wide descendant (e.g. a full-bleed breakout) can force
+           this track wider than the space actually available and overflow the page. */
+        grid-template-columns: 220px minmax(0, 1fr) 220px;
     }
 
     .blog-content {

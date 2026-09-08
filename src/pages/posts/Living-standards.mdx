@@ -58,10 +58,12 @@ import level4 from '/src/assets/posts/Human-Living-Standards/level-4.png';
 /* Break out of the narrow content column so the image and text both get more room */
 @media (min-width: 1024px) {
 	.breakout {
-		width: 100vw;
+		/* --viewport-width (set by script below) excludes the scrollbar; 100vw doesn't,
+		   which left a several-pixel horizontal overflow. Fall back to 100vw if JS hasn't run yet. */
+		width: var(--viewport-width, 100vw);
 		position: relative;
 		left: 50%;
-		margin-left: -50vw;
+		margin-left: calc(var(--viewport-width, 100vw) / -2);
 	}
 
 	.sticky-figure-section {
@@ -117,10 +119,28 @@ import level4 from '/src/assets/posts/Human-Living-Standards/level-4.png';
 h2 {
     margin-top: .5em;
 }
+
+/* The embedded YouTube players below have a hard-coded pixel width, which overflows
+   on narrow screens. Let them shrink instead, keeping their 16:9 aspect ratio. */
+iframe {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 560 / 315;
+}
 `}</style>
 
 <script>{`
 (function () {
+	// 100vw includes the scrollbar's width, which makes .breakout overflow the
+	// visible page and creates a horizontal scrollbar. clientWidth doesn't, so
+	// measure it ourselves and drive .breakout's sizing from that instead.
+	function setViewportWidth() {
+		document.documentElement.style.setProperty('--viewport-width', document.documentElement.clientWidth + 'px');
+	}
+
+	setViewportWidth();
+	window.addEventListener('resize', setViewportWidth);
+
 	let bound = false;
 
 	function init() {
