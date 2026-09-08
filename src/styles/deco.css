@@ -58,6 +58,16 @@ body.deco-body {
 	--deco-text: #f1e7d4;
 	--deco-text-dim: #a9b4bd;
 	--deco-lift: white;
+	/* What a plate in an article is mounted on, and what a floating panel
+	   casts. Both have to invert: the mount is lighter than the ground in
+	   either scheme, and a shadow that reads on ink is far too heavy on
+	   paper. */
+	--deco-mount: #f1e7d4;
+	--deco-shadow: rgba(0, 0, 0, 0.5);
+	/* The jewel reds are picked to read as a border or a spine, where 3.4:1 is
+	   fine. A required-field marker is text and needs 4.5, so it gets its own
+	   value in each scheme rather than borrowing one. */
+	--deco-danger: #dd6b78;
 
 	/* Jewel accents, keyed to the card colors used in post frontmatter */
 	--deco-red: #b83e4d;
@@ -116,16 +126,11 @@ body.deco-body {
    The default is whatever the reader's system asks for; the toggle on the
    page writes data-theme onto <html> to override it, and that wins in both
    directions.
-
-   The post pages are excluded for now: they're still being fitted for
-   paper, and the pieces that need it -- the mounts behind article images,
-   the footnote leaders, the comment form -- are theirs, not shared. Drop
-   the :not(.deco-post) from both selectors when they're ready.
    ===================================================================== */
 
 @media (prefers-color-scheme: light) {
 
-	html:not([data-theme='dark']) body.deco-body:not(.deco-post) {
+	html:not([data-theme='dark']) body.deco-body {
 	color-scheme: light;
 
 	/* Ground: warm paper rather than plain white */
@@ -142,6 +147,9 @@ body.deco-body {
 	--deco-text: #1b2530;
 	--deco-text-dim: #4c5a66;
 	--deco-lift: black;
+	--deco-mount: #fdfaf3;
+	--deco-shadow: rgba(27, 37, 48, 0.2);
+	--deco-danger: #9c2f3d;
 
 	/* Jewel accents, deepened to the same end */
 	--deco-red: #9c2f3d;
@@ -166,7 +174,7 @@ body.deco-body {
 	}
 }
 
-html[data-theme='light'] body.deco-body:not(.deco-post) {
+html[data-theme='light'] body.deco-body {
 	color-scheme: light;
 
 	/* Ground: warm paper rather than plain white */
@@ -183,6 +191,9 @@ html[data-theme='light'] body.deco-body:not(.deco-post) {
 	--deco-text: #1b2530;
 	--deco-text-dim: #4c5a66;
 	--deco-lift: black;
+	--deco-mount: #fdfaf3;
+	--deco-shadow: rgba(27, 37, 48, 0.2);
+	--deco-danger: #9c2f3d;
 
 	/* Jewel accents, deepened to the same end */
 	--deco-red: #9c2f3d;
@@ -348,3 +359,65 @@ body.deco-body [data-card-color='purple'] { --deco-accent: var(--deco-purple); }
 body.deco-body [data-card-color='fuchsia'] { --deco-accent: var(--deco-fuchsia); }
 body.deco-body [data-card-color='pink'] { --deco-accent: var(--deco-pink); }
 body.deco-body [data-card-color='gray'] { --deco-accent: var(--deco-gray); }
+
+/* =====================================================================
+   Color scheme toggle
+
+   A half-filled disc, which is the ordinary icon for this and happens to be
+   drawn out of the same circle-and-straight-edge parts as everything else.
+   Furniture, not notation: it describes no figure and asserts nothing.
+   ===================================================================== */
+
+.deco-toolbar {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: -0.5rem;
+}
+
+.deco-theme-toggle {
+	display: grid;
+	place-items: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	padding: 0;
+	border: 1px solid var(--deco-line);
+	border-radius: 0;
+	background: transparent;
+	cursor: pointer;
+	transition: border-color 0.2s ease;
+}
+
+.deco-theme-toggle:hover {
+	border-color: var(--deco-metal-em);
+}
+
+.deco-theme-toggle__mark {
+	width: 0.85rem;
+	height: 0.85rem;
+	border: 1px solid var(--deco-metal-em);
+	border-radius: 50%;
+	/* The filled half flips with the scheme, so the control shows a state
+	   rather than sitting there as a static icon. */
+	background-image: linear-gradient(90deg,
+		var(--deco-metal-em) 0 50%, transparent 50% 100%);
+}
+
+html[data-theme='light'] .deco-theme-toggle__mark {
+	background-image: linear-gradient(90deg,
+		transparent 0 50%, var(--deco-metal-em) 50% 100%);
+}
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme]) .deco-theme-toggle__mark {
+		background-image: linear-gradient(90deg,
+			transparent 0 50%, var(--deco-metal-em) 50% 100%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.deco-theme-toggle {
+		transition: none;
+	}
+}

@@ -39,61 +39,6 @@
 }
 
 /* =====================================================================
-   Color scheme toggle
-
-   A half-filled disc, which is the ordinary icon for this and happens to be
-   drawn out of the same circle-and-straight-edge parts as everything else.
-   Furniture, not notation: it describes no figure and asserts nothing.
-   ===================================================================== */
-
-.deco-toolbar {
-	display: flex;
-	justify-content: flex-end;
-	margin-bottom: -0.5rem;
-}
-
-.deco-theme-toggle {
-	display: grid;
-	place-items: center;
-	width: 1.75rem;
-	height: 1.75rem;
-	padding: 0;
-	border: 1px solid var(--deco-line);
-	border-radius: 0;
-	background: transparent;
-	cursor: pointer;
-	transition: border-color 0.2s ease;
-}
-
-.deco-theme-toggle:hover {
-	border-color: var(--deco-metal-em);
-}
-
-.deco-theme-toggle__mark {
-	width: 0.85rem;
-	height: 0.85rem;
-	border: 1px solid var(--deco-metal-em);
-	border-radius: 50%;
-	/* The filled half flips with the scheme, so the control shows a state
-	   rather than sitting there as a static icon. */
-	background-image: linear-gradient(90deg,
-		var(--deco-metal-em) 0 50%, transparent 50% 100%);
-}
-
-html[data-theme='light'] .deco-theme-toggle__mark {
-	background-image: linear-gradient(90deg,
-		transparent 0 50%, var(--deco-metal-em) 50% 100%);
-}
-
-@media (prefers-color-scheme: light) {
-
-	html:not([data-theme]) .deco-theme-toggle__mark {
-		background-image: linear-gradient(90deg,
-			transparent 0 50%, var(--deco-metal-em) 50% 100%);
-	}
-}
-
-/* =====================================================================
    The sunbeam
 
    Comes in over the top right and lands on the masthead. The shading is a
@@ -419,8 +364,7 @@ html[data-theme='light'] .deco-sunbeam {
 
 	.deco-home .deco-card,
 	.deco-plate,
-	.deco-plate img,
-	.deco-theme-toggle {
+	.deco-plate img {
 		transition: none;
 	}
 

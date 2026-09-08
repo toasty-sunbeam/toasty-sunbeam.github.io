@@ -28,6 +28,12 @@
    Left sidebar: the way back, and the contents
    ===================================================================== */
 
+/* The home page tucks the toggle up against the crest; here it wants a little
+   room above the name instead. */
+.deco-post .deco-toolbar {
+	margin-bottom: 0.4rem;
+}
+
 .deco-post .site-name {
 	display: block;
 	margin-bottom: 1.25rem;
@@ -172,15 +178,15 @@
 	color: color-mix(in oklab, var(--deco-accent) 70%, transparent);
 }
 
-/* Every plate in an article gets a paper mount. Most are screenshots on white,
-   which need the edge to sit against; the rest are line art and logos on
-   transparency, one of which is solid black and would otherwise disappear
-   into the ink entirely. */
+/* Every plate in an article gets a paper mount, always lighter than the ground
+   it sits on. Most are screenshots on white, which need the edge to sit
+   against; the rest are line art and logos on transparency, one of which is
+   solid black and would otherwise disappear into the ink entirely. */
 .deco-post .blog-content article img {
 	box-sizing: border-box;
 	padding: 4px;
 	border: 1px solid var(--deco-line-faint);
-	background: var(--deco-text);
+	background: var(--deco-mount);
 	box-shadow: none;
 }
 
@@ -283,10 +289,12 @@
 	color: var(--deco-text);
 }
 
-/* Tailwind's red-600 lands at 3.9:1 on the ink; lifted to clear 4.5:1 while
-   staying red, since that's what the marker means. */
+/* Tailwind's red-600 lands at 3.9:1 on the ink. --deco-danger is the palette's
+   red for text, set per scheme, so the marker clears 4.5 on either ground
+   without being pushed toward the lift -- which on paper would have taken it
+   most of the way to black and lost the one thing the marker is saying. */
 .deco-post .comments .text-red-600 {
-	color: color-mix(in oklab, var(--deco-red) 45%, var(--deco-lift));
+	color: var(--deco-danger);
 }
 
 .deco-post .comments :is(input, textarea) {
