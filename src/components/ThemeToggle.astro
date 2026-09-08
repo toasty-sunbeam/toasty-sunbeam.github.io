@@ -1,0 +1,44 @@
+---
+/**
+ * The light/dark switch. The click is handled by the delegated listener in
+ * MainLayout's head script, so this is markup only and works anywhere on the
+ * page.
+ *
+ * Both icons are in the DOM and CSS shows one; the visible icon is the scheme
+ * you're in, not the one you'd switch to. The label says what the button does
+ * either way round, so it doesn't have to be kept in sync with the state.
+ */
+---
+
+<button
+	type="button"
+	class="deco-theme-toggle"
+	data-theme-toggle
+	title="Switch between light and dark"
+	aria-label="Switch between light and dark"
+>
+	<svg
+		class="deco-theme-toggle__icon deco-theme-toggle__icon--sun"
+		viewBox="0 0 24 24"
+		aria-hidden="true"
+	>
+		<circle cx="12" cy="12" r="4.3" fill="currentColor" />
+		<path
+			d="M12 1.6v3.1M12 19.3v3.1M4.65 4.65l2.2 2.2M17.15 17.15l2.2 2.2M1.6 12h3.1M19.3 12h3.1M4.65 19.35l2.2-2.2M17.15 6.85l2.2-2.2"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2.4"
+			stroke-linecap="round"
+		/>
+	</svg>
+	<svg
+		class="deco-theme-toggle__icon deco-theme-toggle__icon--moon"
+		viewBox="0 0 24 24"
+		aria-hidden="true"
+	>
+		<path
+			d="M20.9 13.6A8.7 8.7 0 0 1 10.4 3.1 8.7 8.7 0 1 0 20.9 13.6z"
+			fill="currentColor"
+		/>
+	</svg>
+</button>

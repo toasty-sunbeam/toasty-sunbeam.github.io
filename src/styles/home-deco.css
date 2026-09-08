@@ -1,0 +1,395 @@
+/* =====================================================================
+   Art Deco: the home page.
+
+   Palette and ornament primitives come from deco.css; this file is the
+   page-specific furniture -- frame, masthead, sunburst, panels, post cards.
+   ===================================================================== */
+
+/* =====================================================================
+   Page frame
+   ===================================================================== */
+
+.deco-home {
+	position: relative;
+	font-family: 'Rosario', sans-serif;
+	padding-block: clamp(1.5rem, 5vw, 3rem);
+}
+
+.deco-frame {
+	position: relative;
+	padding: clamp(1rem, 4vw, 2.5rem);
+	border: 1px solid var(--deco-line);
+	background: color-mix(in oklab, var(--deco-ground) 60%, transparent);
+}
+
+/* The corner markers belong to the inner rule, so they clear the outer
+   border (5px) plus that rule's own hairline. */
+.deco-frame .deco-ra {
+	--deco-ra-inset: 6px;
+	--deco-ra-size: 0.8rem;
+}
+
+/* Inner hairline: the classic Deco double rule. */
+.deco-frame::before {
+	content: '';
+	position: absolute;
+	inset: 5px;
+	border: 1px solid var(--deco-line-faint);
+	pointer-events: none;
+}
+
+/* =====================================================================
+   The sunbeam
+
+   Comes in over the top right and lands on the masthead. The shading is a
+   fragment shader (scripts/sunbeam.ts) drawn across the viewport, in both
+   schemes -- what changes is the direction it works in. On ink it lays warm
+   light over the page. On paper there is no headroom to add light to cream,
+   so it lays a gentle shade over the page and cuts the shaft out of it
+   instead. Fixed rather than scrolled: the light stays where it is in the
+   room while the page moves past it.
+
+   No `mix-blend-mode` anywhere here: on a fixed element it comes unstuck
+   from the viewport when the page scrolls in Chromium, leaving a hard seam
+   across the page. Plain translucent overlay instead.
+
+   The gradients below are the shape without the volume, for no JavaScript,
+   no WebGL, or a context that failed to come up: one run perpendicular to
+   the beam. On ink that's a warm band and nothing else; on paper it's shade
+   at both ends and clear through the middle. The script adds `is-live` once
+   the shader is running, which puts them away.
+   ===================================================================== */
+
+.deco-sunbeam {
+	position: fixed;
+	inset: 0;
+	z-index: 3;
+	overflow: hidden;
+	pointer-events: none;
+	background-image: linear-gradient(164deg,
+		rgba(255, 214, 150, 0) 32%,
+		rgba(255, 214, 150, 0.13) 43%,
+		rgba(255, 224, 170, 0.17) 47%,
+		rgba(255, 214, 150, 0) 58%);
+}
+
+.deco-sunbeam canvas {
+	display: none;
+	width: 100%;
+	height: 100%;
+}
+
+.deco-sunbeam.is-live {
+	background-image: none;
+}
+
+.deco-sunbeam.is-live canvas {
+	display: block;
+}
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme='dark']) .deco-sunbeam {
+		background-image: linear-gradient(164deg,
+			rgba(56, 66, 97, 0.11) 0%,
+			rgba(56, 66, 97, 0.11) 26%,
+			rgba(56, 66, 97, 0) 38%,
+			rgba(255, 238, 205, 0.16) 44%,
+			rgba(56, 66, 97, 0) 50%,
+			rgba(56, 66, 97, 0.11) 62%,
+			rgba(56, 66, 97, 0.13) 100%);
+	}
+}
+
+html[data-theme='light'] .deco-sunbeam {
+	background-image: linear-gradient(164deg,
+		rgba(56, 66, 97, 0.11) 0%,
+		rgba(56, 66, 97, 0.11) 26%,
+		rgba(56, 66, 97, 0) 38%,
+		rgba(255, 238, 205, 0.16) 44%,
+		rgba(56, 66, 97, 0) 50%,
+		rgba(56, 66, 97, 0.11) 62%,
+		rgba(56, 66, 97, 0.13) 100%);
+}
+
+/* =====================================================================
+   Masthead
+   ===================================================================== */
+
+.deco-masthead {
+	position: relative;
+	margin: 0;
+	font-family: 'Rosario', sans-serif;
+	font-size: clamp(2rem, 7vw, 3rem);
+	font-weight: 300;
+	line-height: 1.05;
+	color: var(--deco-metal-em);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Triple rule under the name: heavy, hairline, short hairline. */
+.deco-masthead::after {
+	content: '';
+	display: block;
+	height: 7px;
+	margin-top: 0.5rem;
+	background-image:
+		linear-gradient(var(--deco-metal), var(--deco-metal)),
+		linear-gradient(var(--deco-line), var(--deco-line)),
+		linear-gradient(var(--deco-line), var(--deco-line));
+	background-size: 100% 2px, 100% 1px, 55% 1px;
+	background-position: 0 0, 0 4px, 0 6px;
+	background-repeat: no-repeat;
+}
+
+/* =====================================================================
+   Panels (Guides / Tools / Blogroll)
+   ===================================================================== */
+
+.deco-panel {
+	position: relative;
+	/* Declared here, not on the body: a custom property built out of another
+	   one is substituted where it's declared, so a shared --deco-hatch would
+	   freeze at the brass default instead of following each panel's accent. */
+	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, var(--deco-lift));
+	padding: 0.85rem 1.1rem 1.1rem;
+	/* A corner marker says the two lines meeting there are at a right angle, so
+	   those two lines have to read as the same figure -- the marked edge is
+	   only thicker, never a different color from the ones it meets. */
+	border: 1px solid var(--deco-accent);
+	border-top-width: 2px;
+	border-radius: 0;
+	/* The left column fades downward instead: that puts both top corners at
+	   full accent, so the pair of markers sits across the top, and leaves the
+	   bottom corners neutral and unmarked. */
+	border-image: linear-gradient(to bottom,
+		var(--deco-accent) 0 25%,
+		var(--deco-line) 100%) 1;
+
+	background-color: var(--deco-surface);
+	background-image:
+		/* three hatches: the three panels are a column wide apiece, so their
+		   top edges are congruent and all three carry the same count */
+		repeating-linear-gradient(to right,
+			var(--deco-hatch) 0 1px, transparent 1px 6px),
+		linear-gradient(160deg,
+			color-mix(in oklab, var(--deco-accent) 10%, transparent) 0%,
+			transparent 55%);
+	background-size: 13px 0.4rem, auto;
+	background-position: center top, 0 0;
+	background-repeat: no-repeat;
+	background-origin: border-box, padding-box;
+	color: var(--deco-text);
+}
+
+/* Both markers sit across the top, at the two ends of the accented edge and
+   where the fade is still at full strength. Flush, so each marker's undrawn
+   sides lie along the two borders that form the angle. */
+.deco-panel::before,
+.deco-panel::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	width: 0.65rem;
+	height: 0.65rem;
+	border-bottom: 1px solid var(--deco-accent);
+	opacity: 0.85;
+}
+
+.deco-panel::before {
+	left: 0;
+	border-right: 1px solid var(--deco-accent);
+}
+
+.deco-panel::after {
+	right: 0;
+	border-left: 1px solid var(--deco-accent);
+}
+
+.deco-panel--jade { --deco-accent: var(--deco-green); }
+.deco-panel--lapis { --deco-accent: var(--deco-blue); }
+.deco-panel--amethyst { --deco-accent: var(--deco-violet); }
+
+.deco-panel__title {
+	margin: 0 0 0.5rem;
+	font-size: 1.05rem;
+	font-weight: 600;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	/* Lifted off the raw accent so the heading clears 4.5:1 on the panel. */
+	color: color-mix(in oklab, var(--deco-accent) 72%, var(--deco-lift));
+}
+
+.deco-panel__title::after {
+	content: '';
+	display: block;
+	height: 3px;
+	margin-top: 0.35rem;
+	background-image:
+		linear-gradient(var(--deco-accent), var(--deco-accent)),
+		linear-gradient(var(--deco-line-faint), var(--deco-line-faint));
+	background-size: 2.2rem 1px, 100% 1px;
+	background-position: 0 0, 0 2px;
+	background-repeat: no-repeat;
+}
+
+.deco-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.deco-list li + li {
+	margin-top: 0.15rem;
+}
+
+.deco-list img {
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	vertical-align: -2px;
+}
+
+/* =====================================================================
+   Plate (the Periodic Table preview)
+   ===================================================================== */
+
+.deco-plate {
+	position: relative;
+	display: block;
+	padding: 6px;
+	border: 1px solid var(--deco-line);
+	background: color-mix(in oklab, var(--deco-surface) 70%, transparent);
+	transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.deco-plate img {
+	display: block;
+	width: 100%;
+	border: 0;
+	border-radius: 0;
+	filter: saturate(0.85) contrast(1.05);
+	transition: filter 0.25s ease;
+}
+
+.deco-plate:hover,
+.deco-plate:focus-visible {
+	border-color: var(--deco-metal-em);
+}
+
+.deco-plate:hover img,
+.deco-plate:focus-visible img {
+	filter: none;
+}
+
+/* =====================================================================
+   Post cards
+   ===================================================================== */
+
+.deco-home .deco-card {
+	position: relative;
+	margin-bottom: 1rem;
+	padding: 0.7rem 1rem 0.9rem 1.4rem;
+	/* See the note on .deco-panel: the outline matches the marked edge. */
+	border: 1px solid var(--deco-accent);
+	border-left-width: 2px;
+	border-radius: 0;
+	/* The accent holds on the left, where the markers are, and fades to the
+	   neutral hairline by the right edge. Two things fall out of that: every
+	   corner still meets two edges of one color, and the right-hand corners
+	   are visibly not the same kind of corner as the left-hand ones, so they
+	   aren't asking for a square. border-image because a border can't take a
+	   gradient directly; it has to come after the `border` shorthand, which
+	   resets it. */
+	border-image: linear-gradient(to right,
+		var(--deco-accent) 0 25%,
+		var(--deco-line) 100%) 1;
+
+	background-color: var(--deco-surface);
+	background-image: linear-gradient(105deg,
+		color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
+		transparent 45%);
+	color: var(--deco-text);
+	transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+/* The corners at each end of the left edge, flush in the corner. */
+.deco-home .deco-card::before,
+.deco-home .deco-card::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-right: 1px solid var(--deco-accent);
+	opacity: 0.8;
+}
+
+.deco-home .deco-card::before {
+	top: 0;
+	border-bottom: 1px solid var(--deco-accent);
+}
+
+.deco-home .deco-card::after {
+	bottom: 0;
+	border-top: 1px solid var(--deco-accent);
+}
+
+.deco-home .hover-card:hover .deco-card {
+	transform: translateX(3px);
+	background-color: var(--deco-surface-lift);
+}
+
+.deco-card__title {
+	margin: 0;
+	font-family: 'Rosario', sans-serif;
+	font-size: 1.3rem;
+	font-style: normal;
+	letter-spacing: 0.06em;
+	color: var(--deco-metal-em);
+}
+
+.deco-card time {
+	display: block;
+	margin-top: 0.15rem;
+	font-size: 0.78rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--deco-text-dim);
+}
+
+.deco-card p {
+	margin: 0.45rem 0 0;
+	font-family: 'Rosario', sans-serif;
+	color: color-mix(in oklab, var(--deco-text) 82%, transparent);
+}
+
+/* =====================================================================
+   Links
+   ===================================================================== */
+
+/* Card titles keep the title color; panel links warm to brass on hover. */
+.deco-home .deco-card__title a {
+	color: inherit;
+}
+
+.deco-home .deco-panel a:hover {
+	color: var(--deco-metal-em);
+}
+
+/* =====================================================================
+   Motion
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.deco-home .deco-card,
+	.deco-plate,
+	.deco-plate img {
+		transition: none;
+	}
+
+	.deco-home .hover-card:hover .deco-card {
+		transform: none;
+	}
+}

@@ -48,8 +48,8 @@ const borderColors: Record<string, string> = {
 const bgClass = bgColors[color] || 'bg-gray-100';
 const borderClass = borderColors[color] || 'border-gray-500';
 ---
-<article class={`mb-4 ${bgClass} border-2 ${borderClass} text-gray-950 px-4 py-2 rounded`}>
-	<h3 class="text-xl italic" transition:name={`post-title-${post.url}`}>
+<article class={`deco-card mb-4 ${bgClass} border-2 ${borderClass} text-gray-950 px-4 py-2 rounded`} data-card-color={color}>
+	<h3 class="deco-card__title text-xl italic" transition:name={`post-title-${post.url}`}>
 		<a href={post.url} class="underline-hover">{post.frontmatter.title}</a>
 	</h3>
 	{post.frontmatter.pubDate && (

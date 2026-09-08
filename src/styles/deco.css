@@ -1,0 +1,431 @@
+/* =====================================================================
+   Art Deco foundation: palette, ornament primitives, links.
+
+   Shared by the home page (home-deco.css) and the blog posts
+   (post-deco.css). Scoped to `body.deco-body`, which the layouts opt into
+   per page.
+
+   The ornament vocabulary is borrowed from geometry diagrams, which turn
+   out to share an alphabet with Deco: hard verticals, repeated hatching,
+   arcs struck from a vertex.
+
+   THE RULE: a marking only goes where it is true. Each one is an assertion
+   about the figure it sits on, so it has to be earned:
+
+     .deco-ra      the square drawn inside a 90-degree corner. Only the two
+                   sides facing *away* from the vertex are drawn, and it sits
+                   flush in the corner, its other two sides lying along the
+                   lines that form the angle. Goes on real 90-degree corners
+                   and nowhere else.
+     midpoint mark one hatch on each half of a segment: the halves are
+                   congruent, so the point between them is the midpoint. On
+                   the rule under the masthead.
+     congruence    three hatches on an edge: this edge is congruent to the
+                   others carrying the same count. On the top edge of the
+                   three panels in the left column, which are all a column
+                   wide and so really are congruent. The post cards get no
+                   hatching at all -- their heights differ, so there is
+                   nothing for a mark on them to be congruent to.
+     vertex dot    a segment's endpoint, where no second line makes a corner.
+     angle arc     not used. A square corner is already fully described by
+                   .deco-ra, so an arc there would be both wrong and
+                   redundant, and every corner on the page is square. The two
+                   arcs that used to exist marked congruent angles between the
+                   rays of the sunburst ornament, and went with it when the
+                   sunbeam replaced it.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   The dark palette is the base; the light one further down overrides the
+   tokens and nothing else. Names describe a role rather than a color, so
+   they stay honest in both: --deco-ground is whatever the page is printed
+   on, --deco-text whatever it's printed in, and --deco-lift the direction
+   that carries a color further from the ground.
+   --------------------------------------------------------------------- */
+
+body.deco-body {
+	color-scheme: dark;
+
+	/* Ground */
+	--deco-ground: #0c1219;
+	--deco-ground-lift: #131f2a;
+	--deco-surface: #16222e;
+	--deco-surface-lift: #1d2c3a;
+
+	/* Metal + text */
+	--deco-metal: #c9a227;
+	--deco-metal-em: #e8c976;
+	--deco-text: #f1e7d4;
+	--deco-text-dim: #a9b4bd;
+	--deco-lift: white;
+	/* What a plate in an article is mounted on, and what a floating panel
+	   casts. Both have to invert: the mount is lighter than the ground in
+	   either scheme, and a shadow that reads on ink is far too heavy on
+	   paper. */
+	--deco-mount: #f1e7d4;
+	--deco-shadow: rgba(0, 0, 0, 0.5);
+	/* The jewel reds are picked to read as a border or a spine, where 3.4:1 is
+	   fine. A required-field marker is text and needs 4.5, so it gets its own
+	   value in each scheme rather than borrowing one. */
+	--deco-danger: #dd6b78;
+
+	/* Jewel accents, keyed to the card colors used in post frontmatter */
+	--deco-red: #b83e4d;
+	--deco-orange: #c46b2c;
+	--deco-amber: #c9a227;
+	--deco-yellow: #d7b64c;
+	--deco-lime: #9aab4e;
+	--deco-green: #3f9e7d;
+	--deco-cyan: #46a3a8;
+	--deco-blue: #4a7cc0;
+	--deco-indigo: #6070c0;
+	--deco-violet: #8a6fc4;
+	--deco-purple: #9b6bb5;
+	--deco-fuchsia: #c164a0;
+	--deco-pink: #d07a8a;
+	--deco-gray: #93a1ab;
+
+	/* Derived */
+	--deco-accent: var(--deco-metal);
+	--deco-line: color-mix(in oklab, var(--deco-metal) 45%, transparent);
+	--deco-line-faint: color-mix(in oklab, var(--deco-metal) 20%, transparent);
+
+	/* No rays: the sunbeam is the light source on the home page, and a second
+	   one fanning out of the top center argues with it. Kept as a layer so
+	   putting them back is this one line.
+	   --deco-rays: repeating-conic-gradient(from 178.4deg at 50% 0%,
+	       color-mix(in oklab, var(--deco-metal) 6%, transparent) 0deg 1.6deg,
+	       transparent 1.6deg 8deg); */
+	--deco-rays: none;
+	--deco-grid: rgba(241, 231, 212, 0.035);
+	--deco-masthead-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+
+	background-color: var(--deco-ground);
+	background-image:
+		/* the sunburst: rays fanning up out of the masthead */
+		var(--deco-rays),
+		/* graph paper, barely there */
+		linear-gradient(to right, var(--deco-grid) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--deco-grid) 1px, transparent 1px),
+		/* vignette, so the rays burn out toward the edges */
+		radial-gradient(120% 70% at 50% 0%, var(--deco-ground-lift) 0%, var(--deco-ground) 70%);
+	background-size: auto, 34px 34px, 34px 34px, auto;
+	background-attachment: fixed;
+	background-repeat: no-repeat, repeat, repeat, no-repeat;
+	color: var(--deco-text);
+}
+
+/* =====================================================================
+   The light palette
+
+   Only the tokens change. --deco-line, --deco-accent and the rest are
+   declared above in terms of --deco-metal, and a derived custom property
+   resolves against the element it's declared on -- the same body -- so
+   overriding the metal here re-derives all of them for free.
+
+   The default is whatever the reader's system asks for; the toggle on the
+   page writes data-theme onto <html> to override it, and that wins in both
+   directions.
+   ===================================================================== */
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme='dark']) body.deco-body {
+	color-scheme: light;
+
+	/* Ground: warm paper rather than plain white */
+	--deco-ground: #f2e9d6;
+	--deco-ground-lift: #fbf5e6;
+	--deco-surface: #fbf6ea;
+	--deco-surface-lift: #fffdf6;
+
+	/* Metal + text. The metal has to darken to hold against paper, and the
+	   emphatic one darkens further -- the same relationship as in the dark
+	   palette, pointed the other way. */
+	--deco-metal: #9c7714;
+	--deco-metal-em: #6b4f0d;
+	--deco-text: #1b2530;
+	--deco-text-dim: #4c5a66;
+	--deco-lift: black;
+	--deco-mount: #fdfaf3;
+	--deco-shadow: rgba(27, 37, 48, 0.2);
+	--deco-danger: #9c2f3d;
+
+	/* Jewel accents, deepened to the same end */
+	--deco-red: #9c2f3d;
+	--deco-orange: #a5541f;
+	--deco-amber: #8a6a12;
+	--deco-yellow: #86701a;
+	--deco-lime: #66742a;
+	--deco-green: #1f6a51;
+	--deco-cyan: #1d6a70;
+	--deco-blue: #2d5891;
+	--deco-indigo: #3d4b93;
+	--deco-violet: #614795;
+	--deco-purple: #724489;
+	--deco-fuchsia: #923f78;
+	--deco-pink: #a04f66;
+	--deco-gray: #55626c;
+
+	/* The graph paper has to invert: pale lines at 3.5% read on ink and
+	   vanish on cream. */
+	--deco-grid: rgba(27, 37, 48, 0.055);
+	--deco-masthead-shadow: none;
+	}
+}
+
+html[data-theme='light'] body.deco-body {
+	color-scheme: light;
+
+	/* Ground: warm paper rather than plain white */
+	--deco-ground: #f2e9d6;
+	--deco-ground-lift: #fbf5e6;
+	--deco-surface: #fbf6ea;
+	--deco-surface-lift: #fffdf6;
+
+	/* Metal + text. The metal has to darken to hold against paper, and the
+	   emphatic one darkens further -- the same relationship as in the dark
+	   palette, pointed the other way. */
+	--deco-metal: #9c7714;
+	--deco-metal-em: #6b4f0d;
+	--deco-text: #1b2530;
+	--deco-text-dim: #4c5a66;
+	--deco-lift: black;
+	--deco-mount: #fdfaf3;
+	--deco-shadow: rgba(27, 37, 48, 0.2);
+	--deco-danger: #9c2f3d;
+
+	/* Jewel accents, deepened to the same end */
+	--deco-red: #9c2f3d;
+	--deco-orange: #a5541f;
+	--deco-amber: #8a6a12;
+	--deco-yellow: #86701a;
+	--deco-lime: #66742a;
+	--deco-green: #1f6a51;
+	--deco-cyan: #1d6a70;
+	--deco-blue: #2d5891;
+	--deco-indigo: #3d4b93;
+	--deco-violet: #614795;
+	--deco-purple: #724489;
+	--deco-fuchsia: #923f78;
+	--deco-pink: #a04f66;
+	--deco-gray: #55626c;
+
+	/* The graph paper has to invert: pale lines at 3.5% read on ink and
+	   vanish on cream. */
+	--deco-grid: rgba(27, 37, 48, 0.055);
+	--deco-masthead-shadow: none;
+}
+
+/* =====================================================================
+   Primitive: the right-angle marker
+   ===================================================================== */
+
+.deco-ra {
+	position: absolute;
+	width: var(--deco-ra-size, 0.7rem);
+	height: var(--deco-ra-size, 0.7rem);
+	border: 0 solid var(--deco-accent);
+	opacity: var(--deco-ra-opacity, 0.85);
+	pointer-events: none;
+}
+
+/* The two sides that get drawn are the ones opposite the vertex; the other
+   two are the lines of the corner itself, so the marker is flush by default.
+   Absolute offsets resolve against the padding box, which puts those sides
+   exactly on the inner edge of the borders forming the angle. */
+.deco-ra--tl {
+	top: var(--deco-ra-inset, 0);
+	left: var(--deco-ra-inset, 0);
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+}
+
+.deco-ra--tr {
+	top: var(--deco-ra-inset, 0);
+	right: var(--deco-ra-inset, 0);
+	border-left-width: 1px;
+	border-bottom-width: 1px;
+}
+
+.deco-ra--bl {
+	bottom: var(--deco-ra-inset, 0);
+	left: var(--deco-ra-inset, 0);
+	border-right-width: 1px;
+	border-top-width: 1px;
+}
+
+.deco-ra--br {
+	bottom: var(--deco-ra-inset, 0);
+	right: var(--deco-ra-inset, 0);
+	border-left-width: 1px;
+	border-top-width: 1px;
+}
+
+/* =====================================================================
+   Primitive: segments and hatch marks
+   ===================================================================== */
+
+.deco-rule {
+	border: 0;
+	height: 0.75rem;
+	background-image:
+		/* endpoints */
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px),
+		/* one hatch on each half: the point between them is the midpoint */
+		linear-gradient(var(--deco-metal-em), var(--deco-metal-em)),
+		linear-gradient(var(--deco-metal-em), var(--deco-metal-em)),
+		/* the segment */
+		linear-gradient(var(--deco-line), var(--deco-line));
+	background-size: 7px 7px, 7px 7px, 1px 9px, 1px 9px, 100% 1px;
+	background-position: left center, right center, 25% center, 75% center, center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+/* =====================================================================
+   Links and focus
+   ===================================================================== */
+
+body.deco-body a {
+	color: var(--deco-text);
+	text-decoration: none;
+}
+
+/* The hover underline global.css draws takes the local accent. */
+body.deco-body .underline-hover::after {
+	background-color: var(--deco-accent);
+	opacity: 0.85;
+}
+
+body.deco-body a:focus-visible {
+	outline: 1px solid var(--deco-metal-em);
+	outline-offset: 4px;
+}
+
+/* =====================================================================
+   Small-caps label with a hairline segment running off toward the margin.
+
+   `display` deliberately lives on the elements as a utility class: this file
+   is unlayered, so anything it sets here would outrank Tailwind's `hidden`
+   and both copies of the home page's label would show at once.
+   ===================================================================== */
+.deco-section-label {
+	align-items: flex-end;
+	gap: 0.7rem;
+	margin: 0;
+	font-size: 0.95rem;
+	font-weight: 400;
+	letter-spacing: 0.32em;
+	text-transform: uppercase;
+	color: var(--deco-text-dim);
+}
+
+.deco-section-label::after {
+	content: '';
+	flex: 1;
+	height: 5px;
+	margin-bottom: 0.35rem;
+	background-image:
+		linear-gradient(var(--deco-line), var(--deco-line)),
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px),
+		radial-gradient(circle, var(--deco-metal) 0 2px, transparent 2.5px);
+	background-size: 100% 1px, 7px 7px, 7px 7px;
+	background-position: left center, left center, right center;
+	background-repeat: no-repeat;
+}
+
+
+/* =====================================================================
+   Frontmatter colors
+
+   Each post picks a color in its frontmatter. Rather than discard it, the
+   name is translated into the Deco palette and becomes the accent -- on that
+   post's card on the home page, and on the post's own page.
+   ===================================================================== */
+
+body.deco-body [data-card-color='red'] { --deco-accent: var(--deco-red); }
+body.deco-body [data-card-color='orange'] { --deco-accent: var(--deco-orange); }
+body.deco-body [data-card-color='amber'] { --deco-accent: var(--deco-amber); }
+body.deco-body [data-card-color='yellow'] { --deco-accent: var(--deco-yellow); }
+body.deco-body [data-card-color='lime'] { --deco-accent: var(--deco-lime); }
+body.deco-body [data-card-color='green'] { --deco-accent: var(--deco-green); }
+body.deco-body [data-card-color='cyan'] { --deco-accent: var(--deco-cyan); }
+body.deco-body [data-card-color='blue'] { --deco-accent: var(--deco-blue); }
+body.deco-body [data-card-color='indigo'] { --deco-accent: var(--deco-indigo); }
+body.deco-body [data-card-color='violet'] { --deco-accent: var(--deco-violet); }
+body.deco-body [data-card-color='purple'] { --deco-accent: var(--deco-purple); }
+body.deco-body [data-card-color='fuchsia'] { --deco-accent: var(--deco-fuchsia); }
+body.deco-body [data-card-color='pink'] { --deco-accent: var(--deco-pink); }
+body.deco-body [data-card-color='gray'] { --deco-accent: var(--deco-gray); }
+
+/* =====================================================================
+   Color scheme toggle
+
+   Sun on paper, moon on ink: the icon shows the scheme you're in rather than
+   the one a click would take you to. Furniture, not notation -- it describes
+   no figure and asserts nothing.
+   ===================================================================== */
+
+.deco-toolbar {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: -0.5rem;
+}
+
+.deco-theme-toggle {
+	display: grid;
+	place-items: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	padding: 0;
+	border: 1px solid var(--deco-line);
+	border-radius: 0;
+	background: transparent;
+	cursor: pointer;
+	transition: border-color 0.2s ease;
+}
+
+.deco-theme-toggle:hover {
+	border-color: var(--deco-metal-em);
+}
+
+.deco-theme-toggle__icon {
+	display: block;
+	grid-area: 1 / 1;
+	width: 1rem;
+	height: 1rem;
+	color: var(--deco-metal-em);
+}
+
+/* Ink is the base, so the moon shows and the sun waits. */
+.deco-theme-toggle__icon--sun {
+	display: none;
+}
+
+html[data-theme='light'] .deco-theme-toggle__icon--sun {
+	display: block;
+}
+
+html[data-theme='light'] .deco-theme-toggle__icon--moon {
+	display: none;
+}
+
+@media (prefers-color-scheme: light) {
+
+	html:not([data-theme]) .deco-theme-toggle__icon--sun {
+		display: block;
+	}
+
+	html:not([data-theme]) .deco-theme-toggle__icon--moon {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.deco-theme-toggle {
+		transition: none;
+	}
+}

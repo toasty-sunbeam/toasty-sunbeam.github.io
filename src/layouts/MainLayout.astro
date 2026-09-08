@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-const { pageTitle } = Astro.props;
+const { pageTitle, bodyClass = '' } = Astro.props;
 ---
 
 <html lang="en">
@@ -15,9 +15,42 @@ const { pageTitle } = Astro.props;
 		<link href="https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
         <ClientRouter/>
 		<title>{pageTitle}</title>
+		<script is:inline>
+			// Runs before the body exists so the stored choice is on <html>
+			// before anything paints. No stored choice means no attribute,
+			// which leaves the reader's system preference in charge.
+			(() => {
+				const KEY = 'deco-theme';
+				const read = () => {
+					try { return localStorage.getItem(KEY); } catch { return null; }
+				};
+				const apply = () => {
+					const stored = read();
+					if (stored === 'light' || stored === 'dark') {
+						document.documentElement.dataset.theme = stored;
+					} else {
+						delete document.documentElement.dataset.theme;
+					}
+				};
+				apply();
+				// View transitions swap the document; put the attribute back.
+				document.addEventListener('astro:after-swap', apply);
+
+				if (window.__decoThemeBound) return;
+				window.__decoThemeBound = true;
+				document.addEventListener('click', (event) => {
+					const button = event.target.closest('[data-theme-toggle]');
+					if (!button) return;
+					const systemLight = matchMedia('(prefers-color-scheme: light)').matches;
+					const current = read() || (systemLight ? 'light' : 'dark');
+					const next = current === 'dark' ? 'light' : 'dark';
+					try { localStorage.setItem(KEY, next); } catch { /* private mode */ }
+					document.documentElement.dataset.theme = next;
+				});
+			})();
+		</script>
 	</head>
-	<body class="bg-sky-200/65">
+	<body class:list={['bg-sky-200/65', bodyClass]}>
 		<slot/>
 	</body>
 </html>
-

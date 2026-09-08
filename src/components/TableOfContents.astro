@@ -137,10 +137,13 @@ const tocHeadings = buildToc(filteredHeadings);
 
 	.toc-title {
 		display: block;
-		font-size: 1.125em;
+		font-family: 'Rosario', sans-serif;
+		font-size: 1em;
 		font-weight: 600;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
 		margin-bottom: 0.75rem;
-		color: var(--color-maroon);
+		color: color-mix(in oklab, var(--deco-accent) 72%, var(--deco-lift));
 		text-decoration: none;
 		cursor: pointer;
 	}
@@ -160,7 +163,7 @@ const tocHeadings = buildToc(filteredHeadings);
 	}
 
 	.toc-list a {
-		color: #64748b;
+		color: var(--deco-text-dim);
 		text-decoration: none;
 		transition: color 0.2s ease;
 		display: block;
@@ -170,12 +173,24 @@ const tocHeadings = buildToc(filteredHeadings);
 	}
 
 	.toc-list a:hover {
-		color: var(--color-maroon);
+		color: var(--deco-metal-em);
 	}
 
+	/* Solid square bullet: Deco furniture, not diagram notation, so it makes
+	   no claim about the item it marks. */
 	.toc-list a.active {
-		color: var(--color-maroon);
+		color: var(--deco-metal-em);
 		font-weight: 600;
+	}
+
+	.toc-list a.active::before {
+		content: '';
+		display: inline-block;
+		width: 0.35em;
+		height: 0.35em;
+		margin-right: 0.45em;
+		vertical-align: 0.15em;
+		background-color: var(--deco-accent);
 	}
 
 	.toc-sublist {
@@ -203,9 +218,6 @@ const tocHeadings = buildToc(filteredHeadings);
 	/* Mobile: styled box */
 	@media (max-width: 1023px) {
 		.toc {
-			background: rgba(255, 255, 255, 0.8);
-			border: 1px solid #e2e8f0;
-			border-radius: 0.5rem;
 			padding: 1rem;
 		}
 	}
