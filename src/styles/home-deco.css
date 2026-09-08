@@ -153,7 +153,11 @@ html[data-theme='light'] .deco-sunbeam {
 	   freeze at the brass default instead of following each panel's accent. */
 	--deco-hatch: color-mix(in oklab, var(--deco-accent) 45%, var(--deco-lift));
 	padding: 0.85rem 1.1rem 1.1rem;
-	border: 1px solid var(--deco-line);
+	/* A corner marker says the two lines meeting there are at a right angle, so
+	   those two lines have to read as the same figure. That means the whole
+	   outline takes the accent -- the marked edge is only thicker, not a
+	   different color from the ones it meets. */
+	border: 1px solid var(--deco-accent);
 	border-top: 2px solid var(--deco-accent);
 	border-radius: 0;
 	background-color: var(--deco-surface);
@@ -279,7 +283,8 @@ html[data-theme='light'] .deco-sunbeam {
 	position: relative;
 	margin-bottom: 1rem;
 	padding: 0.7rem 1rem 0.9rem 1.4rem;
-	border: 1px solid var(--deco-line-faint);
+	/* See the note on .deco-panel: the outline matches the marked edge. */
+	border: 1px solid var(--deco-accent);
 	border-left: 2px solid var(--deco-accent);
 	border-radius: 0;
 	background-color: var(--deco-surface);
@@ -287,8 +292,7 @@ html[data-theme='light'] .deco-sunbeam {
 		color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
 		transparent 45%);
 	color: var(--deco-text);
-	transition: transform 0.25s ease, border-color 0.25s ease,
-		background-color 0.25s ease;
+	transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 /* The corners at each end of the left edge, flush in the corner. */
@@ -315,7 +319,6 @@ html[data-theme='light'] .deco-sunbeam {
 
 .deco-home .hover-card:hover .deco-card {
 	transform: translateX(3px);
-	border-color: color-mix(in oklab, var(--deco-accent) 55%, transparent);
 	background-color: var(--deco-surface-lift);
 }
 
