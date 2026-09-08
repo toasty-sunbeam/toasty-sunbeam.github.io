@@ -1,0 +1,433 @@
+/*
+ * The front page as a drafting sheet.
+ *
+ * A cream sheet on a desk, ruled in ink, ornamented the way a geometry
+ * diagram is: named points, a perpendicular, right-angle squares. The Deco
+ * comes from the type (a tracked geometric sans), the stepped corners, and
+ * the gold hairlines. Every geometric marking is placed only where it is
+ * true of the figure it sits on; everything else is furniture.
+ *
+ * Wrapped in Tailwind's `components` layer so utilities in the markup can
+ * still win where they need to.
+ */
+@layer components {
+	body.sheet-body {
+		--paper: #f5efe0;
+		--desk: #e2d7bd;
+		--ink: #221e19;
+		--ink-2: #5d5549;
+		--line: #6a6254;
+		--line-soft: #cbc1ab;
+		--gold: #b6862c;
+		--gold-text: #855b12;
+		--display: "Jost", "Josefin Sans", "Futura", "Avenir Next", sans-serif;
+
+		background: var(--desk);
+		color: var(--ink);
+		font-family: "Rosario", sans-serif;
+		min-height: 100vh;
+	}
+
+	/* ---- Sheet and frame -------------------------------------------- */
+
+	.sheet {
+		max-width: 64rem;
+		margin: 2.5rem auto;
+		padding: 1.1rem;
+		background: var(--paper);
+		box-shadow:
+			0 1px 2px rgba(34, 30, 25, 0.14),
+			0 22px 48px -26px rgba(34, 30, 25, 0.55);
+	}
+
+	.frame {
+		position: relative;
+		border: 1px solid var(--line);
+		padding: 2.4rem 2.75rem 1.6rem;
+	}
+
+	/* The second rule of the double frame. Its corners nest inside the
+	   outer rule's; the corner squares nest inside those. */
+	.frame::before {
+		content: "";
+		position: absolute;
+		inset: 5px;
+		border: 1px solid var(--gold);
+		pointer-events: none;
+	}
+
+	/* Right-angle squares, nested. Only the two sides facing away from
+	   the vertex are drawn; the other two are the lines that form the
+	   corner, which is why the marker sits flush. */
+	.ra {
+		position: absolute;
+		width: 24px;
+		height: 24px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1;
+		shape-rendering: crispEdges;
+		color: var(--ink);
+		pointer-events: none;
+	}
+	.ra--tl { top: var(--ra-inset, 0); left: var(--ra-inset, 0); }
+	.ra--tr { top: var(--ra-inset, 0); right: var(--ra-inset, 0); transform: rotate(90deg); }
+	.ra--br { bottom: var(--ra-inset, 0); right: var(--ra-inset, 0); transform: rotate(180deg); }
+	.ra--bl { bottom: var(--ra-inset, 0); left: var(--ra-inset, 0); transform: rotate(270deg); }
+	.frame > .ra { --ra-inset: 6px; color: var(--gold); }
+
+	/* ---- Masthead --------------------------------------------------- */
+
+	.masthead {
+		text-align: center;
+		padding: 0.2rem 0 1.5rem;
+	}
+	.masthead::before {
+		content: "";
+		display: block;
+		width: 2.25rem;
+		height: 1px;
+		margin: 0 auto 1.1rem;
+		background: var(--gold);
+	}
+	.masthead h1 {
+		margin: 0;
+		font-family: var(--display);
+		font-weight: 300;
+		font-size: clamp(1.7rem, 5.2vw, 3.3rem);
+		line-height: 1.1;
+		letter-spacing: 0.3em;
+		margin-right: -0.3em; /* re-centre: tracking adds space after the last letter */
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	/* ---- The figure: two rules, a perpendicular, six named points ---- */
+
+	.figure {
+		position: relative;
+	}
+
+	.rule {
+		position: relative;
+		height: 1px;
+		background: var(--ink);
+	}
+
+	.pt {
+		position: absolute;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: var(--ink);
+	}
+	.rule .pt { top: -2px; }
+	.pt--a, .pt--e { left: -2px; }
+	.pt--b, .pt--f { right: -2px; }
+
+	.lbl {
+		position: absolute;
+		font-family: "Rosario", serif;
+		font-style: italic;
+		font-size: 0.9rem;
+		line-height: 1;
+		color: var(--ink-2);
+		user-select: none;
+	}
+	.rule .lbl { top: -0.5em; }
+	.lbl--a, .lbl--e { left: -1.35em; }
+	.lbl--b, .lbl--f { right: -1.35em; }
+
+	.cols {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.25rem;
+	}
+	.col-side,
+	.col-posts {
+		padding-top: 1.7rem;
+		padding-bottom: 1.7rem;
+		min-width: 0;
+	}
+	.col-posts {
+		position: relative;
+	}
+
+	/* Perpendicular CD, the marks at its feet, and their labels: desktop only */
+	.col-posts::before,
+	.pt--c, .pt--d, .lbl--c, .lbl--d, .sq {
+		display: none;
+	}
+
+	@media (min-width: 40rem) {
+		.cols {
+			grid-template-columns: minmax(200px, 300px) minmax(0, 1fr);
+			gap: 0;
+		}
+		.col-side { padding-right: 1.6rem; }
+		.col-posts { padding-left: 1.6rem; }
+
+		.col-posts::before {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: 1px;
+			background: var(--ink);
+		}
+		.pt--c, .pt--d, .lbl--c, .lbl--d, .sq { display: block; }
+
+		.pt--c { top: -3px; left: -2px; }
+		.pt--d { bottom: -3px; left: -2px; }
+		.lbl--c { top: 0.55em; left: -1.45em; }
+		.lbl--d { bottom: -1.55em; left: 0.6em; }
+
+		/* The right-angle square at C, flush: its top side is AB, its left
+		   side is CD, so only the right and bottom sides are drawn. At D
+		   the top and right sides are drawn instead. */
+		.sq {
+			position: absolute;
+			left: 1px;
+			width: 10px;
+			height: 10px;
+		}
+		.sq--c { top: 0; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+		.sq--d { bottom: 0; border-right: 1px solid var(--ink); border-top: 1px solid var(--ink); }
+	}
+
+	/* ---- Left column ------------------------------------------------ */
+
+	.plate {
+		display: block;
+		text-decoration: none;
+		color: var(--gold-text);
+	}
+	.plate figure { margin: 0; }
+	.plate img {
+		display: block;
+		width: 100%;
+		padding: 4px;
+		border: 1px solid var(--line);
+		background: rgba(255, 255, 255, 0.45);
+		transition: border-color 0.25s;
+	}
+	.plate:hover img { border-color: var(--gold); }
+	.plate figcaption {
+		margin-top: 0.6rem;
+		font-family: var(--display);
+		font-weight: 500;
+		font-size: 0.72rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	.panel {
+		position: relative;
+		margin-top: 1.9rem;
+		padding: 1.2rem 1rem 0.85rem 1.1rem;
+		border: 1px solid var(--line);
+	}
+	.panel > h2 {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+		padding: 0 0.7em;
+		background: var(--paper);
+		font-family: var(--display);
+		font-weight: 500;
+		font-size: 0.76rem;
+		letter-spacing: 0.24em;
+		text-transform: uppercase;
+		white-space: nowrap;
+		color: var(--gold-text);
+	}
+
+	.list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.list li {
+		position: relative;
+		margin: 0.3rem 0;
+		padding-left: 1rem;
+		line-height: 1.4;
+	}
+	.list li::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0.6em;
+		width: 5px;
+		height: 5px;
+		border: 1px solid var(--gold);
+	}
+	.list a {
+		color: var(--ink);
+	}
+	.list img {
+		display: inline-block;
+		width: 0.9em;
+		height: 0.9em;
+		margin-right: 0.3em;
+		vertical-align: -0.08em;
+		filter: grayscale(1);
+		opacity: 0.7;
+		transition: filter 0.2s, opacity 0.2s;
+	}
+	.list a:hover img {
+		filter: none;
+		opacity: 1;
+	}
+
+	/* ---- Posts ------------------------------------------------------ */
+
+	.col-label {
+		display: flex;
+		align-items: center;
+		gap: 0.9em;
+		margin: 0 0 1.1rem;
+		font-family: var(--display);
+		font-weight: 500;
+		font-size: 0.76rem;
+		letter-spacing: 0.24em;
+		text-transform: uppercase;
+		color: var(--gold-text);
+	}
+	.col-label::after {
+		content: "";
+		flex: 1;
+		height: 1px;
+		background: var(--gold);
+		opacity: 0.6;
+	}
+
+	.cards {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+
+	.card {
+		position: relative;
+		display: grid;
+		grid-template-columns: 28px minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		padding: 0.9rem 1rem 0.85rem 0.9rem;
+		border: 1px solid var(--line-soft);
+		transition: border-color 0.25s;
+	}
+	.card:hover { border-color: var(--c); }
+
+	.emblem {
+		width: 28px;
+		height: 28px;
+		margin-top: 0.15rem;
+		color: var(--c);
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1;
+		shape-rendering: crispEdges;
+	}
+	.emblem__core { fill: currentColor; }
+	.emblem__mid { fill: currentColor; fill-opacity: 0; transition: fill-opacity 0.25s; }
+	.card:hover .emblem__mid { fill-opacity: 0.22; }
+
+	.card h3 {
+		margin: 0;
+		font-family: var(--display);
+		font-weight: 500;
+		font-size: 1.12rem;
+		line-height: 1.25;
+		text-wrap: balance;
+	}
+	.card h3 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+	/* The whole card is the link target. */
+	.card h3 a::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+	.card time {
+		display: block;
+		margin-top: 0.35rem;
+		font-family: var(--display);
+		font-weight: 500;
+		font-size: 0.68rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--gold-text);
+	}
+	.card p {
+		margin: 0.45rem 0 0;
+		font-size: 0.93rem;
+		line-height: 1.45;
+		color: var(--ink-2);
+		text-wrap: pretty;
+	}
+
+	/* ---- Colophon --------------------------------------------------- */
+
+	.colophon {
+		padding-top: 1.6rem;
+		text-align: center;
+	}
+	/* Stepped ornament: three centred gold hairlines, each shorter than the last */
+	.zig {
+		display: block;
+		width: 40px;
+		height: 9px;
+		margin: 0 auto;
+		background:
+			linear-gradient(var(--gold), var(--gold)) center 0 / 40px 1px no-repeat,
+			linear-gradient(var(--gold), var(--gold)) center 4px / 24px 1px no-repeat,
+			linear-gradient(var(--gold), var(--gold)) center 8px / 8px 1px no-repeat;
+	}
+
+	/* ---- Construction: the figure draws itself on first visit -------- */
+
+	.masthead { animation: appear 0.7s ease-out both; }
+	.rule--ab { transform-origin: left center; animation: draw-x 0.55s cubic-bezier(0.4, 0, 0.2, 1) both 0.15s; }
+	.col-posts::before { transform-origin: top center; animation: draw-y 0.5s cubic-bezier(0.4, 0, 0.2, 1) both 0.55s; }
+	.rule--ef { transform-origin: left center; animation: draw-x 0.55s cubic-bezier(0.4, 0, 0.2, 1) both 0.9s; }
+	.mark { animation: appear 0.4s ease-out both 1.25s; }
+	.col-side > *,
+	.col-posts > .col-label,
+	.cards > li { animation: rise 0.55s ease-out both; animation-delay: var(--delay, 0.6s); }
+
+	@keyframes draw-x { from { transform: scaleX(0); } }
+	@keyframes draw-y { from { transform: scaleY(0); } }
+	@keyframes appear { from { opacity: 0; } }
+	@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+
+	html.intro-skip .sheet *,
+	html.intro-skip .sheet *::before {
+		animation: none !important;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.sheet *, .sheet *::before { animation: none !important; }
+	}
+
+	/* ---- Small screens ---------------------------------------------- */
+
+	@media (max-width: 39.99rem) {
+		.sheet { margin: 0.75rem; padding: 0.6rem; }
+		.frame { padding: 1.7rem 1.35rem 1.2rem; }
+		.masthead h1 { letter-spacing: 0.18em; margin-right: -0.18em; }
+		.frame > .ra { width: 18px; height: 18px; }
+		.cols { gap: 0.5rem; }
+		.col-side { padding-bottom: 0; }
+	}
+}

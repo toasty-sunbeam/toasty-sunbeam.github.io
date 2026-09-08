@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import '../styles/global.css';
+import '../styles/home.css';
 
 import type { MarkdownInstance } from 'astro';
 import type { Frontmatter } from '../frontmatter';
@@ -11,142 +12,133 @@ const posts = Object.values(import.meta.glob<MarkdownInstance<Frontmatter>>('./p
 	.sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
 ---
 
-<MainLayout pageTitle="James Harris">
-	<div class="mx-auto w-fit px-4 relative">
-		<hr class="border border-sky-700 absolute top-15 left-7 right-4 hidden sm:block" />
-		<div class="grid grid-cols-1 sm:grid-cols-[minmax(200px,300px)_auto] gap-5 max-w-3xl">
-			<h1 class="text-4xl mt-4">James Harris</h1>
-			<h2 class="text-2xl mt-4 flex-col justify-end hidden sm:flex">Blog posts</h2>
-			<div class="flex flex-col min-w-0 perspective-container">
-				<a href="/periodic" class="animate-flutter left">
-					<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" class="mb-2 max-w-full rounded border-2 border-transparent hover:border-white transition-colors" />
-					<!-- <h2 class="text-2xl underline">Periodic Table of Storytelling</h2> -->
-				</a>
-				<section class="mt-2 mb-4 bg-emerald-100 border-2 border-emerald-300 text-emerald-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .15s">
-					<h2 class="text-2xl font-bold">Guides</h2>
-					<ul>
-						<li><a href="/posts/Hardened-backups" class="underline-hover">💾 Cheap, effortless backups</a></li>
-						<li><a href="/posts/Hardened-file-syncing" class="underline-hover">🔁 File syncing</a></li>
-						<li><a href="/posts/Hardened-password-vault" class="underline-hover">🔐 Password vault</a></li>
-						<li><a href="/posts/Blocking-cookie-notices" class="underline-hover">🍪 Blocking cookie banners</a></li>
-					</ul>
-				</section>
-				<section class="mb-4 bg-indigo-100 border-2 border-indigo-400 text-indigo-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .30s">
-					<h2 class="text-2xl font-bold">Tools</h2>
-					<ul>
-						<li><a href="https://batch-vision.deno.dev/" class="underline-hover">🖼️ Batch Vision</a></li>
-						<li><a href="https://lancer-name-generator.netlify.app/" class="underline-hover">👥 Name generator</a></li>
-						<li><a href="https://marketplace.visualstudio.com/items?itemName=DawnPaladin.twilight-sparkle" class="underline-hover">🎨 VSCode Theme</a></li>
-					</ul>
-				</section>
-				<section class="mb-4 bg-purple-100 border-2 border-purple-400 text-purple-950 px-3 py-2 rounded animate-flutter left" style="animation-delay: .45s">
-					<h2 class="text-2xl font-bold">Blogroll</h2>
-					<ul>
-						<li><a href="https://simonwillison.net/" class="underline-hover">
-							<img class="w-4 h-4 inline-block" src="https://simonwillison.net/favicon.ico" alt=""/>
-							Simon Willison
-						</a></li>
-						<li><a href="https://ncase.me/" class="underline-hover">
-							<img class="w-4 h-4 inline-block" src="https://ncase.me/favicon.png" alt=""/>
-							Nicky Case</a></li>
-						<li><a href="https://www.astralcodexten.com/" class="underline-hover">
-							<img class="w-4 h-4 inline-block" src="https://www.astralcodexten.com/favicon.ico" alt=""/>
-							Scott Alexander
-						</a></li>
-					</ul>
-				</section>
+<MainLayout pageTitle="James Harris" bodyClass="sheet-body">
+	<Fragment slot="head">
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+		<!-- The figure draws itself on the first visit of the hour. Decided
+		     before first paint so a repeat visit never flashes. -->
+		<script is:inline data-astro-rerun>
+			(function () {
+				try {
+					var key = 'introPlayedAt';
+					var now = Date.now();
+					var last = Number(sessionStorage.getItem(key)) || 0;
+					var skip = now - last < 60 * 60 * 1000;
+					document.documentElement.classList.toggle('intro-skip', skip);
+					if (!skip) sessionStorage.setItem(key, String(now));
+				} catch (e) {}
+			})();
+		</script>
+	</Fragment>
+
+	<!-- Right-angle squares, nested two and three deep, for the corners -->
+	<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+		<symbol id="ra-2" viewBox="0 0 24 24">
+			<polyline points="0,8.5 8.5,8.5 8.5,0" />
+			<polyline points="0,16.5 16.5,16.5 16.5,0" />
+		</symbol>
+		<symbol id="ra-3" viewBox="0 0 24 24">
+			<polyline points="0,6.5 6.5,6.5 6.5,0" />
+			<polyline points="0,12.5 12.5,12.5 12.5,0" />
+			<polyline points="0,18.5 18.5,18.5 18.5,0" />
+		</symbol>
+	</svg>
+
+	<main class="sheet">
+		<div class="frame">
+			<svg class="ra ra--tl" aria-hidden="true"><use href="#ra-3" /></svg>
+			<svg class="ra ra--tr" aria-hidden="true"><use href="#ra-3" /></svg>
+			<svg class="ra ra--br" aria-hidden="true"><use href="#ra-3" /></svg>
+			<svg class="ra ra--bl" aria-hidden="true"><use href="#ra-3" /></svg>
+
+			<header class="masthead">
+				<h1>James Harris</h1>
+			</header>
+
+			<div class="figure">
+				<div class="rule rule--ab" aria-hidden="true">
+					<span class="pt pt--a mark"></span><span class="lbl lbl--a mark">A</span>
+					<span class="pt pt--b mark"></span><span class="lbl lbl--b mark">B</span>
+				</div>
+
+				<div class="cols">
+					<aside class="col-side">
+						<a href="/periodic" class="plate" style="--delay: .6s">
+							<figure>
+								<img src="/img/ptos-preview.png" alt="Periodic Table of Storytelling" />
+								<figcaption>Periodic Table of Storytelling</figcaption>
+							</figure>
+						</a>
+
+						<section class="panel" style="--delay: .72s">
+							<svg class="ra ra--tl" aria-hidden="true"><use href="#ra-2" /></svg>
+							<svg class="ra ra--br" aria-hidden="true"><use href="#ra-2" /></svg>
+							<h2>Guides</h2>
+							<ul class="list">
+								<li><a href="/posts/Hardened-backups" class="underline-hover">Cheap, effortless backups</a></li>
+								<li><a href="/posts/Hardened-file-syncing" class="underline-hover">File syncing</a></li>
+								<li><a href="/posts/Hardened-password-vault" class="underline-hover">Password vault</a></li>
+								<li><a href="/posts/Blocking-cookie-notices" class="underline-hover">Blocking cookie banners</a></li>
+							</ul>
+						</section>
+
+						<section class="panel" style="--delay: .84s">
+							<svg class="ra ra--tl" aria-hidden="true"><use href="#ra-2" /></svg>
+							<svg class="ra ra--br" aria-hidden="true"><use href="#ra-2" /></svg>
+							<h2>Tools</h2>
+							<ul class="list">
+								<li><a href="https://batch-vision.deno.dev/" class="underline-hover">Batch Vision</a></li>
+								<li><a href="https://lancer-name-generator.netlify.app/" class="underline-hover">Name generator</a></li>
+								<li><a href="https://marketplace.visualstudio.com/items?itemName=DawnPaladin.twilight-sparkle" class="underline-hover">VSCode theme</a></li>
+							</ul>
+						</section>
+
+						<section class="panel" style="--delay: .96s">
+							<svg class="ra ra--tl" aria-hidden="true"><use href="#ra-2" /></svg>
+							<svg class="ra ra--br" aria-hidden="true"><use href="#ra-2" /></svg>
+							<h2>Blogroll</h2>
+							<ul class="list">
+								<li><a href="https://simonwillison.net/" class="underline-hover">
+									<img src="https://simonwillison.net/favicon.ico" alt=""/>
+									Simon Willison
+								</a></li>
+								<li><a href="https://ncase.me/" class="underline-hover">
+									<img src="https://ncase.me/favicon.png" alt=""/>
+									Nicky Case</a></li>
+								<li><a href="https://www.astralcodexten.com/" class="underline-hover">
+									<img src="https://www.astralcodexten.com/favicon.ico" alt=""/>
+									Scott Alexander
+								</a></li>
+							</ul>
+						</section>
+					</aside>
+
+					<section class="col-posts">
+						<span class="pt pt--c mark" aria-hidden="true"></span><span class="lbl lbl--c mark" aria-hidden="true">C</span>
+						<span class="sq sq--c mark" aria-hidden="true"></span>
+						<span class="pt pt--d mark" aria-hidden="true"></span><span class="lbl lbl--d mark" aria-hidden="true">D</span>
+						<span class="sq sq--d mark" aria-hidden="true"></span>
+
+						<h2 class="col-label" style="--delay: .6s">Posts</h2>
+						<ul class="cards">
+							{ posts.map((post, index) => (
+								<li style={`--delay: ${(0.68 + index * 0.06).toFixed(2)}s`}>
+									<PostCard post={post}/>
+								</li>
+							))}
+						</ul>
+					</section>
+				</div>
+
+				<div class="rule rule--ef" aria-hidden="true">
+					<span class="pt pt--e mark"></span><span class="lbl lbl--e mark">E</span>
+					<span class="pt pt--f mark"></span><span class="lbl lbl--f mark">F</span>
+				</div>
 			</div>
-			<section class="flex flex-col min-w-64" >
-				<h2 class="text-2xl mb-4 sm:hidden">Blog posts</h2>
-				<ul class="perspective-container"> 
-					{ posts.map((post, index) => (
-						<li class="animate-flutter right hover-card" style={`animation-delay: ${index * 0.15}s`}>
-							<a href={post.url}>
-								<PostCard post={post}/>
-							</a>
-						</li>
-					))}
-				</ul>
-			</section>
+
+			<footer class="colophon">
+				<span class="zig" aria-hidden="true"></span>
+			</footer>
 		</div>
-	</div>
+	</main>
 </MainLayout>
-
-<style>
-    .perspective-container {
-        perspective: 1000px;
-    }
-
-    .animate-flutter {
-        animation-name: flutter;
-        animation-duration: 1.2s;
-        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        animation-iteration-count: 1;
-        transform-style: preserve-3d;
-        will-change: transform;
-    }
-	.animate-flutter.left {
-        transform-origin: right center;
-		--dir: 1;
-	}
-	.animate-flutter.right {
-        transform-origin: left center;
-		--dir: -1;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.animate-flutter {
-			animation: none;
-			transform: none;
-		}
-	}
-
-    @keyframes flutter {
-        /* The "Dampened Spring" Effect:
-           It gets pushed out, snaps back, wobbles slightly, then rests.
-        */
-        0% {
-            transform: rotateY(0deg);
-        }
-        25% {
-            /* The Gust: Pushes the card out */
-            /* 8deg * -1 becomes -8deg (Butterfly effect) */
-            transform: rotateY(calc(8deg * var(--dir, 1)));
-        }
-        50% {
-            /* The Snap Back: Tension pulls it back, slightly overshooting neutral */
-			transform: rotateY(calc(-3deg * var(--dir, 1)));
-		}
-        75% {
-            /* The Residual Wobble: Little bit of energy left */
-			transform: rotateY(calc(3deg * var(--dir, 1)));
-		}
-        100% {
-            /* Settle */
-            transform: rotateY(0deg);
-        }
-    }
-</style>
-
-<script>
-	const ONE_HOUR = 60 * 60 * 1000;
-
-	function handleFlutterAnimation() {
-		const lastPlayed = sessionStorage.getItem('flutterPlayedAt');
-		const now = Date.now();
-
-		if (lastPlayed && now - parseInt(lastPlayed) < ONE_HOUR) {
-			// Animation played recently, skip it
-			document.querySelectorAll<HTMLElement>('.animate-flutter').forEach(el => {
-				el.style.animation = 'none';
-			});
-		} else {
-			// Let animation play and record the time
-			sessionStorage.setItem('flutterPlayedAt', now.toString());
-		}
-	}
-
-	// Run on initial load and on view transition navigation
-	handleFlutterAnimation();
-	document.addEventListener('astro:page-load', handleFlutterAnimation);
-</script>

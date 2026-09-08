@@ -8,52 +8,42 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const color = post.frontmatter.cardColor;
 
-// Map color names to complete Tailwind classes
-const bgColors: Record<string, string> = {
-	'red': 'bg-red-100',
-	'orange': 'bg-orange-100',
-	'amber': 'bg-amber-100',
-	'yellow': 'bg-yellow-100',
-	'lime': 'bg-lime-100',
-	'green': 'bg-green-100',
-	'cyan': 'bg-cyan-100',
-	'blue': 'bg-blue-100',
-	'indigo': 'bg-indigo-100',
-	'violet': 'bg-violet-100',
-	'purple': 'bg-purple-100',
-	'fuchsia': 'bg-fuchsia-100',
-	'pink': 'bg-pink-100',
-	'gray': 'bg-gray-100',
+// Each post picks a colour name in its frontmatter. On the sheet that colour
+// is used flat, in the manner of Byrne's Euclid, for the card's emblem and
+// its hover state.
+const palette: Record<string, string> = {
+	'red': '#b9382c',
+	'orange': '#cf6a1f',
+	'amber': '#c98a1b',
+	'yellow': '#bfa020',
+	'lime': '#7f9a26',
+	'green': '#2f7d5a',
+	'cyan': '#23848f',
+	'blue': '#2d5aa6',
+	'indigo': '#3e4d9d',
+	'violet': '#6b4fae',
+	'purple': '#7e3d8c',
+	'fuchsia': '#ac3f7e',
+	'pink': '#c05a80',
+	'gray': '#6f6a60',
 };
 
-const borderColors: Record<string, string> = {
-	'red': 'border-red-300',
-	'orange': 'border-orange-300',
-	'amber': 'border-amber-300',
-	'yellow': 'border-yellow-300',
-	'lime': 'border-lime-300',
-	'green': 'border-green-300',
-	'cyan': 'border-cyan-300',
-	'blue': 'border-blue-300',
-	'indigo': 'border-indigo-300',
-	'violet': 'border-violet-300',
-	'purple': 'border-purple-300',
-	'fuchsia': 'border-fuchsia-300',
-	'pink': 'border-pink-300',
-	'gray': 'border-gray-300',
-}
-
-const bgClass = bgColors[color] || 'bg-gray-100';
-const borderClass = borderColors[color] || 'border-gray-500';
+const color = palette[post.frontmatter.cardColor] ?? palette.gray;
 ---
-<article class={`mb-4 ${bgClass} border-2 ${borderClass} text-gray-950 px-4 py-2 rounded`}>
-	<h3 class="text-xl italic" transition:name={`post-title-${post.url}`}>
-		<a href={post.url} class="underline-hover">{post.frontmatter.title}</a>
-	</h3>
-	{post.frontmatter.pubDate && (
-		<PostDate date={post.frontmatter.pubDate} />
-	)}
-	{post.frontmatter.excerpt && <p>{post.frontmatter.excerpt}</p>}
+<article class="card" style={`--c: ${color}`}>
+	<svg class="emblem" viewBox="0 0 28 28" aria-hidden="true">
+		<rect x="0.5" y="0.5" width="27" height="27" />
+		<rect class="emblem__mid" x="6.5" y="6.5" width="15" height="15" />
+		<rect class="emblem__core" x="11" y="11" width="6" height="6" />
+	</svg>
+	<div class="card__body">
+		<h3 transition:name={`post-title-${post.url}`}>
+			<a href={post.url}>{post.frontmatter.title}</a>
+		</h3>
+		{post.frontmatter.pubDate && (
+			<PostDate date={post.frontmatter.pubDate} />
+		)}
+		{post.frontmatter.excerpt && <p>{post.frontmatter.excerpt}</p>}
+	</div>
 </article>
