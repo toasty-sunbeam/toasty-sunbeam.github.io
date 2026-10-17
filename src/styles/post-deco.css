@@ -173,6 +173,13 @@
 	transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
+/* External links carry their favicon's color (see the link-favicons plugin).
+   Mixing it toward the text color lifts dark brand colors off the dark ground
+   and settles bright ones down on the light one. */
+.deco-post .blog-content a[style*="--link-accent"] {
+	text-decoration-color: color-mix(in oklab, var(--link-accent) 75%, var(--deco-text));
+}
+
 .deco-post .blog-content a:hover {
 	color: var(--deco-metal-em);
 	text-decoration-color: var(--deco-metal-em);

@@ -188,3 +188,19 @@ html {
 	margin: 0 auto 3em auto;
 	display: block;
 }
+
+/* Favicons that the link-favicons plugin puts in front of external links.
+   Specific enough to beat the paper mount that article images get. */
+.blog-content a img.link-favicon,
+.blog-content article a img.link-favicon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 0 0.3em 0 0;
+    vertical-align: -0.125em;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: none;
+    box-shadow: none;
+}
