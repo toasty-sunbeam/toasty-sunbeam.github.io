@@ -310,7 +310,7 @@ html[data-theme='light'] .deco-sunbeam {
 		color-mix(in oklab, var(--deco-accent) 12%, transparent) 0%,
 		transparent 45%);
 	color: var(--deco-text);
-	transition: transform 0.25s ease, background-color 0.25s ease;
+	transition: margin 0.25s ease, background-color 0.25s ease;
 }
 
 /* The corners at each end of the left edge, flush in the corner. */
@@ -336,7 +336,7 @@ html[data-theme='light'] .deco-sunbeam {
 }
 
 .deco-home .hover-card:hover .deco-card {
-	transform: translateX(3px);
+	margin-left: 3px;
 	background-color: var(--deco-surface-lift);
 }
 
