@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-const { pageTitle, bodyClass = '' } = Astro.props;
+const { pageTitle, description, bodyClass = '' } = Astro.props;
 ---
 
 <html lang="en">
@@ -15,6 +15,8 @@ const { pageTitle, bodyClass = '' } = Astro.props;
 		<link href="https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
         <ClientRouter/>
 		<title>{pageTitle}</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="alternate" type="application/rss+xml" title="James Harris" href={new URL('rss.xml', Astro.site)} />
 		<script is:inline>
 			// Runs before the body exists so the stored choice is on <html>
 			// before anything paints. No stored choice means no attribute,

@@ -21,7 +21,7 @@ const footnotes = (frontmatter.footnotes as FootnoteData[]) || [];
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''; // removes leading/trailing slashes and '/posts' prefix
 ---
 
-<MainLayout pageTitle={frontmatter.title} bodyClass="deco-body deco-post">
+<MainLayout pageTitle={frontmatter.title} description={frontmatter.description} bodyClass="deco-body deco-post">
 	<div class="blog-layout deco-post" data-card-color={frontmatter.cardColor}>
 		<div id="footnote-lines-container"></div>
 		<aside class="left-sidebar">
