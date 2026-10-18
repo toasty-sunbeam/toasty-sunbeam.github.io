@@ -1,0 +1,49 @@
+---
+title: "Hello, Complaint Department"
+excerpt: "Making a music video with Claude"
+comments: true
+pubDate: 2026-10-17
+cardColor: fuchsia
+layout: '../../layouts/BlogPostLayout.astro'
+tags: ai
+---
+
+Part of the fun of following AI development is seeing the stuff people make when a new model comes out. When Opus 5.5 launched, we saw a surge of really fun music videos, like ["The Simulation's Ending"](https://youtu.be/R_ErmTs7g9I?si=UcQggPToSYo1X0bW) and ["Nothing Went Foom."](https://youtu.be/EXoP18t1tFI?si=iO9rK8M4R91ZyhMm) I was just wrapping up my [infographic about living standards](/posts/Living-standards), and I wondered if I could make a song about living standards improving over time. Three weeks later, here it is.
+
+<iframe width="875" height="492" src="https://www.youtube.com/embed/w9MdIqtaBlg?si=gY5FMc8C9Lb0XfRY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="margin: 1.5em 0"></iframe>
+
+## Process
+
+If you want to make something like this, here's how.
+
+### 1. Ideation
+
+A lot of people think great creative projects start with a fully-formed artistic vision arriving in a flash of inspiration. That's not usually how it goes. I started out by telling Claude I wanted to make a music video about abundance and asking what would be a good process for working with him. Claude generated 13 song ideas; I picked four I thought sounded most interesting.
+
+### 2. Lyrics and Music
+
+I'm a programmer, not a poet. Having me write song lyrics is not going to end well. I had Claude write lyrics for four of the ideas, which I then pasted into [Suno](https://suno.com). Suno has a pretty generous free tier, but the $8 upgrade to access the smarter model is well worth it, IMO.
+
+Some of the songs worked well on paper but couldn't be performed well by Suno. For example, Suno only really has one male and one female voice AFAICT, so ideas that depend on a large cast of characters conversing with each other will struggle. Of my four sets of lyrics, the "Complaint Department" song was the best fit for Suno's limitations, so I went with that.
+
+I did several rounds of revisions with Claude to land on a set of lyrics I liked. The first version of "Complaint Department" was focused on one person alone in his apartment complaining to the ghosts of his ancestors that none of the ice cream in his fridge was the kind he liked. That was too preachy, so I asked Claude for a version with five stanzas: two earlier generations, one middle-class American from today, and two future generations, with each character singing some things they love about their lives and some things that drive them up the wall. Everyone has complaints, but later generations have nicer problems.
+
+I also wanted to avoid strawmanning or downplaying people's complaints. Dave is the character from 2026; in an early draft he complained about having too many passwords and his printer demanding cyan ink before it would print in black and white. Those are relatable issues, but I wanted the video to address some real complaints about the way things are, so I focused it on cost of living instead. This gave the song a less silly, more serious tone than before and required us to rewrite the other verses to match.
+
+### 3. Video
+
+Once the audio was locked in, we started exploring visual styles. One early idea was to imitate the styles of video games from different time periods: start with Mario-era graphics, advance to Minecraft style for the modern day, then to modern 3D for the verses in the future. It turns out that while Claude can draw blocky pixel sprites reasonably well, he's not yet able to create good-looking 3D humans. It was time to enlist an image generator.
+
+We tried a couple of options and landed on [Retro Diffusion](https://retrodiffusion.ai/), a great pixel art generator [ethically trained by a pixel artist on his own work.](https://medium.com/curiouserinstitute/ai-art-profiles-cody-claus-retro-diffusion-8cb9f45e939a) We spent about $30 there over the course of the video. Hooking Claude up to their API let him generate the characters, backgrounds, and props, allowing me to chill in my director's chair.
+
+We started out by picking the characters, backgrounds, and props, adding one piece at a time until we had a "rough cut". We tried doing more advanced lip sync (there's a neat library called [Rhubarb](https://github.com/danielswolf/rhubarb-lip-sync) that will take an audio file and identify the different mouth shapes in speech), but I couldn't get it looking good enough to not be distracting, so I decided the mostly static portraits that visual novels commonly use would work better.
+
+After that it was just lots and lots of polish:
+- Brainstorming and implementing new ideas when parts of the video were too boring or didn't communicate clearly
+- Working around technical limitations in Retro Diffusion
+- Finding and fixing little things that don't look quite right
+- Tightening the timing - music videos live or die by matching the beat
+
+We went through 20 major revisions and 21 minor ones over three weeks, generating 24 MB of chat logs. A human artist probably would have been driven to madness by the amount of micromanaging I did. For each major new version of the video, Claude would re-render the whole thing and show it to me for approval. The throwaway cloud computers he has access to don't have as much horsepower as my gaming rig; rendering video in the cloud takes a while. So I gave Claude a folder on my computer to work in; each change got written into the folder, and I would run a script to re-render the parts of the video that had changed and stitch them together into the full video. This sped up the iterations a lot. If you'd like to use this technique, have your Claude install [this skill](https://github.com/toasty-sunbeam/chunked-video-render-skill/blob/main/SKILL.md).
+
+I've made music videos before. They're an incredible amount of work. I made a *Avatar: The Last Airbender* [music video](https://www.youtube.com/watch?v=9U35QJ5sYws) 18 years ago; it was months of work. Since then, I've started other music video projects but never finished them because of how much time they take. It's very exciting to see new creative tools coming out that allow creative expression with less time commitment.
