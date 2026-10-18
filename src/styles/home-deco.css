@@ -349,13 +349,21 @@ html[data-theme='light'] .deco-sunbeam {
 	color: var(--deco-metal-em);
 }
 
-.deco-card time {
-	display: block;
+.deco-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.35rem 0.6rem;
 	margin-top: 0.15rem;
 	font-size: 0.78rem;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
 	color: var(--deco-text-dim);
+}
+
+.deco-card__meta .deco-tag {
+	font-size: 0.68rem;
+	letter-spacing: 0.15em;
 }
 
 .deco-card p {

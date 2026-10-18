@@ -2,6 +2,7 @@
 import type { MarkdownInstance } from 'astro';
 import type { Frontmatter } from '../frontmatter';
 import PostDate from './PostDate.astro';
+import Tag from './Tag.astro';
 
 interface Props {
 	post: MarkdownInstance<Frontmatter>;
@@ -9,6 +10,7 @@ interface Props {
 
 const { post } = Astro.props;
 const color = post.frontmatter.cardColor;
+const tags = post.frontmatter.tags?.split(/\s+/).filter(Boolean) ?? [];
 
 // Map color names to complete Tailwind classes
 const bgColors: Record<string, string> = {
@@ -52,8 +54,11 @@ const borderClass = borderColors[color] || 'border-gray-500';
 	<h3 class="deco-card__title text-xl italic" transition:name={`post-title-${post.url}`}>
 		<a href={post.url} class="underline-hover">{post.frontmatter.title}</a>
 	</h3>
-	{post.frontmatter.pubDate && (
-		<PostDate date={post.frontmatter.pubDate} />
-	)}
+	<div class="deco-card__meta">
+		{post.frontmatter.pubDate && (
+			<PostDate date={post.frontmatter.pubDate} />
+		)}
+		{tags.map((tag) => <Tag name={tag} />)}
+	</div>
 	{post.frontmatter.description && <p>{post.frontmatter.description}</p>}
 </article>

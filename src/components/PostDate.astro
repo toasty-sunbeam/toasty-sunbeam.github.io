@@ -10,6 +10,9 @@ const dateObj = new Date(date);
 	{dateObj.toLocaleDateString('en-US', {
 		year: 'numeric',
 		month: 'long',
-		day: 'numeric'
+		day: 'numeric',
+		// Frontmatter dates have no time, so they parse as midnight UTC.
+		// Formatting in local time would show the day before in the Americas.
+		timeZone: 'UTC'
 	})}
 </time>

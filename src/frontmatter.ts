@@ -5,4 +5,5 @@ export interface Frontmatter {
 	comments: boolean;
 	cardColor: string;
 	toc?: boolean;
+	tags?: string | null;
 }

@@ -428,3 +428,17 @@ html[data-theme='light'] .deco-theme-toggle__icon--moon {
 		transition: none;
 	}
 }
+
+/* =====================================================================
+   Tags
+   ===================================================================== */
+
+/* Shared by the post header and the home page cards; the row a tag sits
+   in sets its size and casing. */
+.deco-tag {
+	padding: 0.05rem 0.5rem;
+	border: 1px solid color-mix(in oklab, var(--deco-metal) 55%, transparent);
+	font-weight: 400;
+	letter-spacing: 0.2em;
+	color: var(--deco-metal-em);
+}

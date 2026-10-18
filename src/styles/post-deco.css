@@ -131,16 +131,6 @@
 	margin-left: auto;
 }
 
-.deco-post .deco-tag {
-	padding: 0.05rem 0.5rem;
-	border: 1px solid color-mix(in oklab, var(--deco-metal) 55%, transparent);
-	border-radius: 0;
-	background: transparent;
-	font-weight: 400;
-	letter-spacing: 0.2em;
-	color: var(--deco-metal-em);
-}
-
 .deco-post .blog-content h2,
 .deco-post .blog-content h3 {
 	margin-top: 2rem;
