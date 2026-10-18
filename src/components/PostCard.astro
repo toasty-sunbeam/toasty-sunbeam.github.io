@@ -55,5 +55,5 @@ const borderClass = borderColors[color] || 'border-gray-500';
 	{post.frontmatter.pubDate && (
 		<PostDate date={post.frontmatter.pubDate} />
 	)}
-	{post.frontmatter.excerpt && <p>{post.frontmatter.excerpt}</p>}
+	{post.frontmatter.description && <p>{post.frontmatter.description}</p>}
 </article>
