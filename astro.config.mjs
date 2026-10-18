@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import svelte from '@astrojs/svelte';
 import { remarkExtractFootnotes } from './src/plugins/footnotes';
 import { rehypeLinkFavicons } from './src/plugins/link-favicons';
+import { rehypeResponsiveEmbeds } from './src/plugins/responsive-embeds';
 
 import mdx from '@astrojs/mdx';
 
@@ -19,6 +20,9 @@ export default defineConfig({
   integrations: [svelte(), mdx()],
   markdown: {
     remarkPlugins: [remarkExtractFootnotes],
-    rehypePlugins: [[rehypeLinkFavicons, { internalHosts: ['toasty-sunbeam.github.io'] }]],
+    rehypePlugins: [
+      [rehypeLinkFavicons, { internalHosts: ['toasty-sunbeam.github.io'] }],
+      rehypeResponsiveEmbeds,
+    ],
   },
 });
